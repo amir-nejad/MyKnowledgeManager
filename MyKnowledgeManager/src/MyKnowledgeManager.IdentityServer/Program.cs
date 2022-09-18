@@ -1,8 +1,5 @@
 using MyKnowledgeManager.IdentityServer;
 using Serilog;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using MyKnowledgeManager.IdentityServer.Models;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
