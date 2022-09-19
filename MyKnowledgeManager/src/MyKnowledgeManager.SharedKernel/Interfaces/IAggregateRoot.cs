@@ -1,4 +1,4 @@
 ﻿namespace MyKnowledgeManager.SharedKernel.Interfaces
 {
-    public interface IAggragateRoot {}
+    public interface IAggregateRoot {}
 }
