@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyKnowledgeManager.Core\MyKnowledgeManager.Core.csproj" />
-    <ProjectReference Include="..\MyKnowledgeManager.SharedKernel\MyKnowledgeManager.SharedKernel.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\MyKnowledgeManager.Core\MyKnowledgeManager.Core.csproj" />
+    <ProjectReference Include="..\MyKnowledgeManager.SharedKernel\MyKnowledgeManager.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,10 +8,14 @@ using System.Threading.Tasks;
 
 namespace MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate
 {
+    /// <summary>
+    /// This class is used for converting to "Knowledges" table and is the root of KnowledgeAggregate
+    /// </summary>
     public class Knowledge : BaseEntity, IAggregateRoot
     {
         public string Title { get; private set; }
 
+        [DataType(DataType.MultilineText)]
         public string Description { get; private set; }
 
         public KnowledgeLevel KonwledgeLevel { get; private set; } = KnowledgeLevel.Beginner;
@@ -22,16 +26,12 @@ namespace MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate
 
 
         public Knowledge(string title, string description, KnowledgeLevel konwledgeLevel, 
-            KnowledgeImportance knowledgeImportance, IList<KnowledgeTag> knowledgeTags)
+            KnowledgeImportance knowledgeImportance)
         {
             Title = title;
             Description = description;
             KonwledgeLevel = konwledgeLevel;
             KnowledgeImportance = knowledgeImportance;
-            KnowledgeTags = knowledgeTags;
         }
-
-
-
     }
 }
