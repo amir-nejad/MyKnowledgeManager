@@ -1,4 +1,6 @@
-﻿using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Enums;
+﻿using Ardalis.GuardClauses;
+using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Enums;
+using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Events;
 using MyKnowledgeManager.SharedKernel.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -32,6 +34,28 @@ namespace MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate
             Description = description;
             KonwledgeLevel = konwledgeLevel;
             KnowledgeImportance = knowledgeImportance;
+        }
+
+        public void UpdateTitle(string newTitle)
+        {
+            Title = Guard.Against.NullOrEmpty(newTitle, nameof(newTitle));
+        }
+
+        public void UpdateDescription(string newDescription)
+        {
+            Description = Guard.Against.NullOrEmpty(newDescription, nameof(newDescription));
+        }
+
+        public void UpdateKnowledgeLevel(KnowledgeLevel newKnowledgeLevel)
+        {
+            KonwledgeLevel = newKnowledgeLevel;
+        }
+
+        public void UpdateKnowledgeTrashState(bool isTrashItem)
+        {
+            IsTrashItem = isTrashItem;
+
+            Events.Add(new KnowledgeMovedToTrashEvent(this));
         }
     }
 }
