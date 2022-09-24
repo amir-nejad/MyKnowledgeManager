@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate;
+using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

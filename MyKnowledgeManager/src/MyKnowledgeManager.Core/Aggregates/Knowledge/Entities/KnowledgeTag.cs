@@ -1,4 +1,7 @@
-﻿namespace MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate
+﻿using MyKnowledgeManager.Core.Aggregates.Knowledge.Events;
+using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Events;
+
+namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
 {
     public class KnowledgeTag : BaseEntity
     {
@@ -15,6 +18,13 @@
             TagName = tagName;
             KnowledgeId = knowledgeId;
             Knowledge = knowledge;
+        }
+
+        public void UpdateKnowledgeTagTrashState(bool isTrashItem)
+        {
+            IsTrashItem = isTrashItem;
+
+            Events.Add(new KnowledgeTagMovedToTrashEvent(this));
         }
     }
 }

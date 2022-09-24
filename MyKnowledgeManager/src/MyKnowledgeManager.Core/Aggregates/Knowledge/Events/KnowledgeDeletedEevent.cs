@@ -2,9 +2,9 @@
 {
     public class KnowledgeDeletedEevent : BaseDomainEvent
     {
-        public Knowledge Knowledge { get; set; }
+        public Knowledge.Entities.Knowledge Knowledge { get; set; }
 
-        public KnowledgeDeletedEevent(Knowledge knowledge)
+        public KnowledgeDeletedEevent(Knowledge.Entities.Knowledge knowledge)
         {
             Knowledge = knowledge;
         }

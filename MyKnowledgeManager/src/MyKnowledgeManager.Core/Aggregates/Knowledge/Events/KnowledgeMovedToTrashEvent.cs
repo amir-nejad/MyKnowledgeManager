@@ -2,9 +2,9 @@
 {
     public class KnowledgeMovedToTrashEvent : BaseDomainEvent
     {
-        public Knowledge Knowledge { get; set; }
+        public Knowledge.Entities.Knowledge Knowledge { get; set; }
 
-        public KnowledgeMovedToTrashEvent(Knowledge knowledge)
+        public KnowledgeMovedToTrashEvent(Knowledge.Entities.Knowledge knowledge)
         {
             Knowledge = knowledge;
         }

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate;
+using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
 using MyKnowledgeManager.SharedKernel;
 using System;
 using System.Collections.Generic;

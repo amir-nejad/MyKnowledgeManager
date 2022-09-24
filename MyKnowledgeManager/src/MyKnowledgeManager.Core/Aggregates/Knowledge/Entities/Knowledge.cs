@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate
+namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
 {
     /// <summary>
     /// This class is used for converting to "Knowledges" table and is the root of KnowledgeAggregate
@@ -27,7 +27,7 @@ namespace MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate
         public IList<KnowledgeTag> KnowledgeTags { get; private set; } = new List<KnowledgeTag>();
 
 
-        public Knowledge(string title, string description, KnowledgeLevel konwledgeLevel, 
+        public Knowledge(string title, string description, KnowledgeLevel konwledgeLevel,
             KnowledgeImportance knowledgeImportance)
         {
             Title = title;
