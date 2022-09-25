@@ -1,5 +1,8 @@
 ﻿namespace MyKnowledgeManager.SharedKernel
 {
+    /// <summary>
+    /// This class is used as a base class for all entities. Mutual properties between all entities are placed here.
+    /// </summary>
     public abstract class BaseEntity
     {
         public string Id { get; protected set; } = Guid.NewGuid().ToString();

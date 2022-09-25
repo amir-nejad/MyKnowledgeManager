@@ -1,12 +1,8 @@
 ﻿using Ardalis.GuardClauses;
 using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Enums;
 using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Events;
+using MyKnowledgeManager.Core.Aggregates.User.Entities;
 using MyKnowledgeManager.SharedKernel.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
 {
@@ -23,6 +19,10 @@ namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
         public KnowledgeLevel KonwledgeLevel { get; private set; } = KnowledgeLevel.Beginner;
 
         public KnowledgeImportance KnowledgeImportance { get; private set; } = KnowledgeImportance.Neutral;
+
+        public string ApplicationUserId { get; private set; }
+
+        public ApplicationUser ApplicationUser { get; set; }
 
         public IList<KnowledgeTag> KnowledgeTags { get; private set; } = new List<KnowledgeTag>();
 

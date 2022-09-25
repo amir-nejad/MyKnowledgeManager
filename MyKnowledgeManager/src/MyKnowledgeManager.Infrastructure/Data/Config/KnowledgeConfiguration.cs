@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyKnowledgeManager.Infrastructure.Data.Config
 {
@@ -16,6 +11,11 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Title).IsRequired();
             builder.Property(p => p.Description).IsRequired();
+
+            builder
+                .HasOne(p => p.ApplicationUser)
+                .WithMany(x => x.Knowledges)
+                .HasForeignKey(p => p.ApplicationUserId);
         }
     }
 }

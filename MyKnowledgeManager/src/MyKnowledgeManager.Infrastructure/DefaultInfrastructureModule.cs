@@ -1,4 +1,11 @@
-﻿using System.Reflection;
+﻿using Autofac;
+using MediatR;
+using MediatR.Pipeline;
+using MyKnowledgeManager.Core.Interfaces;
+using MyKnowledgeManager.Infrastructure.Data;
+using MyKnowledgeManager.SharedKernel.Interfaces;
+using System.Reflection;
+using Module = Autofac.Module;
 
 namespace MyKnowledgeManager.Infrastructure
 {
@@ -11,6 +18,83 @@ namespace MyKnowledgeManager.Infrastructure
         public DefaultInfrastructureModule(bool isDevelopment, Assembly? callingAssembly = null)
         {
             _isDevelopment = isDevelopment;
+            var coreAssembly = Assembly.GetAssembly(typeof(Core.Aggregates.Knowledge.Entities.Knowledge));
+            var infrastructureAssembly = Assembly.GetAssembly(typeof(StartupSetup));
+
+            if (coreAssembly is not null)
+            {
+                _assemblies.Add(coreAssembly);
+            }
+
+            if (infrastructureAssembly is not null)
+            {
+                _assemblies.Add(infrastructureAssembly);
+            }
+
+            if (callingAssembly is not null)
+            {
+                _assemblies.Add(callingAssembly);
+            }
+        }
+
+        protected override void Load(ContainerBuilder builder)
+        {
+            if (_isDevelopment)
+            {
+                RegisterDevelopmentOnlyDependencies(builder);
+            }
+            else
+            {
+                RegisterProductionOnlyDependencies(builder);
+            }
+
+            RegisterCommonDependencies(builder);
+        }
+
+        private void RegisterCommonDependencies(ContainerBuilder builder)
+        {
+            builder.RegisterGeneric(typeof(EfRepository<>))
+                .As(typeof(IRepository<>))
+                .As(typeof(IReadRepository<>))
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<Mediator>()
+                .As<IMediator>()
+                .InstancePerLifetimeScope();
+
+            builder.Register<ServiceFactory>(context =>
+            {
+                var c = context.Resolve<IComponentContext>();
+                return t => c.Resolve(t);
+            });
+
+            var mediatrOpenTypes = new[]
+{
+                typeof(IRequestHandler<,>),
+                typeof(IRequestExceptionHandler<,,>),
+                typeof(IRequestExceptionAction<,>),
+                typeof(INotificationHandler<>),
+            };
+
+            foreach (var mediatrOpenType in mediatrOpenTypes)
+            {
+                builder
+                .RegisterAssemblyTypes(_assemblies.ToArray())
+                .AsClosedTypesOf(mediatrOpenType)
+                .AsImplementedInterfaces();
+            }
+
+            builder.RegisterType<EmailSender>().As<IEmailSender>()
+                .InstancePerLifetimeScope();
+        }
+
+        private void RegisterProductionOnlyDependencies(ContainerBuilder builder)
+        {
+        }
+
+        private void RegisterDevelopmentOnlyDependencies(ContainerBuilder builder)
+        {
         }
     }
 }

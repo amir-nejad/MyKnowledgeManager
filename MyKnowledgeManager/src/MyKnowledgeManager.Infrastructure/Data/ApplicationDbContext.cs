@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
+using MyKnowledgeManager.Core.Aggregates.User.Entities;
 using MyKnowledgeManager.SharedKernel;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ namespace MyKnowledgeManager.Infrastructure.Data
         public DbSet<Knowledge> Knowledges => Set<Knowledge>();
 
         public DbSet<KnowledgeTag> KnowledgeTags => Set<KnowledgeTag>();
+
+        public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
