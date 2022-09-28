@@ -11,6 +11,7 @@ namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
     /// </summary>
     public class Knowledge : BaseEntity, IAggregateRoot
     {
+        private List<KnowledgeTagRelation> _knowledgeTagRelations = new List<KnowledgeTagRelation>(); 
         public string Title { get; private set; }
 
         [DataType(DataType.MultilineText)]
@@ -24,7 +25,7 @@ namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
 
         public ApplicationUser ApplicationUser { get; set; }
 
-        public IList<KnowledgeTag> KnowledgeTags { get; private set; } = new List<KnowledgeTag>();
+        public virtual IEnumerable<KnowledgeTagRelation> KnowledgeTagRelations => _knowledgeTagRelations;
 
 
         public Knowledge(string title, string description, KnowledgeLevel konwledgeLevel,

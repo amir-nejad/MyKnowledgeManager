@@ -6,18 +6,13 @@ namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
     public class KnowledgeTag : BaseEntity
     {
         [Display(Name = "Tag Name")]
-        public string TagName { get; private set; } = string.Empty;
+        public string TagName { get; private set; }
 
-        [Display(Name = "Knowledge")]
-        public string KnowledgeId { get; private set; } = string.Empty;
+        public IEnumerable<KnowledgeTagRelation> KnowledgeTagRelations { get; private set; }
 
-        public Knowledge Knowledge { get; private set; } = null;
-
-        public KnowledgeTag(string tagName, string knowledgeId, Knowledge knowledge)
+        public KnowledgeTag(string tagName)
         {
             TagName = tagName;
-            KnowledgeId = knowledgeId;
-            Knowledge = knowledge;
         }
 
         public void UpdateKnowledgeTagTrashState(bool isTrashItem)

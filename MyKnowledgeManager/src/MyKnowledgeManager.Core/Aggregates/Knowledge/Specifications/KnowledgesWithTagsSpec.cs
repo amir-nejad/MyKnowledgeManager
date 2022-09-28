@@ -7,7 +7,7 @@ namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Specifications
         public KnowledgesWithTagsSpec()
         {
             Query
-                .Include(x => x.KnowledgeTags);
+                .Include(x => x.KnowledgeTagRelations);
         }
     }
 }

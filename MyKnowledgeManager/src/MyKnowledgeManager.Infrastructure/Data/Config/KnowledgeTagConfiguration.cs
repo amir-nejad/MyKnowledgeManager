@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyKnowledgeManager.Infrastructure.Data.Config
 {
@@ -13,12 +8,12 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<KnowledgeTag> builder)
         {
-            builder.HasKey(p => p.Id);
-            builder.Property(x => x.TagName).IsRequired();
             builder
-                .HasOne(p => p.Knowledge)
-                .WithMany(k => k.KnowledgeTags)
-                .HasForeignKey(p => p.KnowledgeId);
+                .HasKey(p => p.Id);
+
+            builder
+                .Property(x => x.TagName)
+                .IsRequired();
         }
     }
 }

@@ -3,15 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
 using MyKnowledgeManager.Core.Aggregates.User.Entities;
 using MyKnowledgeManager.SharedKernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyKnowledgeManager.Infrastructure.Data
 {
+    /// <summary>
+    /// This class is used as the DbContext hub.
+    /// </summary>
     public class ApplicationDbContext : DbContext
     {
         private readonly IMediator? _mediator;
@@ -25,6 +23,8 @@ namespace MyKnowledgeManager.Infrastructure.Data
         public DbSet<Knowledge> Knowledges => Set<Knowledge>();
 
         public DbSet<KnowledgeTag> KnowledgeTags => Set<KnowledgeTag>();
+
+        public DbSet<KnowledgeTagRelation> KnowledgeTagsRelation => Set<KnowledgeTagRelation>();
 
         public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
 

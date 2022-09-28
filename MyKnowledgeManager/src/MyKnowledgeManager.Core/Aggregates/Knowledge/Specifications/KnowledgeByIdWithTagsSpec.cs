@@ -8,7 +8,7 @@ namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Specifications
         {
             Query.
                 Where(x => x.Id == knowledgeId)
-                .Include(x => x.KnowledgeTags)
+                .Include(x => x.KnowledgeTagRelations)
                 .AsNoTracking();
         }
     }
