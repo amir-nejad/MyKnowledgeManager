@@ -5,11 +5,11 @@ using MyKnowledgeManager.Core.Interfaces;
 
 namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Handlers
 {
-    public class KnowledgeDeletedEmailNotification : INotificationHandler<KnowledgeDeletedEevent>
+    public class KnowledgeDeletedEmailNotificationHandler : INotificationHandler<KnowledgeDeletedEevent>
     {
         private readonly IEmailSender _emailSender;
 
-        public KnowledgeDeletedEmailNotification(IEmailSender emailSender)
+        public KnowledgeDeletedEmailNotificationHandler(IEmailSender emailSender)
         {
             _emailSender = emailSender;
         }

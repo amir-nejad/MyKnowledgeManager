@@ -13,6 +13,6 @@
 
         public bool IsTrashItem { get; protected set; } = false;
 
-        public List<BaseDomainEvent> Events { get; protected set; } = new List<BaseDomainEvent>();
+        public List<BaseDomainEvent> Events = new List<BaseDomainEvent>();
     }
 }
