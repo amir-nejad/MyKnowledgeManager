@@ -6,9 +6,9 @@ namespace MyKnowledgeManager.Infrastructure
 {
     public static class StartupSetup
     {
-        public static void AddDbContextPool(this IServiceCollection services, string connectionString)
+        public static void AddDbContext(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContextPool<ApplicationDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
             });

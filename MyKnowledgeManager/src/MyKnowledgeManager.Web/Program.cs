@@ -18,7 +18,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContextPool(connectionString);
+builder.Services.AddDbContext(connectionString: connectionString);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
