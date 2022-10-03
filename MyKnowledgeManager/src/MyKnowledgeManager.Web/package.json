@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@yaireo/tagify": "^4.16.4",
+    "csstype": "^3.1.1"
+  },
+  "devDependencies": {
+    "@types/yaireo__tagify": "^4.16.0"
+  }
+}

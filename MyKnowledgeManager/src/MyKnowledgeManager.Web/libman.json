@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "tagify@4.16.4",
+      "destination": "wwwroot/lib/tagify/",
+      "files": [
+        "tagify.min.css",
+        "tagify.min.js"
+      ]
+    }
+  ]
+}

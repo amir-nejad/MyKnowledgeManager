@@ -1,4 +1,4 @@
-﻿namespace MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Events
+﻿namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Events
 {
     public class KnowledgeMovedToTrashEvent : BaseDomainEvent
     {

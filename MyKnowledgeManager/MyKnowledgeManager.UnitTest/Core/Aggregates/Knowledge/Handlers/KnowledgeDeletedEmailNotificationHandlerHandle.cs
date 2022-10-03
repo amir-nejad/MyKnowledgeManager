@@ -1,6 +1,6 @@
 ﻿using Moq;
 using MyKnowledgeManager.Core.Aggregates.Knowledge.Handlers;
-using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Events;
+using MyKnowledgeManager.Core.Aggregates.Knowledge.Events;
 using MyKnowledgeManager.Core.Interfaces;
 using System;
 using System.Collections.Generic;

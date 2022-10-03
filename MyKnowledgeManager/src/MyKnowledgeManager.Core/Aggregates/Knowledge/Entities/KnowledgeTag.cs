@@ -1,5 +1,5 @@
 ﻿using MyKnowledgeManager.Core.Aggregates.Knowledge.Events;
-using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Events;
+using MyKnowledgeManager.Core.Aggregates.Knowledge.Events;
 
 namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
 {

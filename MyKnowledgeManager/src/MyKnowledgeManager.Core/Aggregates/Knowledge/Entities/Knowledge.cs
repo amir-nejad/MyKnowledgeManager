@@ -1,13 +1,13 @@
 ﻿using Ardalis.GuardClauses;
-using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Enums;
-using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Events;
+using MyKnowledgeManager.Core.Aggregates.Knowledge.Enums;
+using MyKnowledgeManager.Core.Aggregates.Knowledge.Events;
 using MyKnowledgeManager.Core.Aggregates.User.Entities;
 using MyKnowledgeManager.SharedKernel.Interfaces;
 
 namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
 {
     /// <summary>
-    /// This class is used for converting to "Knowledges" table and is the root of KnowledgeAggregate
+    /// This class is used for converting to "Knowledges" table and is the root of Knowledge
     /// </summary>
     public class Knowledge : BaseEntity, IAggregateRoot
     {

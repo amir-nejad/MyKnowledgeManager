@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using MediatR;
-using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Events;
+using MyKnowledgeManager.Core.Aggregates.Knowledge.Events;
 using MyKnowledgeManager.Core.Interfaces;
 
 namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Handlers

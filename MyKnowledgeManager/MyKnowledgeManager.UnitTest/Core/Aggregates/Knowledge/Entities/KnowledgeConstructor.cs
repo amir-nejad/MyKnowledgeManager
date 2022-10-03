@@ -1,4 +1,4 @@
-﻿using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Enums;
+﻿using MyKnowledgeManager.Core.Aggregates.Knowledge.Enums;
 using TestKnowledge = MyKnowledgeManager.Core.Aggregates.Knowledge.Entities.Knowledge;
 
 namespace MyKnowledgeManager.UnitTest.Core.Aggregates.Knowledge.Entities

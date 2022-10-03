@@ -1,5 +1,5 @@
 ﻿using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
-using MyKnowledgeManager.Core.Aggregates.KnowledgeAggregate.Enums;
+using MyKnowledgeManager.Core.Aggregates.Knowledge.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

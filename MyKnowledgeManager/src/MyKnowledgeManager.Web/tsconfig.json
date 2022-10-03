@@ -1,0 +1,17 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "moduleResolution": "Node",
+    "lib": [ "ES2015", "DOM" ],
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "ES6",
+    "outDir": "wwwroot/js"
+  },
+  "exclude": [ "node_modules" ],
+  "include": [
+    "scripts/**/*"
+  ]
+}

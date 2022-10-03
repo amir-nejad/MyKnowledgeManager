@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{85A354AC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyKnowledgeManager.UnitTest", "MyKnowledgeManager.UnitTest\MyKnowledgeManager.UnitTest.csproj", "{D704D389-2172-4BD9-8E84-6361DD62885C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyKnowledgeManager.IntegrationTest", "MyKnowledgeManager.IntegrationTest\MyKnowledgeManager.IntegrationTest.csproj", "{622D62D0-38FE-48D3-8D80-ED60476C9DB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyKnowledgeManager.IntegrationTest", "MyKnowledgeManager.IntegrationTest\MyKnowledgeManager.IntegrationTest.csproj", "{622D62D0-38FE-48D3-8D80-ED60476C9DB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
