@@ -14,26 +14,25 @@ namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
         private List<KnowledgeTagRelation> _knowledgeTagRelations = new List<KnowledgeTagRelation>(); 
         public string Title { get; private set; }
 
-        [DataType(DataType.MultilineText)]
         public string Description { get; private set; }
 
-        public KnowledgeLevel KonwledgeLevel { get; private set; } = KnowledgeLevel.Beginner;
+        public KnowledgeLevel KnowledgeLevel { get; private set; } = KnowledgeLevel.Beginner;
 
         public KnowledgeImportance KnowledgeImportance { get; private set; } = KnowledgeImportance.Neutral;
 
         public string ApplicationUserId { get; private set; }
 
-        public ApplicationUser ApplicationUser { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual IEnumerable<KnowledgeTagRelation> KnowledgeTagRelations => _knowledgeTagRelations;
 
 
-        public Knowledge(string title, string description, KnowledgeLevel konwledgeLevel,
+        public Knowledge(string title, string description, KnowledgeLevel knowledgeLevel,
             KnowledgeImportance knowledgeImportance)
         {
             Title = title;
             Description = description;
-            KonwledgeLevel = konwledgeLevel;
+            KnowledgeLevel = knowledgeLevel;
             KnowledgeImportance = knowledgeImportance;
         }
 
@@ -49,7 +48,7 @@ namespace MyKnowledgeManager.Core.Aggregates.Knowledge.Entities
 
         public void UpdateKnowledgeLevel(KnowledgeLevel newKnowledgeLevel)
         {
-            KonwledgeLevel = newKnowledgeLevel;
+            KnowledgeLevel = newKnowledgeLevel;
         }
 
         public void UpdateKnowledgeTrashState(bool isTrashItem)

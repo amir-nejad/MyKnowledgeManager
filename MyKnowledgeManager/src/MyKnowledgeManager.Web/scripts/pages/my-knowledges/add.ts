@@ -1,13 +1,25 @@
-﻿
+﻿import { myKnowledgeTags } from "../../utils/constants.js";
+import { TagifyComponent } from "../../components/tagify-component.js";
 
-let inputElement: HTMLInputElement = document.getElementById("Tags")! as HTMLInputElement;
+//declare class TagifyComponent {
+//    constructor();
 
-var tagifyObject = new Tagify(inputElement, {
-    whitelist: ["Test", "Amirhossein"],
-    duplicates: false,
-    autoComplete: {
-        enabled: true,
-        rightKey: true
-    },
-    trim: true
-});
+//    getTagify(inputElem, whitelist?, customSettings?);
+//}
+
+//declare var tagifyComponent: TagifyComponent;
+
+// Getting input element for tagify
+let inputElem = document.getElementById("TagsJson")! as HTMLInputElement;
+
+// Getting previous tags from localStorage if exist.
+let localStorageTags: string = localStorage.getItem(myKnowledgeTags);
+let previousTags: string[] = null;
+
+if (localStorageTags) {
+    previousTags = localStorageTags.split(",");
+}
+
+let tagifyComponent = new TagifyComponent();
+
+tagifyComponent.getTagify(inputElem, previousTags, null);

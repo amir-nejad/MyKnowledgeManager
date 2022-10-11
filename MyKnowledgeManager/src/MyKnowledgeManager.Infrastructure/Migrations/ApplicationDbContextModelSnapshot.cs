@@ -43,7 +43,7 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                     b.Property<int>("KnowledgeImportance")
                         .HasColumnType("int");
 
-                    b.Property<int>("KonwledgeLevel")
+                    b.Property<int>("KnowledgeLevel")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")

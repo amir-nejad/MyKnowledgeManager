@@ -23,7 +23,7 @@ namespace MyKnowledgeManager.IntegrationTest.Data
 
             Assert.Equal(testKnowledge.Title, addedKnowledge?.Title);
             Assert.Equal(testKnowledge.Description, addedKnowledge?.Description);
-            Assert.Equal(testKnowledge.KonwledgeLevel, addedKnowledge?.KonwledgeLevel);
+            Assert.Equal(testKnowledge.KnowledgeLevel, addedKnowledge?.KnowledgeLevel);
             Assert.Equal(testKnowledge.KnowledgeImportance, addedKnowledge?.KnowledgeImportance);
             Assert.True(addedKnowledge?.Id != null);
         }

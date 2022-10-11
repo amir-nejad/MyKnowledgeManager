@@ -1,16 +1,18 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noEmitOnError": true,
-    "moduleResolution": "Node",
-    "lib": [ "ES2015", "DOM" ],
+    "moduleResolution": "Node16",
+    "module": "ES2015",
     "removeComments": false,
     "sourceMap": true,
     "target": "ES6",
-    "outDir": "wwwroot/js"
+    "outDir": "wwwroot",
+    "rootDir": ".",
+    "typeRoots": ["node_modules/@types"]
   },
-  "exclude": [ "node_modules" ],
+  "exclude": [ "node_modules", "wwwroot" ],
   "include": [
     "scripts/**/*"
   ]

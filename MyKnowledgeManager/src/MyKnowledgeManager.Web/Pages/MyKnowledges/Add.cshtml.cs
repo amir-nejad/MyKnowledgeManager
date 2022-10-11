@@ -2,7 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
+using MyKnowledgeManager.Core.Aggregates.Knowledge.Enums;
 using MyKnowledgeManager.SharedKernel.Interfaces;
+using MyKnowledgeManager.Web.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyKnowledgeManager.Web.Pages.MyKnowledges
 {
@@ -18,16 +21,21 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
 
         public SelectList KnowledgeImportanceSelectList { get; set; }
 
+        public string[] TagsWhitelist { get; set; }
+
         public void OnGet()
         {
+            TagsWhitelist = new string[] { "Amirhossein", "Mahdis" };
         }
 
 
         [BindProperty]
-        public Knowledge Knowledge { get; set; }
+        public KnowledgeRecord Knowledge { get; set; }
 
         [BindProperty]
-        public IList<string> Tags { get; set; }
+        [Display(Name = "Tags")]
+        public string TagsJson { get; set; }
+
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -38,7 +46,7 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
                 return Page(); 
             }
 
-            await _repository.AddAsync(Knowledge);
+            //await _repository.AddAsync(Knowledge);
 
             return RedirectToPage("./Index");
         }

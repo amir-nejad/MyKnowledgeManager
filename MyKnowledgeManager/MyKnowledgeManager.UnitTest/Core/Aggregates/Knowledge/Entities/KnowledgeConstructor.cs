@@ -37,7 +37,7 @@ namespace MyKnowledgeManager.UnitTest.Core.Aggregates.Knowledge.Entities
         {
             _testKnowledge = CreateTestKnowledge();
 
-            Assert.Equal(_testKnowledgeLevel, _testKnowledge.KonwledgeLevel);
+            Assert.Equal(_testKnowledgeLevel, _testKnowledge.KnowledgeLevel);
         }
 
         [Fact]

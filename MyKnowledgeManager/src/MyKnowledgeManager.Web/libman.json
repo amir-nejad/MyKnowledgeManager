@@ -4,11 +4,7 @@
   "libraries": [
     {
       "library": "tagify@4.16.4",
-      "destination": "wwwroot/lib/tagify/",
-      "files": [
-        "tagify.min.css",
-        "tagify.min.js"
-      ]
+      "destination": "wwwroot/lib/tagify/"
     }
   ]
 }
