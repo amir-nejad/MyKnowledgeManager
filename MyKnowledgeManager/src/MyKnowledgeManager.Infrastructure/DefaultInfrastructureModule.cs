@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using MediatR;
 using MediatR.Pipeline;
+using MyKnowledgeManager.Core.Entities;
 using MyKnowledgeManager.Core.Interfaces;
 using MyKnowledgeManager.Infrastructure.Data;
 using MyKnowledgeManager.SharedKernel.Interfaces;
@@ -18,7 +19,7 @@ namespace MyKnowledgeManager.Infrastructure
         public DefaultInfrastructureModule(bool isDevelopment, Assembly? callingAssembly = null)
         {
             _isDevelopment = isDevelopment;
-            var coreAssembly = Assembly.GetAssembly(typeof(Core.Aggregates.Knowledge.Entities.Knowledge));
+            var coreAssembly = Assembly.GetAssembly(typeof(Knowledge));
             var infrastructureAssembly = Assembly.GetAssembly(typeof(StartupSetup));
 
             if (coreAssembly is not null)

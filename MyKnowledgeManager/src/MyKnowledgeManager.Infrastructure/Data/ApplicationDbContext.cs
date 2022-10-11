@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
-using MyKnowledgeManager.Core.Aggregates.User.Entities;
+using MyKnowledgeManager.Core.Entities;
 using MyKnowledgeManager.SharedKernel;
 using System.Reflection;
 

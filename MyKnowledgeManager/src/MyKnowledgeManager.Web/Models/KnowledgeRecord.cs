@@ -1,5 +1,5 @@
-﻿using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
-using MyKnowledgeManager.Core.Aggregates.Knowledge.Enums;
+﻿using MyKnowledgeManager.Core.Entities;
+using MyKnowledgeManager.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyKnowledgeManager.Web.Models

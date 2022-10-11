@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
-using MyKnowledgeManager.Core.Aggregates.Knowledge.Enums;
+using MyKnowledgeManager.Core.Entities;
 using MyKnowledgeManager.SharedKernel.Interfaces;
 using MyKnowledgeManager.Web.Models;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MyKnowledgeManager.Web.Pages.MyKnowledges
 {
@@ -45,6 +46,8 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
 
                 return Page(); 
             }
+
+            var tags = JsonConvert.DeserializeObject<KnowledgeTagJsonRecord>(TagsJson);
 
             //await _repository.AddAsync(Knowledge);
 

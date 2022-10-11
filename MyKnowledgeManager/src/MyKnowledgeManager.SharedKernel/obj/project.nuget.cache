@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "sWVsnbAJ+r5smC9C5aeUnfkCpzlmXRBjASW7HXO6hngfFltCXTonsIDi1jgawKLiuMrmV+3KeDTncW/RzIGM4Q==",
+  "dgSpecHash": "Y+eVHBZOj28wJAan+Ad0DfMnL5UBfdYigbLYcqObHz63B9awNRE+tRzIUmQmEte+/oEiILp9YKnu20VpQM7ygQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\amirs\\source\\repos\\ashabaninejad\\MyKnowledgeManager\\MyKnowledgeManager\\src\\MyKnowledgeManager.SharedKernel\\MyKnowledgeManager.SharedKernel.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\amirs\\.nuget\\packages\\ardalis.specification\\6.1.0\\ardalis.specification.6.1.0.nupkg.sha512",
+    "C:\\Users\\amirs\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
+    "C:\\Users\\amirs\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

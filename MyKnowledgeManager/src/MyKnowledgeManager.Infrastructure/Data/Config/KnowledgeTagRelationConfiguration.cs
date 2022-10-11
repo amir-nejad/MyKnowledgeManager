@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
+using MyKnowledgeManager.Core.Entities;
 
 namespace MyKnowledgeManager.Infrastructure.Data.Config
 {

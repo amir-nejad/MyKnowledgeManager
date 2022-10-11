@@ -1,7 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
-using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
-using MyKnowledgeManager.Core.Aggregates.Knowledge.Specifications;
+using MyKnowledgeManager.Core.Entities;
 using MyKnowledgeManager.Core.Interfaces;
 using MyKnowledgeManager.SharedKernel.Interfaces;
 
@@ -30,7 +29,7 @@ namespace MyKnowledgeManager.Core.Services
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
 
-            Knowledge? knowledge = await _repository.GetByIdAsync(id);
+            Knowledge knowledge = await _repository.GetByIdAsync(id);
 
             if (knowledge is not null)
             {

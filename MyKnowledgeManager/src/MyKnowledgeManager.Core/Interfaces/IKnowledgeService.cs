@@ -1,5 +1,5 @@
 ﻿using Ardalis.Result;
-using MyKnowledgeManager.Core.Aggregates.Knowledge.Entities;
+using MyKnowledgeManager.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
