@@ -14,6 +14,8 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
             builder
                 .Property(x => x.TagName)
                 .IsRequired();
+
+            builder.HasIndex(x => x.TagName).IsUnique();
         }
     }
 }

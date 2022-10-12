@@ -12,10 +12,17 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
 {
     public class AddModel : PageModel
     {
-        private readonly IRepository<Knowledge> _repository;
-        public AddModel(IRepository<Knowledge> repository)
+        private readonly IRepository<Knowledge> _knowledgeRepository;
+        private readonly IRepository<KnowledgeTagRelation> _knowledgeTagRelationRepository;
+        private readonly IRepository<KnowledgeTag> _knowledgeTagRepository;
+        public AddModel(
+            IRepository<Knowledge> knowledgeRepository, 
+            IRepository<KnowledgeTagRelation> knowledgeTagRelationRepository, 
+            IRepository<KnowledgeTag> knowledgeTagRepository)
         {
-            _repository = repository;
+            _knowledgeRepository = knowledgeRepository;
+            _knowledgeTagRelationRepository = knowledgeTagRelationRepository;
+            _knowledgeTagRepository = knowledgeTagRepository;
         }
 
         public SelectList KnowledgeLevelSelectList { get; set; }
@@ -47,9 +54,7 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
                 return Page(); 
             }
 
-            var tags = JsonConvert.DeserializeObject<KnowledgeTagJsonRecord>(TagsJson);
-
-            //await _repository.AddAsync(Knowledge);
+            List<KnowledgeTagJsonRecord> tagsDeserializedJson = JsonConvert.DeserializeObject<List<KnowledgeTagJsonRecord>>(TagsJson);
 
             return RedirectToPage("./Index");
         }
