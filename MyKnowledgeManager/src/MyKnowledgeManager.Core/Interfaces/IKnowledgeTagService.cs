@@ -75,13 +75,23 @@ namespace MyKnowledgeManager.Core.Interfaces
         Task<Result<KnowledgeTag>> UpdateKnowledgeTagAsync(KnowledgeTag knowledgeTag);
 
         /// <summary>
-        /// This function is used for updating a <see cref="KnowledgeTag"/> object.
+        /// This function is used for removing a <see cref="KnowledgeTag"/> object.
         /// </summary>
         /// <param name="id">The id of the target object for deleting.</param>
         /// <returns>
-        /// True <see cref="bool"/> response when is updated successfully in the database.
+        /// True <see cref="bool"/> response when is removed successfully in the database.
         /// False <see cref="bool"/> when any errors occurred.
         /// </returns>
-        Task<Result<bool>> DeleteKnowledgeTagAsync(string id);
+        Task<Result<bool>> RemoveKnowledgeTagAsync(string id);
+
+        /// <summary>
+        /// This function is used for removing a range of <see cref="KnowledgeTag"/> objects from the database.
+        /// </summary>
+        /// <param name="knowledgeTags"></param>
+        /// <returns>
+        /// True <see cref="bool"/> response when is removed successfully in the database.
+        /// False <see cref="bool"/> when any errors occurred.
+        /// </returns>
+        Task<Result<bool>> RemoveRangeTagsAsync(IEnumerable<KnowledgeTag> knowledgeTags);
     }
 }

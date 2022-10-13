@@ -1,5 +1,5 @@
 ﻿@page
-@model MyKnowledgeManager.Web.Pages.MyKnowledges.AddModel
+@model MyKnowledgeManager.Web.Pages.MyKnowledges.UpdateModel
 @using MyKnowledgeManager.Core.Enums
 @{
     Layout = "_Layout";
@@ -13,7 +13,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-8 m-auto">
-            <div class="card shadow">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">@ViewData["Title"]</h3>
                 </div>
@@ -68,7 +68,7 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-lg-6 text-center m-auto">
-                                <button type="submit" class="btn btn-primary w-100">Add</button>
+                                <button type="submit" class="btn btn-primary w-100">Update</button>
                             </div>
                         </div>
                     </div>

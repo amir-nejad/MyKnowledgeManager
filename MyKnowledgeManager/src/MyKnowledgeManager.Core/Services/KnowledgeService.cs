@@ -25,7 +25,7 @@ namespace MyKnowledgeManager.Core.Services
             return await _repository.AddAsync(knowledge);
         }
 
-        public async Task<Result<bool>> DeleteKnowledgeAsync(string id)
+        public async Task<Result<bool>> RemoveKnowledgeAsync(string id)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
 

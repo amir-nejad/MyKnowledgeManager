@@ -10,10 +10,10 @@ namespace MyKnowledgeManager.Web.Utilities
             MemberInfo[] memberInfo = genericEnumType.GetMember(GenericEnum.ToString());
             if ((memberInfo != null && memberInfo.Length > 0))
             {
-                var _Attribs = memberInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DisplayNameAttribute), false);
+                var _Attribs = memberInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false);
                 if ((_Attribs != null && _Attribs.Count() > 0))
                 {
-                    return ((System.ComponentModel.DisplayNameAttribute)_Attribs.ElementAt(0)).DisplayName;
+                    return ((System.ComponentModel.DataAnnotations.DisplayAttribute)_Attribs.ElementAt(0)).Name;
                 }
             }
             return GenericEnum.ToString();

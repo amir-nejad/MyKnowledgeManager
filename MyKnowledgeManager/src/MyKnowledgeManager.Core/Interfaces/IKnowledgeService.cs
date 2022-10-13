@@ -56,13 +56,13 @@ namespace MyKnowledgeManager.Core.Interfaces
         Task<Result<Knowledge>> UpdateKnowledgeAsync(Knowledge knowledge);
 
         /// <summary>
-        /// This function is used for updating a <see cref="Knowledge"/> object.
+        /// This function is used for removing a <see cref="Knowledge"/> object.
         /// </summary>
         /// <param name="id">The id of the target object for deleting.</param>
         /// <returns>
-        /// True <see cref="bool"/> response when is updated successfully in the database.
+        /// True <see cref="bool"/> response when is removed successfully in the database.
         /// False <see cref="bool"/> when any errors occurred.
         /// </returns>
-        Task<Result<bool>> DeleteKnowledgeAsync(string id);
+        Task<Result<bool>> RemoveKnowledgeAsync(string id);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
+using MyKnowledgeManager.Core.Entities;
 using MyKnowledgeManager.SharedKernel.Interfaces;
 
 namespace MyKnowledgeManager.Core.Services
@@ -30,7 +31,7 @@ namespace MyKnowledgeManager.Core.Services
             return await _repository.AddRangeAsync(knowledgeTags);
         }
 
-        public async Task<Result<bool>> DeleteKnowledgeTagAsync(string id)
+        public async Task<Result<bool>> RemoveKnowledgeTagAsync(string id)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
 
@@ -99,6 +100,22 @@ namespace MyKnowledgeManager.Core.Services
             }
 
             return knowledgeTag;
+        }
+
+        public async Task<Result<bool>> RemoveRangeTagsAsync(IEnumerable<KnowledgeTag> knowledgeTags)
+        {
+            Guard.Against.Null(knowledgeTags, nameof(knowledgeTags));
+
+            try
+            {
+                await _repository.DeleteRangeAsync(knowledgeTags);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -5,6 +5,8 @@ namespace MyKnowledgeManager.Web.Models
 {
     public record KnowledgeRecord
     {
+        public string Id { get; set; }
+
         [Required]
         public string Title { get; set; }
 

@@ -31,7 +31,7 @@ namespace MyKnowledgeManager.Core.Services
             return await _repository.AddRangeAsync(knowledgeTagRelations);
         }
 
-        public async Task<Result<bool>> DeleteKnowledgeTagRelationAsync(string id)
+        public async Task<Result<bool>> RemoveKnowledgeTagRelationAsync(string id)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
 
@@ -84,6 +84,23 @@ namespace MyKnowledgeManager.Core.Services
             }
 
             return knowledgeTagRelation;
+        }
+
+        public async Task<Result<bool>> RemoveRangeTagsAsync(IEnumerable<KnowledgeTagRelation> knowledgeTagRelations)
+        {
+
+            Guard.Against.Null(knowledgeTagRelations, nameof(knowledgeTagRelations));
+
+            try
+            {
+                await _repository.DeleteRangeAsync(knowledgeTagRelations);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
