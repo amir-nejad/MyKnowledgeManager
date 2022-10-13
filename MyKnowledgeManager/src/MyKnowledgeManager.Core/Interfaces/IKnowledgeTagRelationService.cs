@@ -35,7 +35,17 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="KnowledgeTagRelation"/> when is created successfully in the database.
         /// </returns>
-        Task<Result<KnowledgeTagRelation>> CreateKnowledgeTagRelationAsync(KnowledgeTagRelation knowledgeTagRelation);
+        Task<Result<KnowledgeTagRelation>> AddKnowledgeTagRelationAsync(KnowledgeTagRelation knowledgeTagRelation);
+
+        /// <summary>
+        /// This function is used for creating a list <see cref="KnowledgeTagRelation"/> object to the database.
+        /// </summary>
+        /// <param name="knowledgeTagRelations">Target <see cref="IEnumerable{KnowledgeTagRelation}"/> object for creation.</param>
+        /// <returns>
+        /// Null when any errors occurred.
+        /// <see cref="IEnumerable{KnowledgeTagRelation}"/> when is created successfully in the database.
+        /// </returns>
+        Task<IEnumerable<KnowledgeTagRelation>> AddRangeKnowledgeTagRelationAsync(IEnumerable<KnowledgeTagRelation> knowledgeTagRelations);
 
         /// <summary>
         /// This function is used for updating a <see cref="KnowledgeTagRelation"/> object.

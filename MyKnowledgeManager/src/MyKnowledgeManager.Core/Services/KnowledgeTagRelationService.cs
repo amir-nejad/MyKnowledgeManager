@@ -1,8 +1,9 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
+using MyKnowledgeManager.Core.Entities;
 using MyKnowledgeManager.SharedKernel.Interfaces;
 
-namespace MyKnowledgeTagRelationManager.Core.Services
+namespace MyKnowledgeManager.Core.Services
 {
     /// <summary>
     /// This class is used as an implementation of <see cref="IKnowledgeTagRelationService"/> interface.
@@ -16,11 +17,18 @@ namespace MyKnowledgeTagRelationManager.Core.Services
             _repository = repository;
         }
 
-        public async Task<Result<KnowledgeTagRelation>> CreateKnowledgeTagRelationAsync(KnowledgeTagRelation knowledgeTagRelation)
+        public async Task<Result<KnowledgeTagRelation>> AddKnowledgeTagRelationAsync(KnowledgeTagRelation knowledgeTagRelation)
         {
             Guard.Against.Null(knowledgeTagRelation, nameof(knowledgeTagRelation));
 
             return await _repository.AddAsync(knowledgeTagRelation);
+        }
+
+        public async Task<IEnumerable<KnowledgeTagRelation>> AddRangeKnowledgeTagRelationAsync(IEnumerable<KnowledgeTagRelation> knowledgeTagRelations)
+        {
+            Guard.Against.Null(knowledgeTagRelations, nameof(knowledgeTagRelations));
+
+            return await _repository.AddRangeAsync(knowledgeTagRelations);
         }
 
         public async Task<Result<bool>> DeleteKnowledgeTagRelationAsync(string id)

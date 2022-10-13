@@ -22,36 +22,36 @@
                         <div class="row">
                             <div class="col-lg-12 mb-2">
                                 <div class="form-floating">
-                                    <input class="form-control" asp-for="Knowledge.Title" />
-                                    <label asp-for="Knowledge.Title"></label>
-                                    <span asp-validation-for="Knowledge.Title" class="text-danger"></span>
+                                    <input class="form-control" asp-for="KnowledgeRecord.Title" />
+                                    <label asp-for="KnowledgeRecord.Title"></label>
+                                    <span asp-validation-for="KnowledgeRecord.Title" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 mb-2">
                                 <div class="form-floating">
-                                    <textarea class="form-control" asp-for="Knowledge.Description" rows="12"></textarea>
-                                    <label asp-for="Knowledge.Description"></label>
-                                    <span asp-validation-for="Knowledge.Description" class="text-danger"></span>
+                                    <textarea class="form-control" asp-for="KnowledgeRecord.Description" rows="12" style="height: 200px"></textarea>
+                                    <label asp-for="KnowledgeRecord.Description"></label>
+                                    <span asp-validation-for="KnowledgeRecord.Description" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select class="form-select" asp-for="Knowledge.KnowledgeLevel" asp-items="@Html.GetEnumSelectList<KnowledgeLevel>()">
+                                    <select class="form-select" asp-for="KnowledgeRecord.KnowledgeLevel" asp-items="@Html.GetEnumSelectList<KnowledgeLevel>()">
                                     </select>
-                                    <label asp-for="Knowledge.KnowledgeLevel"></label>
-                                    <span asp-validation-for="Knowledge.KnowledgeLevel" class="text-danger"></span>
+                                    <label asp-for="KnowledgeRecord.KnowledgeLevel"></label>
+                                    <span asp-validation-for="KnowledgeRecord.KnowledgeLevel" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select class="form-select" asp-for="Knowledge.KnowledgeImportance" asp-items="@Html.GetEnumSelectList<KnowledgeImportance>()">
+                                    <select class="form-select" asp-for="KnowledgeRecord.KnowledgeImportance" asp-items="@Html.GetEnumSelectList<KnowledgeImportance>()">
                                     </select>
-                                    <label asp-for="Knowledge.KnowledgeImportance"></label>
-                                    <span asp-validation-for="Knowledge.KnowledgeImportance" class="text-danger"></span>
+                                    <label asp-for="KnowledgeRecord.KnowledgeImportance"></label>
+                                    <span asp-validation-for="KnowledgeRecord.KnowledgeImportance" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,9 @@
     <script type="module">
         import { myKnowledgeTags } from "/scripts/utils/constants.js";
 
-        localStorage.setItem(myKnowledgeTags, [@Html.Raw(Json.Serialize(Model.TagsWhitelist))]);
+        if ('@Model.TagsWhitelist' != "null" || '@Model.TagsWhitelist' != "") {
+            localStorage.setItem(myKnowledgeTags, [@Html.Raw(Json.Serialize(Model.TagsWhitelist))]);
+        }
     </script>
     <script src="~/lib/tagify/tagify.min.js"></script>
     <script src="~/scripts/pages/my-knowledges/add.js" type="module"></script>

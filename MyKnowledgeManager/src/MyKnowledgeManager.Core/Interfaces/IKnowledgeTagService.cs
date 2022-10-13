@@ -20,6 +20,17 @@ namespace MyKnowledgeManager.Core.Interfaces
         Task<Result<KnowledgeTag>> GetKnowledgeTagByIdAsync(string id, bool includeKnowledges = false);
 
         /// <summary>
+        /// This function is used for getting a <see cref="KnowledgeTag"/> object from the database.
+        /// </summary>
+        /// <param name="name">The name of the target object for retrieving.</param>
+        /// <param name="includeKnowledges">Identify using Include() for tags or not.</param>
+        /// <returns>
+        /// Null when any errors occurred.
+        /// <see cref="KnowledgeTag"/> when operation succeeded.
+        /// </returns>
+        Task<Result<KnowledgeTag>> GetKnowledgeTagByNameAsync(string name, bool includeKnowledges = false);
+
+        /// <summary>
         /// This function is used for getting a list of <see cref="KnowledgeTag"/> objects from the database.
         /// </summary>
         /// <param name="includeKnowledges">Identify using Include() for tags or not.</param>
@@ -29,6 +40,8 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// </returns>
         Task<Result<List<KnowledgeTag>>> GetKnowledgeTagsAsync(bool includeKnowledges = false);
 
+
+
         /// <summary>
         /// This function is used for creating a <see cref="KnowledgeTag"/> object.
         /// </summary>
@@ -37,7 +50,19 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="KnowledgeTag"/> when is created successfully in the database.
         /// </returns>
-        Task<Result<KnowledgeTag>> CreateKnowledgeTagAsync(KnowledgeTag knowledgeTag);
+        Task<Result<KnowledgeTag>> AddKnowledgeTagAsync(KnowledgeTag knowledgeTag);
+
+        /// <summary>
+        /// This function is used for creating a list of <see cref="KnowledgeTag"/> objects in the database.
+        /// </summary>
+        /// <param name="knowledgeTags">Target <see cref="IEnumerable{KnowledgeTag}"/> object for creation.</param>
+        /// <returns>
+        /// Null when any errors occurred.
+        /// <see cref="KnowledgeTag"/> when is created successfully in the database.
+        /// </returns>
+        Task<IEnumerable<KnowledgeTag>> AddRangeKnowledgeTagAsync(IEnumerable<KnowledgeTag> knowledgeTags);
+
+
 
         /// <summary>
         /// This function is used for updating a <see cref="KnowledgeTag"/> object.

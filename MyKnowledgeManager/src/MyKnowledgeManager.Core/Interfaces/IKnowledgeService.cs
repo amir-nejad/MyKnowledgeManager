@@ -43,7 +43,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="Knowledge"/> when is created successfully in the database.
         /// </returns>
-        Task<Result<Knowledge>> CreateKnowledgeAsync(Knowledge knowledge);
+        Task<Result<Knowledge>> AddKnowledgeAsync(Knowledge knowledge);
 
         /// <summary>
         /// This function is used for updating a <see cref="Knowledge"/> object.

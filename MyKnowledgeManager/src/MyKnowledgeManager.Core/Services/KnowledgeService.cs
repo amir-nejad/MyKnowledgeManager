@@ -18,7 +18,7 @@ namespace MyKnowledgeManager.Core.Services
             _repository = repository;
         }
 
-        public async Task<Result<Knowledge>> CreateKnowledgeAsync(Knowledge knowledge)
+        public async Task<Result<Knowledge>> AddKnowledgeAsync(Knowledge knowledge)
         {
             Guard.Against.Null(knowledge, nameof(knowledge));
 
@@ -61,7 +61,14 @@ namespace MyKnowledgeManager.Core.Services
 
         public async Task<Result<List<Knowledge>>> GetKnowledgesAsync(bool includeTags = false)
         {
-            return await _repository.ListAsync(specification: includeTags ? new KnowledgesWithTagsSpec() : null);
+            if (includeTags)
+            {
+                return await _repository.ListAsync(new KnowledgesWithTagsSpec());
+            }
+            else
+            {
+                return await _repository.ListAsync();
+            }
         }
 
         public async Task<Result<Knowledge>> UpdateKnowledgeAsync(Knowledge knowledge)

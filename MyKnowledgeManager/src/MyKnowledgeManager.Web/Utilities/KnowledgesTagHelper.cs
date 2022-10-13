@@ -33,15 +33,15 @@ namespace MyKnowledgeManager.Web.Utilities
         /// </summary>
         /// <param name="tagString"></param>
         /// <returns></returns>
-        private static string FinalizeTagString(string tagString)
+        public static string FinalizeTagString(string tagString)
         {
-            tagString.Replace(" ", "_");
+            tagString = tagString.Replace(" ", "_");
 
             Regex regex = new Regex("[*#$^&\"'()]");
 
-            regex.Replace(tagString, string.Empty);
+            tagString = regex.Replace(tagString, string.Empty);
 
-            return tagString;
+            return tagString.ToLower();
         }
     }
 }

@@ -3,7 +3,6 @@ export class TagifyComponent {
     }
     getTagify(inputElem, whiteList, customSettings) {
         var tagifyObject = new Tagify(inputElem, {
-            whitelist: whiteList,
             duplicates: false,
             autoComplete: {
                 enabled: true,
@@ -13,6 +12,8 @@ export class TagifyComponent {
         });
         if (customSettings) {
             tagifyObject = new Tagify(inputElem, customSettings);
+        }
+        if (whiteList) {
             tagifyObject.whitelist = whiteList;
         }
     }

@@ -2,7 +2,7 @@
 using Ardalis.Result;
 using MyKnowledgeManager.SharedKernel.Interfaces;
 
-namespace MyKnowledgeTagManager.Core.Services
+namespace MyKnowledgeManager.Core.Services
 {
     /// <summary>
     /// This class is used as an implementation of <see cref="IKnowledgeTagService"/> interface.
@@ -16,11 +16,18 @@ namespace MyKnowledgeTagManager.Core.Services
             _repository = repository;
         }
 
-        public async Task<Result<KnowledgeTag>> CreateKnowledgeTagAsync(KnowledgeTag knowledgeTag)
+        public async Task<Result<KnowledgeTag>> AddKnowledgeTagAsync(KnowledgeTag knowledgeTag)
         {
             Guard.Against.Null(knowledgeTag, nameof(knowledgeTag));
 
             return await _repository.AddAsync(knowledgeTag);
+        }
+
+        public async Task<IEnumerable<KnowledgeTag>> AddRangeKnowledgeTagAsync(IEnumerable<KnowledgeTag> knowledgeTags)
+        {
+            Guard.Against.Null(knowledgeTags, nameof(knowledgeTags));
+
+            return await _repository.AddRangeAsync(knowledgeTags);
         }
 
         public async Task<Result<bool>> DeleteKnowledgeTagAsync(string id)
@@ -47,7 +54,7 @@ namespace MyKnowledgeTagManager.Core.Services
 
             return true;
         }
-        
+
         public async Task<Result<KnowledgeTag>> GetKnowledgeTagByIdAsync(string id, bool includeKnowledges = false)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
@@ -57,9 +64,25 @@ namespace MyKnowledgeTagManager.Core.Services
             return knowledgeTag;
         }
 
+        public async Task<Result<KnowledgeTag>> GetKnowledgeTagByNameAsync(string name, bool includeKnowledges = false)
+        {
+            Guard.Against.NullOrEmpty(name, nameof(name));
+
+            KnowledgeTag knowledgeTag = await _repository.FirstOrDefaultAsync(includeKnowledges ? new KnowledgeTagByNameWithRelationsSpec(name) : new KnowledgeTagByNameSpec(name));
+
+            return knowledgeTag;
+        }
+
         public async Task<Result<List<KnowledgeTag>>> GetKnowledgeTagsAsync(bool includeKnowledges = false)
         {
-            return await _repository.ListAsync(specification: includeKnowledges ? new KnowledgeTagsWithRelationsSpec() : null);
+            if (includeKnowledges)
+            {
+                return await _repository.ListAsync(new KnowledgeTagsWithRelationsSpec());
+            }
+            else
+            {
+                return await _repository.ListAsync();
+            }
         }
 
         public async Task<Result<KnowledgeTag>> UpdateKnowledgeTagAsync(KnowledgeTag knowledgeTag)

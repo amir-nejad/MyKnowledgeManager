@@ -20,6 +20,8 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 
 builder.Services.AddDbContext(connectionString: connectionString);
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 
