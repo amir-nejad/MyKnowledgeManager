@@ -65,7 +65,7 @@ namespace MyKnowledgeManager.Core.Services
             return knowledgeTagRelation;
         }
 
-        public async Task<Result<List<KnowledgeTagRelation>>> GetKnowledgeTagRelationsAsync()
+        public async Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsAsync()
         {
             return await _repository.ListAsync(new KnowledgeTagRelationsSpec());
         }
@@ -101,6 +101,13 @@ namespace MyKnowledgeManager.Core.Services
             }
 
             return true;
+        }
+
+        public async Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsByKnowledgeIdAsync(string knowledgeId)
+        {
+            Guard.Against.NullOrEmpty(knowledgeId, nameof(knowledgeId));
+
+            return await _repository.ListAsync(new KnowledgeTagRelationsByKnowledgeIdSpec(knowledgeId));
         }
     }
 }

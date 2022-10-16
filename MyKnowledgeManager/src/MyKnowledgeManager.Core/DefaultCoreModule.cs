@@ -10,15 +10,15 @@ namespace MyKnowledgeManager.Core
         {
             builder.RegisterType<KnowledgeService>()
                 .As<IKnowledgeService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<KnowledgeTagService>()
                 .As<IKnowledgeTagService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<KnowledgeTagRelationService>()
                 .As<IKnowledgeTagRelationService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
         }
     }
 }

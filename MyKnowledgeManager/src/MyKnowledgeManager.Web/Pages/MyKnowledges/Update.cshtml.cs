@@ -35,6 +35,13 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
 
         public string[] TagsWhitelist { get; set; }
 
+        [BindProperty]
+        public KnowledgeRecord KnowledgeRecord { get; set; }
+
+        [BindProperty]
+        [Display(Name = "Tags")]
+        public string TagsJson { get; set; }
+
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id is null) return NotFound();
@@ -69,14 +76,6 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
         }
 
 
-        [BindProperty]
-        public KnowledgeRecord KnowledgeRecord { get; set; }
-
-        [BindProperty]
-        [Display(Name = "Tags")]
-        public string TagsJson { get; set; }
-
-
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -87,7 +86,7 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
             }
 
             // Considering a list of string for all of tag Id properties.
-            List<string> tagIds = new List<string>();
+            List<string> tagIds = new();
 
             // Checking and Updating all database tags.
             var updateDatabaseTagsResult = await UpdateDatabaseTagsAsync(tagIds);
@@ -107,7 +106,8 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
             try
             {
                 // Adding the knowledge to the database.
-                knowledge = await _knowledgeService.AddKnowledgeAsync(knowledge);
+                knowledge = await _knowledgeService.UpdateKnowledgeAsync(knowledge);
+                knowledge = null;
             }
             catch (Exception)
             {
@@ -117,7 +117,7 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
             }
 
             // Adding probable Knowledge and KnowledgeTag relations.
-            await AddKnowledgeTagRelationsAsync(tagIds, knowledge.Id);
+            await AddKnowledgeTagRelationsAsync(tagIds, KnowledgeRecord.Id);
 
 
             return RedirectToPage("./Index");
@@ -189,19 +189,18 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
         [NonHandler]
         private async Task AddKnowledgeTagRelationsAsync(List<string> tagIds, string knowledgeId)
         {
-            // Getting the knowledge from the database by input id.
-            Knowledge knowledge = await _knowledgeService.GetKnowledgeByIdAsync(KnowledgeRecord.Id, true);
+            List<KnowledgeTagRelation> oldRelations = (List<KnowledgeTagRelation>)await _knowledgeTagRelationService.GetKnowledgeTagRelationsByKnowledgeIdAsync(knowledgeId);
 
-            if (knowledge == null) return;
-
-            if (knowledge.KnowledgeTagRelations is not null && knowledge.KnowledgeTagRelations.Count() is not 0)
+            if (oldRelations is not null && oldRelations.Count() is not 0)
             {
-                bool result = await _knowledgeTagRelationService.RemoveRangeTagsAsync(knowledge.KnowledgeTagRelations);
+                bool result = await _knowledgeTagRelationService.RemoveRangeTagsAsync(oldRelations);
 
                 if (!result)
                 {
                     throw new Exception("Unexpected Error");
                 }
+
+                oldRelations = null;
             }
 
             // Checking if any tag Id exits for adding to the database.

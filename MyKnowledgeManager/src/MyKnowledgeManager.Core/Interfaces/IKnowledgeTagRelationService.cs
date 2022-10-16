@@ -21,11 +21,21 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// <summary>
         /// This function is used for getting a list of <see cref="KnowledgeTagRelation"/> objects from the database.
         /// </summary>
+        /// <param name="knowledgeId">The id of the target knowledge for retrieving objects.</param>
         /// <returns>
         /// Null when any errors occurred.
-        /// <see cref="List{KnowledgeTagRelation}"/> when operation succeeded.
+        /// <see cref="IEnumerable{KnowledgeTagRelation}"/> when operation succeeded.
         /// </returns>
-        Task<Result<List<KnowledgeTagRelation>>> GetKnowledgeTagRelationsAsync();
+        Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsByKnowledgeIdAsync(string knowledgeId);
+
+        /// <summary>
+        /// This function is used for getting a list of <see cref="KnowledgeTagRelation"/> objects from the database.
+        /// </summary>
+        /// <returns>
+        /// Null when any errors occurred.
+        /// <see cref="IEnumerable{KnowledgeTagRelation}"/> when operation succeeded.
+        /// </returns>
+        Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsAsync();
 
         /// <summary>
         /// This function is used for creating a <see cref="KnowledgeTagRelation"/> object.

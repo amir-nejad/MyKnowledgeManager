@@ -1,0 +1,70 @@
+﻿@page
+@model MyKnowledgeManager.Web.Pages.MyKnowledges.DeleteModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Delete Knowledge";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6 m-auto">
+            <div class="card">
+                <div class="card-header">
+                    @ViewData["Title"]
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-lg-4">
+                            @Html.DisplayNameFor(model => model.KnowledgeRecord.Title)
+                        </dt>
+                        <dd class="col-lg-8">
+                            @Html.DisplayFor(model => model.KnowledgeRecord.Title)
+                        </dd>
+                        <dt class="col-lg-4">
+                            @Html.DisplayNameFor(model => model.KnowledgeRecord.Description)
+                        </dt>
+                        <dd class="col-lg-8">
+                            @Html.DisplayFor(model => model.KnowledgeRecord.Description)
+                        </dd>
+                        <dt class="col-lg-4">
+                            @Html.DisplayNameFor(model => model.KnowledgeRecord.KnowledgeLevel)
+                        </dt>
+                        <dd class="col-lg-8">
+                            @EnumHelper.GetDisplayName(Model.KnowledgeRecord.KnowledgeLevel)
+                        </dd>
+                        <dt class="col-lg-4">
+                            @Html.DisplayNameFor(model => model.KnowledgeRecord.KnowledgeImportance)
+                        </dt>
+                        <dd class="col-lg-8">
+                            @EnumHelper.GetDisplayName(Model.KnowledgeRecord.KnowledgeImportance)
+                        </dd>
+                        <dt class="col-lg-4">
+                            @Html.DisplayNameFor(model => model.KnowledgeRecord.KnowledgeTags)
+                        </dt>
+                        <dd class="col-lg-8">
+                            @if (Model.KnowledgeRecord.KnowledgeTags is not null
+                              && Model.KnowledgeRecord.KnowledgeTags.Count() is not 0)
+                            {
+                                foreach (var item in Model.KnowledgeRecord.KnowledgeTags)
+                                {
+                                    <span class="badge bg-light">@item.TagName</span>
+                                }
+                            }
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <form method="post">
+                        <div class="row">
+                            <div class="col-lg-6 text-center">
+                                <input type="hidden" name="id" value="@Model.KnowledgeRecord.Id" />
+                                <button class="btn btn-danger" type="submit"></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

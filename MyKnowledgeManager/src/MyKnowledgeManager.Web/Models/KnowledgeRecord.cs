@@ -23,5 +23,11 @@ namespace MyKnowledgeManager.Web.Models
 
         [Display(Name = "Tags")]
         public IEnumerable<KnowledgeTag> KnowledgeTags { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
+
+        public bool IsTrashItem { get; set; } = false;
     }
 }

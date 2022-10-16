@@ -7,7 +7,8 @@ namespace MyKnowledgeManager.Web.MappingConfigurations
     {
         public KnowledgeProfile()
         {
-            CreateMap<Knowledge, KnowledgeRecord>();
+            CreateMap<Knowledge, KnowledgeRecord>()
+                .ForMember(dest => dest.KnowledgeTags, opt => opt.MapFrom(src => src.KnowledgeTagRelations.Select(x => x.KnowledgeTag).ToList()));
 
             CreateMap<KnowledgeRecord, Knowledge>()
                 .ConstructUsing(x => new Knowledge(x.Title, x.Description, x.KnowledgeLevel, x.KnowledgeImportance));

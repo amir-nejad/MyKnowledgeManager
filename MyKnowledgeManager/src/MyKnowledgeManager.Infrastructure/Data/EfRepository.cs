@@ -7,7 +7,6 @@ namespace MyKnowledgeManager.Infrastructure.Data
     {
         public EfRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
-
         }
     }
 }
