@@ -14,11 +14,10 @@ namespace MyKnowledgeManager.Core.Entities
             TagName = tagName;
         }
 
-        public void UpdateKnowledgeTagTrashState(bool isTrashItem)
+        public override void ChangeTrashState(bool isTrashItem = false)
         {
-            IsTrashItem = isTrashItem;
-
-            Events.Add(new KnowledgeTagMovedToTrashEvent(this));
+            base.ChangeTrashState(isTrashItem);
+            Events.Add(new TrashStateChanged<KnowledgeTag>(this));
         }
     }
 }

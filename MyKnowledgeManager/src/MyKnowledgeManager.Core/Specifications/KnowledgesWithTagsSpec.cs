@@ -7,6 +7,7 @@ namespace MyKnowledgeManager.Core.Specifications
         public KnowledgesWithTagsSpec()
         {
             Query
+                .Where(x => !x.IsTrashItem)
                 .Include(x => x.KnowledgeTagRelations);
         }
     }

@@ -13,7 +13,7 @@
 
         public bool IsTrashItem { get; protected set; } = false;
 
-        public List<BaseDomainEvent> Events = new List<BaseDomainEvent>();
+        public List<BaseDomainEvent> Events = new();
 
         public virtual void ChangeTrashState(bool isTrashItem = false)
         {

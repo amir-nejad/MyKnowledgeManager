@@ -19,6 +19,14 @@ namespace MyKnowledgeManager.Core
             builder.RegisterType<KnowledgeTagRelationService>()
                 .As<IKnowledgeTagRelationService>()
                 .InstancePerDependency();
+
+            builder.RegisterType<TrashManager<Knowledge>>()
+                .As<ITrashManager<Knowledge>>()
+                .InstancePerDependency();
+
+            builder.RegisterType<TrashManager<KnowledgeTag>>()
+                .As<ITrashManager<KnowledgeTag>>()
+                .InstancePerDependency();
         }
     }
 }

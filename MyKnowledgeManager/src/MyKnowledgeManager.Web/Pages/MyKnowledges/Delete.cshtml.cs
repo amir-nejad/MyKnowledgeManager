@@ -10,11 +10,16 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
     {
         private readonly IKnowledgeService _knowledgeService;
         private readonly IMapper _mapper;
+        private readonly ITrashManager<Knowledge> _trashManager;
 
-        public DeleteModel(IKnowledgeService knowledgeService, IMapper mapper)
+        public DeleteModel(
+            IKnowledgeService knowledgeService, 
+            IMapper mapper, 
+            ITrashManager<Knowledge> trashManager)
         {
             _knowledgeService = knowledgeService;
             _mapper = mapper;
+            _trashManager = trashManager;
         }
 
         public KnowledgeRecord KnowledgeRecord { get; set; }
@@ -33,12 +38,18 @@ namespace MyKnowledgeManager.Web.Pages.MyKnowledges
 
         public async Task<IActionResult> OnPostAsync(string id)
         {
-            if (id is null)
-            {
-                return NotFound();
-            }
+            if (id is null) return NotFound();
 
-            // Moving to trash codes will go here.
+            Knowledge knowledge = await _knowledgeService.GetKnowledgeByIdAsync(id);
+
+            if (knowledge is null) return NotFound();
+
+            var moveToTrashResult = await _trashManager.MoveItemToTrashAsync(id);
+
+            if (!moveToTrashResult.IsSuccess)
+            {
+                ModelState.AddModelError(string.Empty, moveToTrashResult.Errors.FirstOrDefault());
+            }
 
             return RedirectToPage("./Index");
         }

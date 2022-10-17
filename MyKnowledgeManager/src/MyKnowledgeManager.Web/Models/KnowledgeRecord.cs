@@ -5,7 +5,7 @@ namespace MyKnowledgeManager.Web.Models
 {
     public record KnowledgeRecord
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string Title { get; set; }
@@ -24,7 +24,7 @@ namespace MyKnowledgeManager.Web.Models
         [Display(Name = "Tags")]
         public IEnumerable<KnowledgeTag> KnowledgeTags { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
 

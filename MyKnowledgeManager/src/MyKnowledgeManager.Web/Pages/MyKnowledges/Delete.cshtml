@@ -11,9 +11,10 @@
         <div class="col-lg-6 m-auto">
             <div class="card">
                 <div class="card-header">
-                    @ViewData["Title"]
+                    <h4 class="card-title">@ViewData["Title"]</h4>
                 </div>
                 <div class="card-body">
+                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                     <dl class="row">
                         <dt class="col-lg-4">
                             @Html.DisplayNameFor(model => model.KnowledgeRecord.Title)
@@ -48,7 +49,7 @@
                             {
                                 foreach (var item in Model.KnowledgeRecord.KnowledgeTags)
                                 {
-                                    <span class="badge bg-light">@item.TagName</span>
+                                    <span class="badge bg-info">@item.TagName</span>
                                 }
                             }
                         </dd>
@@ -57,9 +58,9 @@
                 <div class="card-footer">
                     <form method="post">
                         <div class="row">
-                            <div class="col-lg-6 text-center">
+                            <div class="col-lg-6 m-auto text-center">
                                 <input type="hidden" name="id" value="@Model.KnowledgeRecord.Id" />
-                                <button class="btn btn-danger" type="submit"></button>
+                                <button class="btn btn-sm btn-danger w-100" type="submit">Move To Trash</button>
                             </div>
                         </div>
                     </form>

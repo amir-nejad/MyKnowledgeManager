@@ -49,16 +49,10 @@ namespace MyKnowledgeManager.Core.Entities
             KnowledgeLevel = newKnowledgeLevel;
         }
 
-        public void UpdateKnowledgeTrashState(bool isTrashItem)
+        public override void ChangeTrashState(bool isTrashItem = false)
         {
-            IsTrashItem = isTrashItem;
-
-            Events.Add(new KnowledgeMovedToTrashEvent(this));
-        }
-
-        public void AddKnowledgeTag(KnowledgeTag knowledgeTag)
-        {
-
+            base.ChangeTrashState(isTrashItem);
+            Events.Add(new TrashStateChanged<Knowledge>(this));
         }
     }
 }

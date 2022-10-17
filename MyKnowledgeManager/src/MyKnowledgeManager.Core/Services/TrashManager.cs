@@ -15,7 +15,7 @@ namespace MyKnowledgeManager.Core.Services
             _repository = repository;
         }
 
-        public async Task<Result> DeleteTrashItem(string id)
+        public async Task<Result> DeleteTrashItemAsync(string id)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
 
@@ -35,7 +35,7 @@ namespace MyKnowledgeManager.Core.Services
             return Result.Success();
         }
 
-        public async Task<Result> DeleteTrashItems()
+        public async Task<Result> DeleteTrashItemsAsync()
         {
             var items = await _repository.ListAsync(new TrashItemsSpec<T>());
 
@@ -51,12 +51,12 @@ namespace MyKnowledgeManager.Core.Services
             return Result.Success();
         }
 
-        public async Task<Result<IEnumerable<T>>> GetTrashItems()
+        public async Task<Result<IEnumerable<T>>> GetTrashItemsAsync()
         {
             return await _repository.ListAsync(new TrashItemsSpec<T>());
         }
 
-        public async Task<Result> RestoreTrashItem(string id)
+        public async Task<Result> RestoreTrashItemAsync(string id)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
 
@@ -78,7 +78,7 @@ namespace MyKnowledgeManager.Core.Services
             return Result.Success();
         }
 
-        public async Task<Result> RestoreTrashItems()
+        public async Task<Result> RestoreTrashItemsAsync()
         {
             List<T> items = await _repository.ListAsync(new TrashItemsSpec<T>());
 
@@ -99,13 +99,13 @@ namespace MyKnowledgeManager.Core.Services
             return Result.Success();
         }
 
-        public async Task<Result> MoveItemToTrash(string id)
+        public async Task<Result> MoveItemToTrashAsync(string id)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
 
             T item = await _repository.GetByIdAsync(id);
 
-            if (item == null || !item.IsTrashItem) return Result.Error(NotFoundErrorMessage);
+            if (item == null) return Result.Error(NotFoundErrorMessage);
 
             item.ChangeTrashState(true);
 
