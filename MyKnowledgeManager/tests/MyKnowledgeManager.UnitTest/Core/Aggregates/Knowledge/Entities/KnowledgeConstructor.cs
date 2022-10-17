@@ -19,7 +19,7 @@ namespace MyKnowledgeManager.UnitTest.Core.Aggregates.Knowledge.Entities
         [Fact]
         public void InitializesTitle()
         {
-            _testKnowledge = CreateTestKnowledge();
+            _testKnowledge = this.CreateTestKnowledge();
 
             Assert.Equal(_testTitle, _testKnowledge.Title);
         }
@@ -27,7 +27,7 @@ namespace MyKnowledgeManager.UnitTest.Core.Aggregates.Knowledge.Entities
         [Fact]
         public void InitializesDescription()
         {
-            _testKnowledge = CreateTestKnowledge();
+            _testKnowledge = this.CreateTestKnowledge();
 
             Assert.Equal(_testDescription, _testKnowledge.Description);
         }
@@ -35,7 +35,7 @@ namespace MyKnowledgeManager.UnitTest.Core.Aggregates.Knowledge.Entities
         [Fact]
         public void InitializesKnowledgeLevel()
         {
-            _testKnowledge = CreateTestKnowledge();
+            _testKnowledge = this.CreateTestKnowledge();
 
             Assert.Equal(_testKnowledgeLevel, _testKnowledge.KnowledgeLevel);
         }
@@ -43,7 +43,7 @@ namespace MyKnowledgeManager.UnitTest.Core.Aggregates.Knowledge.Entities
         [Fact]
         public void InitializesKnowledgeImportance()
         {
-            _testKnowledge = CreateTestKnowledge();
+            _testKnowledge = this.CreateTestKnowledge();
 
             Assert.Equal(_testKnowledgeImportance, _testKnowledge.KnowledgeImportance);
         }
@@ -51,7 +51,7 @@ namespace MyKnowledgeManager.UnitTest.Core.Aggregates.Knowledge.Entities
         [Fact]
         public void InitializesKnowledgeTagRelationsEmptyList()
         {
-            _testKnowledge = CreateTestKnowledge();
+            _testKnowledge = this.CreateTestKnowledge();
 
             Assert.NotNull(_testKnowledge.KnowledgeTagRelations);
         }

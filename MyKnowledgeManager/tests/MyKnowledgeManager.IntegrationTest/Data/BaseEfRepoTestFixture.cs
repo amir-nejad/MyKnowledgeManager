@@ -23,7 +23,7 @@ namespace MyKnowledgeManager.IntegrationTest.Data
             var options = CreateNewContextOptions();
             var mockMediator = new Mock<IMediator>();
 
-            _context = new ApplicationDbContext(options, mockMediator.Object);
+            this._context = new ApplicationDbContext(options, mockMediator.Object);
         }
 
         protected static DbContextOptions<ApplicationDbContext> CreateNewContextOptions()

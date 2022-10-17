@@ -14,5 +14,10 @@
         public bool IsTrashItem { get; protected set; } = false;
 
         public List<BaseDomainEvent> Events = new List<BaseDomainEvent>();
+
+        public virtual void ChangeTrashState(bool isTrashItem = false)
+        {
+            IsTrashItem = isTrashItem;
+        }
     }
 }
