@@ -24,11 +24,13 @@ namespace MyKnowledgeManager.Core.Services
             return await _repository.AddAsync(knowledgeTagRelation);
         }
 
-        public async Task<IEnumerable<KnowledgeTagRelation>> AddRangeKnowledgeTagRelationAsync(IEnumerable<KnowledgeTagRelation> knowledgeTagRelations)
+        public async Task<Result<IEnumerable<KnowledgeTagRelation>>> AddRangeKnowledgeTagRelationAsync(IEnumerable<KnowledgeTagRelation> knowledgeTagRelations)
         {
             Guard.Against.Null(knowledgeTagRelations, nameof(knowledgeTagRelations));
 
-            return await _repository.AddRangeAsync(knowledgeTagRelations);
+            knowledgeTagRelations = await _repository.AddRangeAsync(knowledgeTagRelations);
+
+            return knowledgeTagRelations.ToList();
         }
 
         public async Task<Result<bool>> RemoveKnowledgeTagRelationAsync(string id)

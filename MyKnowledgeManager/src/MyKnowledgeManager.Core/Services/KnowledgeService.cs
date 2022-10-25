@@ -67,7 +67,7 @@ namespace MyKnowledgeManager.Core.Services
             }
             else
             {
-                return await _repository.ListAsync();
+                return await _repository.ListAsync(new KnowledgesSpec());
             }
         }
 

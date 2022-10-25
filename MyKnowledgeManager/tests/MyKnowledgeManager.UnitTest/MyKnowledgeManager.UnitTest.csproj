@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MyKnowledgeManager.Web\MyKnowledgeManager.Web.csproj" />
+    <ProjectReference Include="..\..\src\MyKnowledgeManager.WebApi\MyKnowledgeManager.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "CgPBIo6LWlPtCfJDkhe6nmwoyFtNPyBbwfOshJW2t9c=",
+  "Source": "MyKnowledgeManager.WebApi",
+  "BasePath": "_content/MyKnowledgeManager.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

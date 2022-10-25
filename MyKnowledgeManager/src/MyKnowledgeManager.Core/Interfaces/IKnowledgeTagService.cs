@@ -38,7 +38,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="List{KnowledgeTag}"/> when operation succeeded.
         /// </returns>
-        Task<Result<List<KnowledgeTag>>> GetKnowledgeTagsAsync(bool includeKnowledges = false);
+        Task<Result<IEnumerable<KnowledgeTag>>> GetKnowledgeTagsAsync(bool includeKnowledges = false);
 
 
 

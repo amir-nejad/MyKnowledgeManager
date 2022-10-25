@@ -74,7 +74,7 @@ namespace MyKnowledgeManager.Core.Services
             return knowledgeTag;
         }
 
-        public async Task<Result<List<KnowledgeTag>>> GetKnowledgeTagsAsync(bool includeKnowledges = false)
+        public async Task<Result<IEnumerable<KnowledgeTag>>> GetKnowledgeTagsAsync(bool includeKnowledges = false)
         {
             if (includeKnowledges)
             {
@@ -82,7 +82,7 @@ namespace MyKnowledgeManager.Core.Services
             }
             else
             {
-                return await _repository.ListAsync();
+                return await _repository.ListAsync(new KnowledgeTagsSpec());
             }
         }
 
