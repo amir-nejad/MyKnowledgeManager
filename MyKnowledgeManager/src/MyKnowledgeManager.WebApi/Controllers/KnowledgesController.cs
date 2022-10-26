@@ -1,11 +1,10 @@
 ﻿using Ardalis.Result;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyKnowledgeManager.Core.Interfaces;
 using MyKnowledgeManager.WebApi.ApiModels;
 using MyKnowledgeManager.WebApi.Utilities;
-using Newtonsoft.Json;
 
 namespace MyKnowledgeManager.WebApi.Controllers
 {
@@ -20,18 +19,24 @@ namespace MyKnowledgeManager.WebApi.Controllers
         private readonly IKnowledgeTagService _knowledgeTagService;
         private readonly IKnowledgeTagRelationService _knowledgeTagRelationService;
         private readonly IMapper _mapper;
+        private readonly ITrashManager<Knowledge> _knowledgeTrashManager;
+        private readonly ITrashManager<KnowledgeTagRelation> _knowledgeTagRelationTrashManager;
         private const string GeneralProblemMessage = "Something went wrong. Please try again.";
 
         public KnowledgesController(
             IKnowledgeService knowledgeService,
             IKnowledgeTagService knowledgeTagService,
             IKnowledgeTagRelationService knowledgeTagRelationService,
-            IMapper mapper)
+            IMapper mapper,
+            ITrashManager<Knowledge> knowledgeTrashManager,
+            ITrashManager<KnowledgeTagRelation> knowledgeTagRelationTrashManager)
         {
             _knowledgeService = knowledgeService;
             _knowledgeTagService = knowledgeTagService;
             _knowledgeTagRelationService = knowledgeTagRelationService;
             _mapper = mapper;
+            _knowledgeTrashManager = knowledgeTrashManager;
+            _knowledgeTagRelationTrashManager = knowledgeTagRelationTrashManager;
         }
 
         // GET: api/Knowledges
@@ -39,7 +44,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         public async Task<ActionResult<List<KnowledgeDTO>>> GetKnowledges(bool includeTags = false)
         {
             List<Knowledge> knowledges = await _knowledgeService.GetKnowledgesAsync(includeTags);
-
+            
             return _mapper.Map<List<KnowledgeDTO>>(knowledges);
         }
 
@@ -56,33 +61,16 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return _mapper.Map<KnowledgeDTO>(knowledge);
         }
 
-        // PUT: api/Knowledges/<GUID>
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult<KnowledgeDTO>> PutKnowledge(string id, KnowledgeDTO knowledgeDTO)
-        //{
-        //    // Checking if the request is valid.
-        //    if (id is null || id != knowledgeDTO.Id) return BadRequest();
+        // GET: api/knowledges/getTrashKnowledges
+        [HttpGet("getTrashKnowledges")]
+        public async Task<ActionResult<List<KnowledgeDTO>>> GetTrashKnowledges()
+        {
+            var trashKnowledges = await _knowledgeTrashManager.GetTrashItemsAsync();
 
-        //    // Converting KnowledgeDTO object to Knowledge object.
-        //    Knowledge knowledge = _mapper.Map<Knowledge>(knowledgeDTO);
+            if (trashKnowledges.Value is null || trashKnowledges.Value.Count() is 0) return NoContent();
 
-        //    if (knowledge is null) return Problem();
-
-        //    // Updating Knowledge
-        //    var updateResult = await _knowledgeService.UpdateKnowledgeAsync(knowledge);
-
-        //    if (updateResult.IsSuccess)
-        //    {
-        //        knowledge = updateResult.Value;
-        //        knowledgeDTO = _mapper.Map<KnowledgeDTO>(knowledge);
-
-        //        return knowledgeDTO;
-        //    }
-        //    else
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
-        //}
+            return _mapper.Map<List<KnowledgeDTO>>(trashKnowledges);
+        }
 
         // POST: api/Knowledges
         [HttpPost]
@@ -116,7 +104,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
                 // Updating Knowledge
                 result = await _knowledgeService.UpdateKnowledgeAsync(knowledge);
             }
-            else if(Request.Method == HttpMethods.Post)
+            else if (Request.Method == HttpMethods.Post)
             {
                 // Adding knowledge to the database
                 result = await _knowledgeService.AddKnowledgeAsync(knowledge);
@@ -154,6 +142,40 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return knowledgeDTO;
         }
 
+        // PUT: api/knowledges/moveKnowledgeToTrash/<GUID>
+        [HttpPut("moveKnowledgeToTrash/{id}")]
+        public async Task<ActionResult> MoveToTrashKnowledge(string id)
+        {
+            if (id is null) return BadRequest();
+
+            // Moving input item to the trash
+            var result = await _knowledgeTrashManager.MoveItemToTrashAsync(id);
+
+            if (!result.IsSuccess)
+            {
+                return Problem(GeneralProblemMessage);
+            }
+
+            return Ok();
+        }
+
+        // PUT: api/knowledges/restoreKnowledge/<GUID>
+        [HttpPut("restoreKnowledge/{id}")]
+        public async Task<IActionResult> RestoreKnowledge(string id)
+        {
+            if (id is null) return BadRequest();
+
+            // Moving out input item from the trash
+            var result = await _knowledgeTrashManager.RestoreTrashItemAsync(id);
+
+            if (!result.IsSuccess)
+            {
+                return Problem(GeneralProblemMessage);
+            }
+
+            return Ok();
+        }
+
         // DELETE: api/Knowledges/<GUID>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKnowledge(string id)
@@ -168,7 +190,11 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return Ok();
         }
 
-
+        /// <summary>
+        /// This function updates database tags by detecting previous and new tags.
+        /// </summary>
+        /// <param name="tags">An array of tags sent by the user.</param>
+        /// <returns></returns>
         [NonAction]
         private async Task<(bool, List<KnowledgeTag>)> UpdateDatabaseTagsAsync(string[] tags)
         {
@@ -222,6 +248,12 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return (true, dbTags);
         }
 
+        /// <summary>
+        /// This function handles the relation between <see cref="Knowledge"/> and <see cref="KnowledgeTag"/>.
+        /// </summary>
+        /// <param name="tagIds">A list of probable tag ids for relation creation.</param>
+        /// <param name="knowledgeId">The target <see cref="Knowledge"/> object for relation handling.</param>
+        /// <returns></returns>
         [NonAction]
         private async Task<bool> AddKnowledgeTagRelationsAsync(List<string> tagIds, string knowledgeId)
         {

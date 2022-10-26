@@ -12,7 +12,8 @@ namespace MyKnowledgeManager.Core.Specifications
         public KnowledgeTagRelationsByKnowledgeIdSpec(string knowledgeId)
         {
             Query
-                .Where(x => x.KnowledgeId == knowledgeId);
+                .Where(x => x.KnowledgeId == knowledgeId)
+                .AsNoTracking();
         }
     }
 }

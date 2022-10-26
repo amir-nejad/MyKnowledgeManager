@@ -8,9 +8,9 @@ namespace MyKnowledgeManager.Core.Specifications
         {
             Query
                 .Where(x => x.Id == id)
+                .AsNoTracking()
                 .Include(x => x.KnowledgeTag)
-                .Include(x => x.Knowledge)
-                .AsNoTracking();
+                .Include(x => x.Knowledge);
         }
     }
 }

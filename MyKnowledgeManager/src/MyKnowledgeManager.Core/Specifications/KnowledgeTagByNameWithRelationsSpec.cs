@@ -8,8 +8,8 @@ namespace MyKnowledgeManager.Core.Specifications
         {
             Query
                 .Where(x => x.TagName.ToLower() == tagName.ToLower())
-                .Include(x => x.KnowledgeTagRelations)
-                .AsNoTracking();
+                .AsNoTracking()
+                .Include(x => x.KnowledgeTagRelations);
         }
     }
 }

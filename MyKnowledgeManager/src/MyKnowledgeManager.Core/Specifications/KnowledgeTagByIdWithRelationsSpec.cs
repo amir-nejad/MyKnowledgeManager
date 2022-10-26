@@ -8,8 +8,8 @@ namespace MyKnowledgeManager.Core.Specifications
         {
             Query
                 .Where(x => x.Id == knowledgeTagId)
-                .Include(x => x.KnowledgeTagRelations)
-                .AsNoTracking();
+                .AsNoTracking()
+                .Include(x => x.KnowledgeTagRelations.Where(x => !x.IsTrashItem)).ThenInclude(x => x.Knowledge)
         }
     }
 }

@@ -7,7 +7,7 @@ namespace MyKnowledgeManager.Core.Specifications
         public KnowledgeTagsWithRelationsSpec()
         {
             Query
-                .Include(x => x.KnowledgeTagRelations)
+                .Include(x => x.KnowledgeTagRelations.Where(x => !x.IsTrashItem)).ThenInclude(x => x.Knowledge)
                 .AsNoTracking();
         }
     }

@@ -12,7 +12,8 @@ namespace MyKnowledgeManager.Core.Specifications
         public KnowledgesSpec()
         {
             Query
-                .Where(x => !x.IsTrashItem);
+                .Where(x => !x.IsTrashItem)
+                .AsNoTracking();
         }
     }
 }

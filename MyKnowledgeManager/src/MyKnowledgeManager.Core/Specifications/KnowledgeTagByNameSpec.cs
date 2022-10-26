@@ -7,7 +7,8 @@ namespace MyKnowledgeManager.Core.Specifications
         public KnowledgeTagByNameSpec(string tagName)
         {
             Query
-                .Where(x => x.TagName.ToLower() == tagName.ToLower());
+                .Where(x => x.TagName.ToLower() == tagName.ToLower())
+                .AsNoTracking();
         }
     }
 }
