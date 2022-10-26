@@ -19,8 +19,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         private readonly IKnowledgeTagService _knowledgeTagService;
         private readonly IKnowledgeTagRelationService _knowledgeTagRelationService;
         private readonly IMapper _mapper;
-        private readonly ITrashManager<Knowledge> _knowledgeTrashManager;
-        private readonly ITrashManager<KnowledgeTagRelation> _knowledgeTagRelationTrashManager;
+        private readonly ITrashManager<Knowledge> _trashManager;
         private const string GeneralProblemMessage = "Something went wrong. Please try again.";
 
         public KnowledgesController(
@@ -28,15 +27,13 @@ namespace MyKnowledgeManager.WebApi.Controllers
             IKnowledgeTagService knowledgeTagService,
             IKnowledgeTagRelationService knowledgeTagRelationService,
             IMapper mapper,
-            ITrashManager<Knowledge> knowledgeTrashManager,
-            ITrashManager<KnowledgeTagRelation> knowledgeTagRelationTrashManager)
+            ITrashManager<Knowledge> trashManager)
         {
             _knowledgeService = knowledgeService;
             _knowledgeTagService = knowledgeTagService;
             _knowledgeTagRelationService = knowledgeTagRelationService;
             _mapper = mapper;
-            _knowledgeTrashManager = knowledgeTrashManager;
-            _knowledgeTagRelationTrashManager = knowledgeTagRelationTrashManager;
+            _trashManager = trashManager;
         }
 
         // GET: api/Knowledges
@@ -61,11 +58,11 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return _mapper.Map<KnowledgeDTO>(knowledge);
         }
 
-        // GET: api/knowledges/getTrashKnowledges
+        // GET: api/Knowledges/getTrashKnowledges
         [HttpGet("getTrashKnowledges")]
         public async Task<ActionResult<List<KnowledgeDTO>>> GetTrashKnowledges()
         {
-            var trashKnowledges = await _knowledgeTrashManager.GetTrashItemsAsync();
+            var trashKnowledges = await _trashManager.GetTrashItemsAsync();
 
             if (trashKnowledges.Value is null || trashKnowledges.Value.Count() is 0) return NoContent();
 
@@ -142,14 +139,14 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return knowledgeDTO;
         }
 
-        // PUT: api/knowledges/moveKnowledgeToTrash/<GUID>
+        // PUT: api/Knowledges/moveKnowledgeToTrash/<GUID>
         [HttpPut("moveKnowledgeToTrash/{id}")]
         public async Task<ActionResult> MoveToTrashKnowledge(string id)
         {
             if (id is null) return BadRequest();
 
             // Moving input item to the trash
-            var result = await _knowledgeTrashManager.MoveItemToTrashAsync(id);
+            var result = await _trashManager.MoveItemToTrashAsync(id);
 
             if (!result.IsSuccess)
             {
@@ -159,14 +156,14 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return Ok();
         }
 
-        // PUT: api/knowledges/restoreKnowledge/<GUID>
+        // PUT: api/Knowledges/restoreKnowledge/<GUID>
         [HttpPut("restoreKnowledge/{id}")]
         public async Task<IActionResult> RestoreKnowledge(string id)
         {
             if (id is null) return BadRequest();
 
             // Moving out input item from the trash
-            var result = await _knowledgeTrashManager.RestoreTrashItemAsync(id);
+            var result = await _trashManager.RestoreTrashItemAsync(id);
 
             if (!result.IsSuccess)
             {

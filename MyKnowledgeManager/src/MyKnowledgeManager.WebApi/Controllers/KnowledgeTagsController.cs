@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyKnowledgeManager.Core.Interfaces;
 using MyKnowledgeManager.WebApi.ApiModels;
@@ -11,16 +10,17 @@ namespace MyKnowledgeManager.WebApi.Controllers
     public class KnowledgeTagsController : ControllerBase
     {
         private readonly IKnowledgeTagService _knowledgeTagService;
-        private readonly IKnowledgeTagRelationService _knowledgeTagRelationService;
+        private readonly ITrashManager<KnowledgeTag> _trashManager;
         private readonly IMapper _mapper;
+        private const string GeneralProblemMessage = "Something went wrong. Please try again.";
 
         public KnowledgeTagsController(
             IKnowledgeTagService knowledgeTagService,
-            IKnowledgeTagRelationService knowledgeTagRelationService,
+            ITrashManager<KnowledgeTag> trashManager,
             IMapper mapper)
         {
             _knowledgeTagService = knowledgeTagService;
-            _knowledgeTagRelationService = knowledgeTagRelationService;
+            _trashManager = trashManager;
             _mapper = mapper;
         }
 
@@ -69,6 +69,17 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return _mapper.Map<KnowledgeTagDTO>(knowledgeTag);
         }
 
+        // GET: api/KnowledgeTags/getTrashKnowledgeTags
+        [HttpGet("getTrashKnowledgeTags")]
+        public async Task<ActionResult<List<KnowledgeTagDTO>>> GetTrashKnowledgeTags()
+        {
+            var trashKnowledgeTags = await _trashManager.GetTrashItemsAsync();
+
+            if (trashKnowledgeTags.Value is null || trashKnowledgeTags.Value.Count() is 0) return NoContent();
+
+            return _mapper.Map<List<KnowledgeTagDTO>>(trashKnowledgeTags);
+        }
+
         // PUT: api/knowledgeTags
         [HttpPut("{id?}")]
         public async Task<ActionResult<KnowledgeTagDTO>> UpdateKnowledgeTag(string id, KnowledgeTagDTO knowledgeTagDTO)
@@ -100,6 +111,40 @@ namespace MyKnowledgeManager.WebApi.Controllers
             knowledgeTagDTO = _mapper.Map<KnowledgeTagDTO>(knowledgeTag);
 
             return knowledgeTagDTO;
+        }
+
+        // PUT: api/knowledgeTags/moveKnowledgeTagToTrash/<GUID>
+        [HttpPut("moveKnowledgeTagToTrash/{id}")]
+        public async Task<ActionResult> MoveToTrashKnowledgeTag(string id)
+        {
+            if (id is null) return BadRequest();
+
+            // Moving input item to the trash
+            var result = await _trashManager.MoveItemToTrashAsync(id);
+
+            if (!result.IsSuccess)
+            {
+                return Problem(GeneralProblemMessage);
+            }
+
+            return Ok();
+        }
+
+        // PUT: api/knowledgeTags/restoreKnowledgeTag/<GUID>
+        [HttpPut("restoreKnowledgeTag/{id}")]
+        public async Task<IActionResult> RestoreKnowledgeTag(string id)
+        {
+            if (id is null) return BadRequest();
+
+            // Moving out input item from the trash
+            var result = await _trashManager.RestoreTrashItemAsync(id);
+
+            if (!result.IsSuccess)
+            {
+                return Problem(GeneralProblemMessage);
+            }
+
+            return Ok();
         }
 
         [HttpDelete("{id?}")]
