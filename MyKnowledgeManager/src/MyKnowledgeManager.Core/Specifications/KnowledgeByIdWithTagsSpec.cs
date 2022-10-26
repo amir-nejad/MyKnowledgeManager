@@ -9,7 +9,7 @@ namespace MyKnowledgeManager.Core.Specifications
             Query.
                 Where(x => x.Id == knowledgeId)
                 .AsNoTracking()
-                .Include(x => x.KnowledgeTagRelations).ThenInclude(x => x.KnowledgeTag);
+                .Include(x => x.KnowledgeTagRelations.Where(x => !x.IsTrashItem)).ThenInclude(x => x.KnowledgeTag);
         }
     }
 }

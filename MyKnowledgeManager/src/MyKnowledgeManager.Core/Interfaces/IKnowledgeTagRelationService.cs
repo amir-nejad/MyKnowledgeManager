@@ -68,6 +68,16 @@ namespace MyKnowledgeManager.Core.Interfaces
         Task<Result<KnowledgeTagRelation>> UpdateKnowledgeTagRelationAsync(KnowledgeTagRelation knowledgeTagRelation);
 
         /// <summary>
+        /// This function is used for updating a <see cref="KnowledgeTagRelation"/> object.
+        /// </summary>
+        /// <param name="knowledgeTagRelation">Target <see cref="KnowledgeTagRelation"/> object for update.</param>
+        /// <returns>
+        /// Null when any errors occurred.
+        /// <see cref="KnowledgeTagRelation"/> when is updated successfully in the database.
+        /// </returns>
+        Task<Result<IEnumerable<KnowledgeTagRelation>>> UpdateRangeKnowledgeTagRelationAsync(IEnumerable<KnowledgeTagRelation> knowledgeTagRelations);
+
+        /// <summary>
         /// This function is used for removing a <see cref="KnowledgeTagRelation"/> object.
         /// </summary>
         /// <param name="id">The id of the target object for deleting.</param>

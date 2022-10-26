@@ -88,6 +88,22 @@ namespace MyKnowledgeManager.Core.Services
             return knowledgeTagRelation;
         }
 
+        public async Task<Result<IEnumerable<KnowledgeTagRelation>>> UpdateRangeKnowledgeTagRelationAsync(IEnumerable<KnowledgeTagRelation> knowledgeTagRelations)
+        {
+            Guard.Against.Null(knowledgeTagRelations);
+
+            try
+            {
+                await _repository.UpdateRangeAsync(knowledgeTagRelations);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            return knowledgeTagRelations.ToList();
+        }
+
         public async Task<Result<bool>> RemoveRangeTagsAsync(IEnumerable<KnowledgeTagRelation> knowledgeTagRelations)
         {
 
