@@ -11,7 +11,7 @@ namespace MyKnowledgeManager.WebApi.MappingConfigurations
                 .ForMember(dest => dest.KnowledgeTags, opt => opt.MapFrom(src => src.KnowledgeTagRelations.Select(x => x.KnowledgeTag.TagName).ToArray()));
 
             CreateMap<KnowledgeDTO, Knowledge>()
-                .ConstructUsing(x => new Knowledge(x.Title, x.Description, x.KnowledgeLevel, x.KnowledgeImportance));
+                .ConstructUsing(x => new Knowledge(x.Title, x.Description, x.KnowledgeLevel, x.KnowledgeImportance, x.UserId));
         }
     }
 }

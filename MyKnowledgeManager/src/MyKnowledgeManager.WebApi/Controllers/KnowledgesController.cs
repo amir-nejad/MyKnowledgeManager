@@ -13,6 +13,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class KnowledgesController : ControllerBase
     {
         private readonly IKnowledgeService _knowledgeService;
@@ -21,6 +22,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         private readonly IMapper _mapper;
         private readonly ITrashManager<Knowledge> _trashManager;
         private const string GeneralProblemMessage = "Something went wrong. Please try again.";
+        private readonly string _userId;
 
         public KnowledgesController(
             IKnowledgeService knowledgeService,
@@ -34,13 +36,15 @@ namespace MyKnowledgeManager.WebApi.Controllers
             _knowledgeTagRelationService = knowledgeTagRelationService;
             _mapper = mapper;
             _trashManager = trashManager;
+
+            _userId = User.FindFirst("sub").Value;
         }
 
         // GET: api/Knowledges
         [HttpGet("{includeTags?}")]
         public async Task<ActionResult<List<KnowledgeDTO>>> GetKnowledges(bool includeTags = false)
         {
-            List<Knowledge> knowledges = await _knowledgeService.GetKnowledgesAsync(includeTags);
+            List<Knowledge> knowledges = await _knowledgeService.GetKnowledgesAsync(includeTags, _userId);
             
             return _mapper.Map<List<KnowledgeDTO>>(knowledges);
         }
@@ -51,9 +55,11 @@ namespace MyKnowledgeManager.WebApi.Controllers
         {
             if (id is null) return BadRequest();
 
-            Knowledge knowledge = await _knowledgeService.GetKnowledgeByIdAsync(id);
+            Knowledge knowledge = await _knowledgeService.GetKnowledgeByIdAsync(id, includeTags);
 
             if (knowledge is null) return Problem();
+
+            if (knowledge.UserId != _userId) return Unauthorized();
 
             return _mapper.Map<KnowledgeDTO>(knowledge);
         }
@@ -62,7 +68,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpGet("getTrashKnowledges")]
         public async Task<ActionResult<List<KnowledgeDTO>>> GetTrashKnowledges()
         {
-            var trashKnowledges = await _trashManager.GetTrashItemsAsync();
+            var trashKnowledges = await _trashManager.GetTrashItemsAsync(_userId);
 
             if (trashKnowledges.Value is null || trashKnowledges.Value.Count() is 0) return NoContent();
 
@@ -86,6 +92,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
             {
                 return Problem(GeneralProblemMessage);
             }
+
+            if (knowledge.UserId is null) knowledge.UpdateUserId(_userId);
 
             #region Create or Update Tags
             var updatedTagsResult = await UpdateDatabaseTagsAsync(knowledgeDTO.KnowledgeTags);
@@ -146,7 +154,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             if (id is null) return BadRequest();
 
             // Moving input item to the trash
-            var result = await _trashManager.MoveItemToTrashAsync(id);
+            var result = await _trashManager.MoveItemToTrashAsync(id, _userId);
 
             if (!result.IsSuccess)
             {
@@ -163,7 +171,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             if (id is null) return BadRequest();
 
             // Moving out input item from the trash
-            var result = await _trashManager.RestoreTrashItemAsync(id);
+            var result = await _trashManager.RestoreTrashItemAsync(id, _userId);
 
             if (!result.IsSuccess)
             {
@@ -180,9 +188,9 @@ namespace MyKnowledgeManager.WebApi.Controllers
             if (id is null) return BadRequest();
 
             // Removing the knowledge from the database.
-            var knowledge = await _knowledgeService.RemoveKnowledgeAsync(id);
+            var result = await _knowledgeService.RemoveKnowledgeAsync(id, _userId);
 
-            if (!knowledge.IsSuccess) return StatusCode(StatusCodes.Status500InternalServerError);
+            if (!result.IsSuccess) return Problem();
 
             return Ok();
         }
@@ -208,12 +216,12 @@ namespace MyKnowledgeManager.WebApi.Controllers
             {
                 var finalizedValue = KnowledgesTagHelper.FinalizeTagString(tags[i]);
                 // TagName is unique, So, if we can get the tag from the database if exists.
-                KnowledgeTag knowledgeTag = await _knowledgeTagService.GetKnowledgeTagByNameAsync(finalizedValue);
+                KnowledgeTag knowledgeTag = await _knowledgeTagService.GetKnowledgeTagByNameAsync(finalizedValue, _userId);
 
                 // Checking if the knwoledgeTag is null, then we should add it to the newTags list.
                 if (knowledgeTag is null)
                 {
-                    knowledgeTag = new(finalizedValue);
+                    knowledgeTag = new(finalizedValue, _userId);
 
                     newTags.Add(knowledgeTag);
                 }
@@ -256,7 +264,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         {
             #region Removing Old Relations
             // Getting old relations if exist.
-            List<KnowledgeTagRelation> oldRelations = (List<KnowledgeTagRelation>)await _knowledgeTagRelationService.GetKnowledgeTagRelationsByKnowledgeIdAsync(knowledgeId);
+            List<KnowledgeTagRelation> oldRelations = (List<KnowledgeTagRelation>)await _knowledgeTagRelationService.GetKnowledgeTagRelationsByKnowledgeIdAsync(knowledgeId, _userId);
 
             if (oldRelations is not null && oldRelations.Count() is not 0)
             {
@@ -281,7 +289,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
                 // Iterate over each Id in tagIds list to create a relationship object.
                 for (int i = 0; i < tagIds.Count; i++)
                 {
-                    KnowledgeTagRelation knowledgeTagRelation = new(knowledgeId, tagIds[i]);
+                    KnowledgeTagRelation knowledgeTagRelation = new(knowledgeId, tagIds[i], _userId);
                     knowledgeTagRelations.Add(knowledgeTagRelation);
                 }
 

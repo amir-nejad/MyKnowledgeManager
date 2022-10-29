@@ -34,5 +34,7 @@ namespace MyKnowledgeManager.WebApi.ApiModels
         public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
 
         public bool IsTrashItem { get; set; } = false;
+
+        public string UserId { get; set; }
     }
 }

@@ -2,6 +2,8 @@
 using Autofac.Extensions.DependencyInjection;
 using Serilog;
 using MyKnowledgeManager.WebApi.Controllers;
+using Microsoft.IdentityModel.Tokens;
+using MyKnowledgeManager.SharedKernel.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,41 @@ builder.Services.AddDbContext(connectionString: connectionString);
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers();
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.Authority = "https://localhost:44319";
+
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateAudience = false
+        };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy(ConfigConstants.RequireAdministratorRole, policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "webApi");
+    });
+
+    options.AddPolicy(ConfigConstants.RequireAdministratorRole, policy =>
+    {
+        policy.RequireRole(CustomRoles.Administrator);
+    });
+
+    options.AddPolicy(ConfigConstants.RequireSystemAgentRole, policy =>
+    {
+        policy.RequireRole(CustomRoles.SystemAgent, CustomRoles.Administrator);
+    });
+
+    options.AddPolicy(ConfigConstants.RequireSupervisorRole, policy =>
+    {
+        policy.RequireRole(CustomRoles.Supervisor, CustomRoles.Administrator);
+    });
+});
 
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
@@ -48,6 +85,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseCookiePolicy();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

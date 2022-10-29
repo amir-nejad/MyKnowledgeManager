@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyKnowledgeManager.Core.Interfaces;
 using MyKnowledgeManager.WebApi.ApiModels;
@@ -7,12 +8,14 @@ namespace MyKnowledgeManager.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class KnowledgeTagsController : ControllerBase
     {
         private readonly IKnowledgeTagService _knowledgeTagService;
         private readonly ITrashManager<KnowledgeTag> _trashManager;
         private readonly IMapper _mapper;
         private const string GeneralProblemMessage = "Something went wrong. Please try again.";
+        private readonly string _userId;
 
         public KnowledgeTagsController(
             IKnowledgeTagService knowledgeTagService,
@@ -22,6 +25,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
             _knowledgeTagService = knowledgeTagService;
             _trashManager = trashManager;
             _mapper = mapper;
+
+            _userId = User.FindFirst("sub").Value;
         }
 
         // GET: api/KnowledgeTags
@@ -29,13 +34,13 @@ namespace MyKnowledgeManager.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<KnowledgeTagDTO>>> GetKnowledgeTags(bool includeKnowledges = false)
         {
             // Getting all tags from the database.
-            var getKnowledgeTagsResult = await _knowledgeTagService.GetKnowledgeTagsAsync(includeKnowledges);
+            var getKnowledgeTagsResult = await _knowledgeTagService.GetKnowledgeTagsAsync(_userId ,includeKnowledges);
 
             // Checking if the operation was successful or not.
-            if (!getKnowledgeTagsResult.IsSuccess) return StatusCode(StatusCodes.Status500InternalServerError);
+            if (!getKnowledgeTagsResult.IsSuccess) return Problem(GeneralProblemMessage);
 
             // Checking if the Value property (tags list) has any member.
-            if (getKnowledgeTagsResult.Value is null || getKnowledgeTagsResult.Value.Count() is 0) return new EmptyResult();
+            if (getKnowledgeTagsResult.Value is null || getKnowledgeTagsResult.Value.Count() is 0) return NoContent();
 
             // Converting the list of KnowledgeTag objects to the list of KnowledgeTagDTO objects.
             List<KnowledgeTagDTO> knowledgeTagDTOs = _mapper.Map<List<KnowledgeTagDTO>>(getKnowledgeTagsResult.Value.ToList());
@@ -53,6 +58,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
 
             if (knowledgeTag is null) return NotFound();
 
+            if (knowledgeTag.UserId != _userId) return Unauthorized();
+
             return _mapper.Map<KnowledgeTagDTO>(knowledgeTag);
         }
 
@@ -62,7 +69,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         {
             if (name is null) return BadRequest();
 
-            KnowledgeTag knowledgeTag = await _knowledgeTagService.GetKnowledgeTagByNameAsync(name, includeKnowledges);
+            KnowledgeTag knowledgeTag = await _knowledgeTagService.GetKnowledgeTagByNameAsync(name, _userId, includeKnowledges); ;
 
             if (knowledgeTag is null) return NotFound();
 
@@ -73,7 +80,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpGet("getTrashKnowledgeTags")]
         public async Task<ActionResult<List<KnowledgeTagDTO>>> GetTrashKnowledgeTags()
         {
-            var trashKnowledgeTags = await _trashManager.GetTrashItemsAsync();
+            var trashKnowledgeTags = await _trashManager.GetTrashItemsAsync(_userId);
 
             if (trashKnowledgeTags.Value is null || trashKnowledgeTags.Value.Count() is 0) return NoContent();
 
@@ -91,7 +98,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             // Updating the KnowledgeTag
             knowledgeTag = await _knowledgeTagService.UpdateKnowledgeTagAsync(knowledgeTag);
 
-            if (knowledgeTag is null) return StatusCode(StatusCodes.Status500InternalServerError);
+            if (knowledgeTag is null) return Problem(GeneralProblemMessage);
 
             return _mapper.Map<KnowledgeTagDTO>(knowledgeTag);
         }
@@ -106,7 +113,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
 
             knowledgeTag = await _knowledgeTagService.AddKnowledgeTagAsync(knowledgeTag);
 
-            if (knowledgeTag is null) return StatusCode(StatusCodes.Status500InternalServerError);
+            if (knowledgeTag is null) return Problem(GeneralProblemMessage);
 
             knowledgeTagDTO = _mapper.Map<KnowledgeTagDTO>(knowledgeTag);
 
@@ -120,7 +127,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             if (id is null) return BadRequest();
 
             // Moving input item to the trash
-            var result = await _trashManager.MoveItemToTrashAsync(id);
+            var result = await _trashManager.MoveItemToTrashAsync(id, _userId);
 
             if (!result.IsSuccess)
             {
@@ -137,7 +144,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             if (id is null) return BadRequest();
 
             // Moving out input item from the trash
-            var result = await _trashManager.RestoreTrashItemAsync(id);
+            var result = await _trashManager.RestoreTrashItemAsync(id, _userId);
 
             if (!result.IsSuccess)
             {
@@ -152,9 +159,9 @@ namespace MyKnowledgeManager.WebApi.Controllers
         {
             if (id is null) return BadRequest();
 
-            var result = await _knowledgeTagService.RemoveKnowledgeTagAsync(id);
+            var result = await _knowledgeTagService.RemoveKnowledgeTagAsync(id, _userId);
 
-            if (!result.IsSuccess) return StatusCode(StatusCodes.Status500InternalServerError);
+            if (!result.IsSuccess) return Problem(GeneralProblemMessage);
 
             return Ok();
         }
