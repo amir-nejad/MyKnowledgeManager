@@ -1,4 +1,6 @@
-﻿namespace MyKnowledgeManager.SharedKernel
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MyKnowledgeManager.SharedKernel
 {
     /// <summary>
     /// This class is used as a base class for all entities. Mutual properties between all entities are placed here.
@@ -9,9 +11,14 @@
 
         public DateTime CreatedDate { get; protected set; } = DateTime.UtcNow;
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime UpdatedDate { get; protected set; } = DateTime.UtcNow;
 
         public bool IsTrashItem { get; protected set; } = false;
+
+        public DateTime? MovedToTrashDateTime { get; protected set; }
+
+        public string RemoverUserId { get; protected set; }
 
         public List<BaseDomainEvent> Events = new();
 

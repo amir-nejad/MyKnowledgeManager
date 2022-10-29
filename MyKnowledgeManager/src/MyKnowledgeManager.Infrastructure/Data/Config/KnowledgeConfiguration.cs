@@ -20,9 +20,13 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
                 .IsRequired();
 
             builder
+                .Property(p => p.UserId)
+                .IsRequired();
+
+            builder
                 .HasOne(p => p.ApplicationUser)
                 .WithMany(x => x.Knowledges)
-                .HasForeignKey(p => p.ApplicationUserId);
+                .HasForeignKey(p => p.UserId);
         }
     }
 }

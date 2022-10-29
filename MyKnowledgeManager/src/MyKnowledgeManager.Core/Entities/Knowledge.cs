@@ -7,7 +7,7 @@ namespace MyKnowledgeManager.Core.Entities
     /// <summary>
     /// This class is used for converting to "Knowledges" table and is the root of Knowledge
     /// </summary>
-    public class Knowledge : BaseEntity
+    public class Knowledge : BaseUserEntity
     {
         private List<KnowledgeTagRelation> _knowledgeTagRelations = new List<KnowledgeTagRelation>();
         public string Title { get; private set; }
@@ -18,20 +18,17 @@ namespace MyKnowledgeManager.Core.Entities
 
         public KnowledgeImportance KnowledgeImportance { get; private set; } = KnowledgeImportance.Neutral;
 
-        public string ApplicationUserId { get; private set; }
-
-        public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual IEnumerable<KnowledgeTagRelation> KnowledgeTagRelations => _knowledgeTagRelations;
 
-
         public Knowledge(string title, string description, KnowledgeLevel knowledgeLevel,
-            KnowledgeImportance knowledgeImportance)
+            KnowledgeImportance knowledgeImportance, string userId)
         {
             Title = title;
             Description = description;
             KnowledgeLevel = knowledgeLevel;
             KnowledgeImportance = knowledgeImportance;
+            UserId = userId;
         }
 
         public void UpdateTitle(string newTitle)

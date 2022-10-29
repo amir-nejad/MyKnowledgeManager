@@ -33,7 +33,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="List{Knowledge}"/> when operation succeeded.
         /// </returns>
-        Task<Result<List<Knowledge>>> GetKnowledgesAsync(bool includeTags = false);
+        Task<Result<List<Knowledge>>> GetKnowledgesAsync(bool includeTags = false, string userId = null);
 
         /// <summary>
         /// This function is used for creating a <see cref="Knowledge"/> object.
@@ -63,6 +63,6 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// True <see cref="bool"/> response when is removed successfully in the database.
         /// False <see cref="bool"/> when any errors occurred.
         /// </returns>
-        Task<Result<bool>> RemoveKnowledgeAsync(string id);
+        Task<Result<bool>> RemoveKnowledgeAsync(string id, string userId = null);
     }
 }

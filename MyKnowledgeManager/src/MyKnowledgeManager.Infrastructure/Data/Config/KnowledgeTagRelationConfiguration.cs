@@ -20,6 +20,10 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
                 .IsRequired();
 
             builder
+                .Property(p => p.UserId)
+                .IsRequired();
+
+            builder
                 .HasOne(p => p.Knowledge)
                 .WithMany(x => x.KnowledgeTagRelations)
                 .HasForeignKey(p => p.KnowledgeId);
@@ -28,6 +32,11 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
                 .HasOne(p => p.KnowledgeTag)
                 .WithMany(x => x.KnowledgeTagRelations)
                 .HasForeignKey(p => p.KnowledgeTagId);
+
+            builder
+                .HasOne(p => p.ApplicationUser)
+                .WithMany(x => x.KnowledgeTagRelations)
+                .HasForeignKey(p => p.UserId);
         }
     }
 }

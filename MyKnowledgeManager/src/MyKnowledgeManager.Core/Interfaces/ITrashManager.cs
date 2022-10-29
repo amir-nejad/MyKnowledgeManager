@@ -8,39 +8,39 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// This function is used for getting a list of trash items of type <see cref="T"/>.
         /// </summary>
         /// <returns></returns>
-        Task<Result<IEnumerable<T>>> GetTrashItemsAsync();
+        Task<Result<IEnumerable<T>>> GetTrashItemsAsync(string userId = null);
 
         /// <summary>
         /// This function is used for deleting a trash item forever.
         /// </summary>
         /// <param name="id">The id of the target item.</param>
         /// <returns></returns>
-        Task<Result> DeleteTrashItemAsync(string id);
+        Task<Result> DeleteTrashItemAsync(string id, string userId = null);
 
         /// <summary>
         /// This function is used for deleting a list of trash items.
         /// </summary>
         /// <returns></returns>
-        Task<Result> DeleteTrashItemsAsync();
+        Task<Result> DeleteTrashItemsAsync(string userId = null);
 
         /// <summary>
         /// This function is used for restoring one item from the trash.
         /// </summary>
         /// <param name="id">The id of the target item.</param>
         /// <returns></returns>
-        Task<Result> RestoreTrashItemAsync(string id);
+        Task<Result> RestoreTrashItemAsync(string id, string userId = null);
 
         /// <summary>
         /// This function is used for restoring all items from the trash.
         /// </summary>
         /// <returns></returns>
-        Task<Result> RestoreTrashItemsAsync();
+        Task<Result> RestoreTrashItemsAsync(string userId = null);
 
         /// <summary>
         /// This function is used for moving one item into the trash.
         /// </summary>
         /// <param name="id">The id of the target object.</param>
         /// <returns></returns>
-        Task<Result> MoveItemToTrashAsync(string id);
+        Task<Result> MoveItemToTrashAsync(string id, string userId = null);
     }
 }

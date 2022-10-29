@@ -2,7 +2,7 @@
 
 namespace MyKnowledgeManager.Core.Specifications
 {
-    public class KnowledgeByIdSpec : Specification<Entities.Knowledge>, ISingleResultSpecification<Entities.Knowledge>
+    public class KnowledgeByIdSpec : Specification<Knowledge>, ISingleResultSpecification<Entities.Knowledge>
     {
         public KnowledgeByIdSpec(string knowledgeId)
         {

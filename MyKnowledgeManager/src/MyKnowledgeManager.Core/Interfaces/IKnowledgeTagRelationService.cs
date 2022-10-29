@@ -26,7 +26,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="IEnumerable{KnowledgeTagRelation}"/> when operation succeeded.
         /// </returns>
-        Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsByKnowledgeIdAsync(string knowledgeId);
+        Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsByKnowledgeIdAsync(string knowledgeId, string userId = null);
 
         /// <summary>
         /// This function is used for getting a list of <see cref="KnowledgeTagRelation"/> objects from the database.
@@ -35,7 +35,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="IEnumerable{KnowledgeTagRelation}"/> when operation succeeded.
         /// </returns>
-        Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsAsync();
+        Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsAsync(string userId = null);
 
         /// <summary>
         /// This function is used for creating a <see cref="KnowledgeTagRelation"/> object.
@@ -85,7 +85,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// True <see cref="bool"/> response when is removed successfully in the database.
         /// False <see cref="bool"/> when any errors occurred.
         /// </returns>
-        Task<Result<bool>> RemoveKnowledgeTagRelationAsync(string id);
+        Task<Result<bool>> RemoveKnowledgeTagRelationAsync(string id, string userId = null);
 
         /// <summary>
         /// This function is used for removing a range of <see cref="KnowledgeTagRelation"/> objects from the database.

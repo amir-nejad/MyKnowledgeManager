@@ -1,18 +1,13 @@
 ﻿using Ardalis.Specification;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyKnowledgeManager.Core.Specifications
 {
-    public class KnowledgesSpec : Specification<Entities.Knowledge>
+    public class KnowledgesSpec : Specification<Knowledge>
     {
-        public KnowledgesSpec()
+        public KnowledgesSpec(string userId = null)
         {
             Query
-                .Where(x => !x.IsTrashItem)
+                .Where(x => !x.IsTrashItem && x.UserId == userId)
                 .AsNoTracking();
         }
     }

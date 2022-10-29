@@ -1,7 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
-using MyKnowledgeManager.Core.Entities;
-using MyKnowledgeManager.Core.Interfaces;
 using MyKnowledgeManager.SharedKernel.Interfaces;
 
 namespace MyKnowledgeManager.Core.Services
@@ -25,14 +23,18 @@ namespace MyKnowledgeManager.Core.Services
             return await _repository.AddAsync(knowledge);
         }
 
-        public async Task<Result<bool>> RemoveKnowledgeAsync(string id)
+        public async Task<Result<bool>> RemoveKnowledgeAsync(string id, string userId = null)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
+
+            if (userId is null) return Result.Unauthorized();
 
             Knowledge knowledge = await _repository.GetByIdAsync(id);
 
             if (knowledge is not null)
             {
+                if (knowledge.UserId != userId) return Result.Forbidden();
+
                 try
                 {
                     await _repository.DeleteAsync(knowledge);
@@ -44,7 +46,7 @@ namespace MyKnowledgeManager.Core.Services
             }
             else
             {
-                return false;
+                return Result.NotFound();
             }
 
             return true;
@@ -59,15 +61,15 @@ namespace MyKnowledgeManager.Core.Services
             return knowledge;
         }
 
-        public async Task<Result<List<Knowledge>>> GetKnowledgesAsync(bool includeTags = false)
+        public async Task<Result<List<Knowledge>>> GetKnowledgesAsync(bool includeTags = false, string userId = null)
         {
             if (includeTags)
             {
-                return await _repository.ListAsync(new KnowledgesWithTagsSpec());
+                return await _repository.ListAsync(new KnowledgesWithTagsSpec(userId));
             }
             else
             {
-                return await _repository.ListAsync(new KnowledgesSpec());
+                return await _repository.ListAsync(new KnowledgesSpec(userId));
             }
         }
 

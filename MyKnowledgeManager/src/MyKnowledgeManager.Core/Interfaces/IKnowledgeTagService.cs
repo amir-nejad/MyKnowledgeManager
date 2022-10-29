@@ -28,7 +28,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="KnowledgeTag"/> when operation succeeded.
         /// </returns>
-        Task<Result<KnowledgeTag>> GetKnowledgeTagByNameAsync(string name, bool includeKnowledges = false);
+        Task<Result<KnowledgeTag>> GetKnowledgeTagByNameAsync(string name, string userId, bool includeKnowledges = false);
 
         /// <summary>
         /// This function is used for getting a list of <see cref="KnowledgeTag"/> objects from the database.
@@ -38,7 +38,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="List{KnowledgeTag}"/> when operation succeeded.
         /// </returns>
-        Task<Result<IEnumerable<KnowledgeTag>>> GetKnowledgeTagsAsync(bool includeKnowledges = false);
+        Task<Result<IEnumerable<KnowledgeTag>>> GetKnowledgeTagsAsync(string userId, bool includeKnowledges = false);
 
 
 
@@ -82,7 +82,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// True <see cref="bool"/> response when is removed successfully in the database.
         /// False <see cref="bool"/> when any errors occurred.
         /// </returns>
-        Task<Result<bool>> RemoveKnowledgeTagAsync(string id);
+        Task<Result<bool>> RemoveKnowledgeTagAsync(string id, string userId);
 
         /// <summary>
         /// This function is used for removing a range of <see cref="KnowledgeTag"/> objects from the database.
@@ -92,6 +92,6 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// True <see cref="bool"/> response when is removed successfully in the database.
         /// False <see cref="bool"/> when any errors occurred.
         /// </returns>
-        Task<Result<bool>> RemoveRangeTagsAsync(IEnumerable<KnowledgeTag> knowledgeTags);
+        Task<Result<bool>> RemoveRangeTagsAsync(IEnumerable<KnowledgeTag> knowledgeTags, string userId);
     }
 }

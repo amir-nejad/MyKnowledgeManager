@@ -12,10 +12,23 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
                 .HasKey(p => p.Id);
 
             builder
-                .Property(x => x.TagName)
+                .Property(p => p.TagName)
                 .IsRequired();
 
-            builder.HasIndex(x => x.TagName).IsUnique();
+            builder
+                .Property(p => p.UserId)
+                .IsRequired();
+
+            builder
+                .HasIndex("IX_TagNameAndUserId")
+                .IncludeProperties(p => p.TagName)
+                .IncludeProperties(p => p.UserId)
+                .IsUnique();
+
+            builder
+                .HasOne(p => p.ApplicationUser)
+                .WithMany(x => x.KnowledgeTags)
+                .HasForeignKey(p => p.UserId);
         }
     }
 }

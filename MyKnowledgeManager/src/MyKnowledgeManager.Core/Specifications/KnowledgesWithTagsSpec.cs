@@ -4,10 +4,10 @@ namespace MyKnowledgeManager.Core.Specifications
 {
     public class KnowledgesWithTagsSpec : Specification<Knowledge>
     {
-        public KnowledgesWithTagsSpec()
+        public KnowledgesWithTagsSpec(string userId = null)
         {
             Query
-                .Where(x => !x.IsTrashItem)
+                .Where(x => !x.IsTrashItem && x.UserId == userId)
                 .AsNoTracking()
                 .Include(x => x.KnowledgeTagRelations).ThenInclude(x => x.KnowledgeTag);
         }

@@ -4,10 +4,10 @@ namespace MyKnowledgeManager.Core.Specifications
 {
     public class KnowledgeTagByNameSpec : Specification<KnowledgeTag>, ISingleResultSpecification<KnowledgeTag>
     {
-        public KnowledgeTagByNameSpec(string tagName)
+        public KnowledgeTagByNameSpec(string tagName, string userId)
         {
             Query
-                .Where(x => x.TagName.ToLower() == tagName.ToLower())
+                .Where(x => x.TagName.ToLower() == tagName.ToLower() && x.UserId == userId)
                 .AsNoTracking();
         }
     }

@@ -31,14 +31,17 @@ namespace MyKnowledgeManager.Core.Services
             return await _repository.AddRangeAsync(knowledgeTags);
         }
 
-        public async Task<Result<bool>> RemoveKnowledgeTagAsync(string id)
+        public async Task<Result<bool>> RemoveKnowledgeTagAsync(string id, string userId)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
+
+            if (userId is null) return Result.Unauthorized();
 
             KnowledgeTag knowledgeTag = await _repository.GetByIdAsync(id);
 
             if (knowledgeTag is not null)
             {
+                if (knowledgeTag.UserId != userId) return Result.Forbidden();
                 try
                 {
                     await _repository.DeleteAsync(knowledgeTag);
@@ -65,24 +68,28 @@ namespace MyKnowledgeManager.Core.Services
             return knowledgeTag;
         }
 
-        public async Task<Result<KnowledgeTag>> GetKnowledgeTagByNameAsync(string name, bool includeKnowledges = false)
+        public async Task<Result<KnowledgeTag>> GetKnowledgeTagByNameAsync(string name, string userId, bool includeKnowledges = false)
         {
             Guard.Against.NullOrEmpty(name, nameof(name));
 
-            KnowledgeTag knowledgeTag = await _repository.FirstOrDefaultAsync(includeKnowledges ? new KnowledgeTagByNameWithRelationsSpec(name) : new KnowledgeTagByNameSpec(name));
+            if (userId is null) return Result.Unauthorized();
+
+            KnowledgeTag knowledgeTag = await _repository.FirstOrDefaultAsync(includeKnowledges ? new KnowledgeTagByNameWithRelationsSpec(name, userId) : new KnowledgeTagByNameSpec(name, userId));
 
             return knowledgeTag;
         }
 
-        public async Task<Result<IEnumerable<KnowledgeTag>>> GetKnowledgeTagsAsync(bool includeKnowledges = false)
+        public async Task<Result<IEnumerable<KnowledgeTag>>> GetKnowledgeTagsAsync(string userId, bool includeKnowledges = false)
         {
+            if (userId is null) return Result.Unauthorized();
+
             if (includeKnowledges)
             {
-                return await _repository.ListAsync(new KnowledgeTagsWithRelationsSpec());
+                return await _repository.ListAsync(new KnowledgeTagsWithRelationsSpec(userId));
             }
             else
             {
-                return await _repository.ListAsync(new KnowledgeTagsSpec());
+                return await _repository.ListAsync(new KnowledgeTagsSpec(userId));
             }
         }
 
@@ -102,9 +109,13 @@ namespace MyKnowledgeManager.Core.Services
             return knowledgeTag;
         }
 
-        public async Task<Result<bool>> RemoveRangeTagsAsync(IEnumerable<KnowledgeTag> knowledgeTags)
+        public async Task<Result<bool>> RemoveRangeTagsAsync(IEnumerable<KnowledgeTag> knowledgeTags, string userId)
         {
             Guard.Against.Null(knowledgeTags, nameof(knowledgeTags));
+
+            if (userId is null) return Result.Unauthorized();
+
+            if (knowledgeTags.Any(x => x.UserId != userId)) return Result.Forbidden();
 
             try
             {

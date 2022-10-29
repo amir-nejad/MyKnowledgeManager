@@ -9,10 +9,10 @@ namespace MyKnowledgeManager.Core.Specifications
 {
     public class KnowledgeTagsSpec : Specification<KnowledgeTag>
     {
-        public KnowledgeTagsSpec()
+        public KnowledgeTagsSpec(string userId)
         {
             Query
-                .Where(x => !x.IsTrashItem)
+                .Where(x => !x.IsTrashItem && x.UserId == userId)
                 .AsNoTracking();
         }
     }
