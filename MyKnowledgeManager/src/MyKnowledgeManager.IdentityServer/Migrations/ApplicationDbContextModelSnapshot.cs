@@ -17,7 +17,7 @@ namespace MyKnowledgeManager.IdentityServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -47,6 +47,36 @@ namespace MyKnowledgeManager.IdentityServer.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "9c9fb092-df93-4b41-8d81-3de2341d6586",
+                            ConcurrencyStamp = "fb484116-7245-4a6a-95f4-feedabd8a530",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "22ecab7f-3c25-49a4-8653-eea401358c34",
+                            ConcurrencyStamp = "8aaacbb4-73e4-4adc-bd04-5d8bc1b81832",
+                            Name = "Supervisor",
+                            NormalizedName = "SUPERVISOR"
+                        },
+                        new
+                        {
+                            Id = "9c07fc5e-31d7-41d6-80bd-3845f3d0f6a7",
+                            ConcurrencyStamp = "fca252f3-d9e2-4b1d-84a9-83f0e2f96110",
+                            Name = "EndUser",
+                            NormalizedName = "ENDUSER"
+                        },
+                        new
+                        {
+                            Id = "38ebf21d-fa33-4d4d-a243-1f1536d14e8c",
+                            ConcurrencyStamp = "03cb7c3a-8482-4075-b2c2-e174bd5e825a",
+                            Name = "SystemAgent",
+                            NormalizedName = "SYSTEMAGENT"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

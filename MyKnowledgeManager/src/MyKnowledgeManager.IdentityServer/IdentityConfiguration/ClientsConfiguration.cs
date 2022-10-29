@@ -6,6 +6,11 @@ namespace MyKnowledgeManager.IdentityServer.IdentityConfiguration
 {
     public static class ClientsConfiguration
     {
+        public static IEnumerable<ApiScope> ApiScopes =>
+            new List<ApiScope>
+            {
+                new ApiScope("webApi", "My Knowledge Manager API")
+            };
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
@@ -24,6 +29,15 @@ namespace MyKnowledgeManager.IdentityServer.IdentityConfiguration
                     AllowOfflineAccess = true,
                     AllowedScopes = { "openid", "profile" }
                 },
+                new Client
+                {
+                    ClientId = "webapi",
+                    ClientSecrets = {new Secret("008AD75B-32C6-4241-BE0F-AA1F5972A2D2".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    AllowedScopes = { "webApi" }
+                }
             };
     }
 

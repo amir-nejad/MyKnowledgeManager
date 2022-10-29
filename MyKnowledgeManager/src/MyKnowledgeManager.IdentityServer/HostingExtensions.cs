@@ -31,7 +31,9 @@ namespace MyKnowledgeManager.IdentityServer
                     options.Events.RaiseSuccessEvents = true;
                     options.EmitStaticAudienceClaim = true;
                 })
+                .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(IdentityResourcesConfiguration.IdentityResources)
+                .AddInMemoryApiScopes(ClientsConfiguration.ApiScopes)
                 .AddInMemoryClients(ClientsConfiguration.Clients)
                 .AddAspNetIdentity<ApplicationUser>();
 

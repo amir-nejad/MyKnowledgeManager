@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyKnowledgeManager.IdentityServer.Migrations
 {
-    public partial class wefojwoi : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -152,6 +152,17 @@ namespace MyKnowledgeManager.IdentityServer.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "22ecab7f-3c25-49a4-8653-eea401358c34", "8aaacbb4-73e4-4adc-bd04-5d8bc1b81832", "Supervisor", "SUPERVISOR" },
+                    { "38ebf21d-fa33-4d4d-a243-1f1536d14e8c", "03cb7c3a-8482-4075-b2c2-e174bd5e825a", "SystemAgent", "SYSTEMAGENT" },
+                    { "9c07fc5e-31d7-41d6-80bd-3845f3d0f6a7", "fca252f3-d9e2-4b1d-84a9-83f0e2f96110", "EndUser", "ENDUSER" },
+                    { "9c9fb092-df93-4b41-8d81-3de2341d6586", "fb484116-7245-4a6a-95f4-feedabd8a530", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.CreateIndex(
