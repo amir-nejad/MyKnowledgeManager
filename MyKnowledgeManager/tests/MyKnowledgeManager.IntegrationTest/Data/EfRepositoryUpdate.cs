@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyKnowledgeManager.UnitTest;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MyKnowledgeManager.Core.Entities;
 
 namespace MyKnowledgeManager.IntegrationTest.Data
 {
@@ -13,7 +8,7 @@ namespace MyKnowledgeManager.IntegrationTest.Data
         [Fact]
         public async Task UpdatesItemAfterAddingIt()
         {
-            var repository = GetRepository();
+            var repository = GetRepository<Knowledge>();
 
             var knowledge = new KnowledgeBuilder().WithDefaultValues().Build();
 

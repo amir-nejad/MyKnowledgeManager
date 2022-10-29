@@ -1,7 +1,7 @@
 ﻿using MyKnowledgeManager.Core.Enums;
 using TestKnowledge = MyKnowledgeManager.Core.Entities.Knowledge;
 
-namespace MyKnowledgeManager.UnitTest.Core.Aggregates.Knowledge.Entities
+namespace MyKnowledgeManager.UnitTest.Core.Entities
 {
     public class KnowledgeConstructor
     {
@@ -9,11 +9,12 @@ namespace MyKnowledgeManager.UnitTest.Core.Aggregates.Knowledge.Entities
         private string _testDescription = "Test Description";
         private KnowledgeLevel _testKnowledgeLevel = KnowledgeLevel.Beginner;
         private KnowledgeImportance _testKnowledgeImportance = KnowledgeImportance.Important;
+        private string _testUserId = "cba92d96-e0c0-4ffc-8e2c-d5e6789bc9dc";
         private TestKnowledge _testKnowledge;
 
         private TestKnowledge CreateTestKnowledge()
         {
-            return new TestKnowledge(_testTitle, _testDescription, _testKnowledgeLevel, _testKnowledgeImportance);
+            return new TestKnowledge(_testTitle, _testDescription, _testKnowledgeLevel, _testKnowledgeImportance, _testUserId);
         }
 
         [Fact]

@@ -1,19 +1,28 @@
 ﻿using MyKnowledgeManager.Core.Entities;
-using MyKnowledgeManager.UnitTest;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyKnowledgeManager.IntegrationTest.Data
 {
     public class EfRepositoryAdd : BaseEfRepoTestFixture
     {
         [Fact]
+        public async Task AddApplicationUserAndSetsId()
+        {
+            var repository = GetRepository<ApplicationUser>();
+
+            ApplicationUser testUser = new ApplicationUserBuilder().Build();
+
+            await repository.AddAsync(testUser);
+
+            var addedUser = (await repository.ListAsync()).FirstOrDefault();
+
+            Assert.True(addedUser?.Id != null);
+            Assert.True(addedUser?.Id == "cba92d96-e0c0-4ffc-8e2c-d5e6789bc9dc");
+        }
+
+        [Fact]
         public async Task AddKnowledgeAndSetsId()
         {
-            var repository = GetRepository();
+            var repository = GetRepository<Knowledge>();
 
             Knowledge testKnowledge = new KnowledgeBuilder().Build();
 

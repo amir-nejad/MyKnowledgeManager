@@ -20,9 +20,7 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
                 .IsRequired();
 
             builder
-                .HasIndex("IX_TagNameAndUserId")
-                .IncludeProperties(p => p.TagName)
-                .IncludeProperties(p => p.UserId)
+                .HasIndex(propertyNames: new string[] { "TagName", "UserId" },name: "IX_TagNameAndUserId")
                 .IsUnique();
 
             builder

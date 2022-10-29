@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyKnowledgeManager.UnitTest
+namespace MyKnowledgeManager.UnitTest.Builders
 {
     public class KnowledgeBuilder
     {
@@ -14,7 +14,7 @@ namespace MyKnowledgeManager.UnitTest
 
         public KnowledgeBuilder WithDefaultValues()
         {
-            _knowledge = new Knowledge("Test Title", "Test Description", KnowledgeLevel.Beginner, KnowledgeImportance.Neutral);
+            _knowledge = new Knowledge("Test Title", "Test Description", KnowledgeLevel.Beginner, KnowledgeImportance.Neutral, "cba92d96-e0c0-4ffc-8e2c-d5e6789bc9dc");
 
             return this;
         }

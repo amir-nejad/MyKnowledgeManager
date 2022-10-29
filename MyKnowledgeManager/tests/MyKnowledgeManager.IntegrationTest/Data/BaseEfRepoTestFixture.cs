@@ -41,9 +41,9 @@ namespace MyKnowledgeManager.IntegrationTest.Data
             return builder.Options;
         }
 
-        protected EfRepository<Knowledge> GetRepository()
+        protected EfRepository<T> GetRepository<T>() where T : BaseEntity
         {
-            return new EfRepository<Knowledge>(_context);
+            return new EfRepository<T>(_context);
         }
     }
 }
