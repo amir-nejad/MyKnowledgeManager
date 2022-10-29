@@ -32,18 +32,14 @@ namespace MyKnowledgeManager.Core.Services
             return knowledgeTagRelations.ToList();
         }
 
-        public async Task<Result<bool>> RemoveKnowledgeTagRelationAsync(string id, string userId = null)
+        public async Task<Result<bool>> RemoveKnowledgeTagRelationAsync(string id)
         {
             Guard.Against.NullOrEmpty(id, nameof(id));
             
-            if (userId is null) return Result.Unauthorized();
-
             KnowledgeTagRelation knowledgeTagRelation = await _repository.GetByIdAsync(id);
 
             if (knowledgeTagRelation is not null)
             {
-                if (knowledgeTagRelation.UserId != userId) return Result.Forbidden();
-
                 try
                 {
                     await _repository.DeleteAsync(knowledgeTagRelation);
@@ -70,11 +66,9 @@ namespace MyKnowledgeManager.Core.Services
             return knowledgeTagRelation;
         }
 
-        public async Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsAsync(string userId = null)
+        public async Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsAsync()
         {
-            if (userId is null) return Result.Unauthorized();
-
-            return await _repository.ListAsync(new KnowledgeTagRelationsSpec(userId));
+            return await _repository.ListAsync(new KnowledgeTagRelationsSpec());
         }
 
         public async Task<Result<KnowledgeTagRelation>> UpdateKnowledgeTagRelationAsync(KnowledgeTagRelation knowledgeTagRelation)
@@ -126,13 +120,11 @@ namespace MyKnowledgeManager.Core.Services
             return true;
         }
 
-        public async Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsByKnowledgeIdAsync(string knowledgeId, string userId = null)
+        public async Task<Result<IEnumerable<KnowledgeTagRelation>>> GetKnowledgeTagRelationsByKnowledgeIdAsync(string knowledgeId)
         {
             Guard.Against.NullOrEmpty(knowledgeId, nameof(knowledgeId));
 
-            if (userId is null) return Result.Unauthorized();
-
-            return await _repository.ListAsync(new KnowledgeTagRelationsByKnowledgeIdSpec(knowledgeId, userId));
+            return await _repository.ListAsync(new KnowledgeTagRelationsByKnowledgeIdSpec(knowledgeId));
         }
     }
 }

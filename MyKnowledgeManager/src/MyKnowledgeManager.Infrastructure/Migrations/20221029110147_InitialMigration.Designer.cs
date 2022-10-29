@@ -12,14 +12,14 @@ using MyKnowledgeManager.Infrastructure.Data;
 namespace MyKnowledgeManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221012115246_ewifjweof")]
-    partial class ewifjweof
+    [Migration("20221029110147_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -35,7 +35,14 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                     b.Property<bool>("IsTrashItem")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("MovedToTrashDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RemoverUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdatedDate")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -46,9 +53,6 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
             modelBuilder.Entity("MyKnowledgeManager.Core.Entities.Knowledge", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -67,16 +71,27 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                     b.Property<int>("KnowledgeLevel")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("MovedToTrashDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RemoverUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedDate")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Knowledges");
                 });
@@ -92,16 +107,29 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                     b.Property<bool>("IsTrashItem")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("MovedToTrashDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RemoverUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TagName")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("UpdatedDate")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TagName")
+                    b.HasIndex("UserId");
+
+                    b.HasIndex(new[] { "TagName", "UserId" }, "IX_TagNameAndUserId")
                         .IsUnique();
 
                     b.ToTable("KnowledgeTags");
@@ -110,6 +138,12 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
             modelBuilder.Entity("MyKnowledgeManager.Core.Entities.KnowledgeTagRelation", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -123,13 +157,24 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("KnowledgeTagId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("UpdatedDate")
+                    b.Property<DateTime?>("MovedToTrashDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("RemoverUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("KnowledgeId");
 
@@ -142,13 +187,30 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                 {
                     b.HasOne("MyKnowledgeManager.Core.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Knowledges")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("MyKnowledgeManager.Core.Entities.KnowledgeTag", b =>
+                {
+                    b.HasOne("MyKnowledgeManager.Core.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("KnowledgeTags")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("MyKnowledgeManager.Core.Entities.KnowledgeTagRelation", b =>
                 {
+                    b.HasOne("MyKnowledgeManager.Core.Entities.ApplicationUser", null)
+                        .WithMany("KnowledgeTagRelations")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("MyKnowledgeManager.Core.Entities.Knowledge", "Knowledge")
                         .WithMany("KnowledgeTagRelations")
                         .HasForeignKey("KnowledgeId")
@@ -158,8 +220,7 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                     b.HasOne("MyKnowledgeManager.Core.Entities.KnowledgeTag", "KnowledgeTag")
                         .WithMany("KnowledgeTagRelations")
                         .HasForeignKey("KnowledgeTagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Knowledge");
 
@@ -168,6 +229,10 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
 
             modelBuilder.Entity("MyKnowledgeManager.Core.Entities.ApplicationUser", b =>
                 {
+                    b.Navigation("KnowledgeTagRelations");
+
+                    b.Navigation("KnowledgeTags");
+
                     b.Navigation("Knowledges");
                 });
 

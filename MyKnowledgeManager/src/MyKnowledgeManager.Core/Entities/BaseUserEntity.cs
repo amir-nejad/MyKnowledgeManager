@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyKnowledgeManager.Core.Entities
 {
-    public class BaseUserEntity : BaseEntity
+    public abstract class BaseUserEntity : BaseEntity
     {
         public string UserId { get; protected set; }
 

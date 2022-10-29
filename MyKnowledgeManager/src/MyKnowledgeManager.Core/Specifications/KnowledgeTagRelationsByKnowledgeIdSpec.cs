@@ -9,10 +9,10 @@ namespace MyKnowledgeManager.Core.Specifications
 {
     public class KnowledgeTagRelationsByKnowledgeIdSpec : Specification<KnowledgeTagRelation>
     {
-        public KnowledgeTagRelationsByKnowledgeIdSpec(string knowledgeId, string userId)
+        public KnowledgeTagRelationsByKnowledgeIdSpec(string knowledgeId)
         {
             Query
-                .Where(x => x.KnowledgeId == knowledgeId && x.UserId == userId)
+                .Where(x => x.KnowledgeId == knowledgeId)
                 .AsNoTracking();
         }
     }

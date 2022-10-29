@@ -15,13 +15,9 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
                 .Property(p => p.KnowledgeId)
                 .IsRequired();
 
-            builder
-                .Property(p => p.KnowledgeTagId)
-                .IsRequired();
-
-            builder
-                .Property(p => p.UserId)
-                .IsRequired();
+            //builder
+            //    .Property(p => p.KnowledgeTagId)
+            //    .IsRequired();
 
             builder
                 .HasOne(p => p.Knowledge)
@@ -31,12 +27,8 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
             builder
                 .HasOne(p => p.KnowledgeTag)
                 .WithMany(x => x.KnowledgeTagRelations)
-                .HasForeignKey(p => p.KnowledgeTagId);
-
-            builder
-                .HasOne(p => p.ApplicationUser)
-                .WithMany(x => x.KnowledgeTagRelations)
-                .HasForeignKey(p => p.UserId);
+                .HasForeignKey(p => p.KnowledgeTagId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

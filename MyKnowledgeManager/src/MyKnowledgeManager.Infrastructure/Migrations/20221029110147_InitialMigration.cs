@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyKnowledgeManager.Infrastructure.Migrations
 {
-    public partial class ojweifweo : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,26 +16,13 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsTrashItem = table.Column<bool>(type: "bit", nullable: false)
+                    IsTrashItem = table.Column<bool>(type: "bit", nullable: false),
+                    MovedToTrashDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RemoverUserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ApplicationUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "KnowledgeTags",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TagName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsTrashItem = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_KnowledgeTags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,19 +34,46 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     KnowledgeLevel = table.Column<int>(type: "int", nullable: false),
                     KnowledgeImportance = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsTrashItem = table.Column<bool>(type: "bit", nullable: false)
+                    IsTrashItem = table.Column<bool>(type: "bit", nullable: false),
+                    MovedToTrashDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RemoverUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Knowledges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Knowledges_ApplicationUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_Knowledges_ApplicationUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "ApplicationUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "KnowledgeTags",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TagName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsTrashItem = table.Column<bool>(type: "bit", nullable: false),
+                    MovedToTrashDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RemoverUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KnowledgeTags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_KnowledgeTags_ApplicationUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "ApplicationUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,14 +82,24 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     KnowledgeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    KnowledgeTagId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    KnowledgeTagId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ApplicationUser = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsTrashItem = table.Column<bool>(type: "bit", nullable: false)
+                    IsTrashItem = table.Column<bool>(type: "bit", nullable: false),
+                    MovedToTrashDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RemoverUserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_KnowledgeTagsRelation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_KnowledgeTagsRelation_ApplicationUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "ApplicationUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_KnowledgeTagsRelation_Knowledges_KnowledgeId",
                         column: x => x.KnowledgeId,
@@ -86,13 +110,28 @@ namespace MyKnowledgeManager.Infrastructure.Migrations
                         name: "FK_KnowledgeTagsRelation_KnowledgeTags_KnowledgeTagId",
                         column: x => x.KnowledgeTagId,
                         principalTable: "KnowledgeTags",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Knowledges_ApplicationUserId",
+                name: "IX_Knowledges_UserId",
                 table: "Knowledges",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KnowledgeTags_UserId",
+                table: "KnowledgeTags",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TagNameAndUserId",
+                table: "KnowledgeTags",
+                columns: new[] { "TagName", "UserId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KnowledgeTagsRelation_ApplicationUserId",
+                table: "KnowledgeTagsRelation",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(

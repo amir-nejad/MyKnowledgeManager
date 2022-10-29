@@ -13,11 +13,20 @@
 
         public virtual KnowledgeTag KnowledgeTag { get; set; }
 
-        public KnowledgeTagRelation(string knowledgeId, string knowledgeTagId, string userId)
+        public KnowledgeTagRelation(string knowledgeId, string knowledgeTagId)
         {
             KnowledgeId = knowledgeId;
             KnowledgeTagId = knowledgeTagId;
-            UserId = userId;
+        }
+
+        // We don't need ApplicationUser and UserId properties but as our TrashManager needs UserId,
+        // we have to destroy the automatic relationship between ApplicationUser and KnowledgeTagRelation classes.
+        public new string ApplicationUser { get; }
+        public new string UserId { get; }
+
+        public override void UpdateUserId(string userId)
+        {
+            // We have not to do anything.
         }
     }
 }

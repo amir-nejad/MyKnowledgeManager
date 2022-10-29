@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyKnowledgeManager.IdentityServer.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -159,10 +159,10 @@ namespace MyKnowledgeManager.IdentityServer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "22ecab7f-3c25-49a4-8653-eea401358c34", "8aaacbb4-73e4-4adc-bd04-5d8bc1b81832", "Supervisor", "SUPERVISOR" },
-                    { "38ebf21d-fa33-4d4d-a243-1f1536d14e8c", "03cb7c3a-8482-4075-b2c2-e174bd5e825a", "SystemAgent", "SYSTEMAGENT" },
-                    { "9c07fc5e-31d7-41d6-80bd-3845f3d0f6a7", "fca252f3-d9e2-4b1d-84a9-83f0e2f96110", "EndUser", "ENDUSER" },
-                    { "9c9fb092-df93-4b41-8d81-3de2341d6586", "fb484116-7245-4a6a-95f4-feedabd8a530", "Administrator", "ADMINISTRATOR" }
+                    { "22ecab7f-3c25-49a4-8653-eea401358c34", "f7efa2b6-9678-4c1b-9549-b0feb79dae2c", "Supervisor", "SUPERVISOR" },
+                    { "38ebf21d-fa33-4d4d-a243-1f1536d14e8c", "b6844cf4-68bd-43f6-a38d-066a98473aef", "SystemAgent", "SYSTEMAGENT" },
+                    { "9c07fc5e-31d7-41d6-80bd-3845f3d0f6a7", "ac08e8b7-dff4-4928-ad83-a67520f6ba3d", "EndUser", "ENDUSER" },
+                    { "9c9fb092-df93-4b41-8d81-3de2341d6586", "1f9b9611-d1b1-4e6b-9468-0078743a1ca5", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.CreateIndex(
