@@ -1,0 +1,12 @@
+{
+  "author": "Amir H. Nejad",
+  "dependencies": {
+    "@yaireo/tagify": "^4.16.4"
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.5",
+    "@types/select2": "^4.0.55",
+    "@types/yaireo__tagify": "^4.16.0",
+    "typescript": "^4.8.4"
+  }
+}
