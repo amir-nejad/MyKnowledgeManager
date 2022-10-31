@@ -264,7 +264,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         {
             #region Removing Old Relations
             // Getting old relations if exist.
-            List<KnowledgeTagRelation> oldRelations = (List<KnowledgeTagRelation>)await _knowledgeTagRelationService.GetKnowledgeTagRelationsByKnowledgeIdAsync(knowledgeId, _userId);
+            List<KnowledgeTagRelation> oldRelations = (List<KnowledgeTagRelation>)await _knowledgeTagRelationService.GetKnowledgeTagRelationsByKnowledgeIdAsync(knowledgeId);
 
             if (oldRelations is not null && oldRelations.Count() is not 0)
             {
@@ -289,7 +289,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
                 // Iterate over each Id in tagIds list to create a relationship object.
                 for (int i = 0; i < tagIds.Count; i++)
                 {
-                    KnowledgeTagRelation knowledgeTagRelation = new(knowledgeId, tagIds[i], _userId);
+                    KnowledgeTagRelation knowledgeTagRelation = new(knowledgeId, tagIds[i]);
                     knowledgeTagRelations.Add(knowledgeTagRelation);
                 }
 

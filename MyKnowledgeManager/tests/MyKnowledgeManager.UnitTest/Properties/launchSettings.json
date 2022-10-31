@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "MyKnowledgeManager.UnitTest": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:14950;http://localhost:14952"
+    }
+  }
+}
