@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserManager, User, UserManagerSettings } from 'oidc-client';
 import { Subject } from 'rxjs';
-import { Constants } from '../constants';
+import { Constants } from '../../configs/constants';
 
 @Injectable({
   providedIn: 'root'

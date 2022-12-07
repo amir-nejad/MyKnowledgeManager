@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "3fEdMSzvcTb5TEvQPGp4IjM6+dyAmsdgdqjAygJ/ij+MltbqTCny6K80N2VoURImU9WaXekd4NeQoCD1MzWW8w==",
+  "dgSpecHash": "kD4avZLKG1A1iG87vDRKzk2+RuOxr3OEZbiHQbHAGzQuqjOz7j2nmjfdqVkz/1r2Frj1vyRLaEL5yLVHYE7ETw==",
   "success": true,
   "projectFilePath": "C:\\Users\\amirs\\source\\repos\\ashabaninejad\\MyKnowledgeManager\\MyKnowledgeManagerBackend\\tests\\MyKnowledgeManager.IntegrationTest\\MyKnowledgeManager.IntegrationTest.csproj",
   "expectedPackageFiles": [
