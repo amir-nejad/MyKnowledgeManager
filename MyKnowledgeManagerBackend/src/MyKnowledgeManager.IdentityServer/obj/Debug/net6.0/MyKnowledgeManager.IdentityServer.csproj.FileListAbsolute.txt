@@ -573,3 +573,8 @@ C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerB
 C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.IdentityServer\obj\Debug\net6.0\MyKnowledgeManager.IdentityServer.pdb
 C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.IdentityServer\obj\Debug\net6.0\MyKnowledgeManager.IdentityServer.genruntimeconfig.cache
 C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.IdentityServer\obj\Debug\net6.0\ref\MyKnowledgeManager.IdentityServer.dll
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.IdentityServer\obj\Debug\net6.0\staticwebassets\msbuild.MyKnowledgeManager.IdentityServer.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.IdentityServer\obj\Debug\net6.0\staticwebassets\msbuild.build.MyKnowledgeManager.IdentityServer.props
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.IdentityServer\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.MyKnowledgeManager.IdentityServer.props
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.IdentityServer\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.MyKnowledgeManager.IdentityServer.props
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.IdentityServer\obj\Debug\net6.0\staticwebassets.pack.json

@@ -7,7 +7,7 @@ import { AuthService } from '..';
   providedIn: 'root'
 })
 export class AuthenticationGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private _authService: AuthService, private router: Router) {
 
   }
 
@@ -18,18 +18,18 @@ export class AuthenticationGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     console.log("Can Activate called.");
 
-    this.authService.isAuthenticated()
+    this._authService.isAuthenticated()
       .then(isAuthenticated => {
         this.isAuthenticated = isAuthenticated;
       });
 
+
     if (!this.isAuthenticated) {
-      return true;
-    } else {
-      this.router.navigate(["/authentication"]);
+      this._authService.login();
+      return false;
     }
 
-    return this.authService.isAuthenticated();
+    return this._authService.isAuthenticated();
   }
 
 }

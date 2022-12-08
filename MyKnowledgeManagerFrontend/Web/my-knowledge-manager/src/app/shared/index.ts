@@ -1,4 +1,5 @@
 // shared/index.ts
-
-export * from "../core/services/auth.service";
-export { MenuComponent } from "../core/menu/menu.component"
+export * from "./enums/knowledge-importance";
+export * from "./enums/knowledge-level";
+export * from "./models/knowledge-dto";
+export * from "./models/knowledge-tag-dto";

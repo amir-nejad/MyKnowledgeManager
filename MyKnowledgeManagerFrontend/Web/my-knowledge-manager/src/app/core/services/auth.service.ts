@@ -17,10 +17,10 @@ export class AuthService {
     return {
       authority: Constants.idpAuthority,
       client_id: Constants.clientId,
-      redirect_uri: `${Constants.clientRoot}/signin-callback`,
+      redirect_uri: `${Constants.clientRoot}/authentication/signin-callback`,
       scope: "openid profile webApi",
       response_type: "code",
-      post_logout_redirect_uri: `${Constants.clientRoot}/signout-callback`
+      post_logout_redirect_uri: `${Constants.clientRoot}/authentication/signout-callback`
     }
   }
 
@@ -60,6 +60,13 @@ export class AuthService {
   public finishLogout = () => {
     this._user = undefined;
     return this._userManager.signoutRedirectCallback();
+  }
+
+  public getAccessToken = (): Promise<string | null> => {
+    return this._userManager.getUser()
+    .then(user => {
+      return !!user && !user.expired ? user.access_token : null;
+    })
   }
 
   private checkUser = (user: User): boolean => {

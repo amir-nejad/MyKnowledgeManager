@@ -44,7 +44,7 @@ namespace MyKnowledgeManager.IdentityServer.IdentityConfiguration
                     ClientName = "Angular-Client",
                     ClientId = "angular-client",
                     AllowedGrantTypes = GrantTypes.Code,
-                    RedirectUris = new List<string>{ "http://localhost:4200/signin-callback", "http://localhost:4200/assets/silent-callback.html" },
+                    RedirectUris = new List<string>{ "http://localhost:4200/authentication/signin-callback", "http://localhost:4200/assets/silent-callback.html" },
                     RequirePkce = true,
                     AllowAccessTokensViaBrowser = true,
                     AllowedScopes =
@@ -55,7 +55,7 @@ namespace MyKnowledgeManager.IdentityServer.IdentityConfiguration
                     },
                     AllowedCorsOrigins = { "http://localhost:4200" },
                     RequireClientSecret = false,
-                    PostLogoutRedirectUris = new List<string> { "http://localhost:4200/signout-callback" },
+                    PostLogoutRedirectUris = new List<string> { "http://localhost:4200/authentication/signout-callback" },
                     RequireConsent = false,
                     AccessTokenLifetime = 600
                 }

@@ -6,18 +6,17 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent } from './core/menu/menu.component';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
+import { KnowledgeTagsModule } from './modules/knowledge-tags/knowledge-tags.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    KnowledgeTagsModule,
     CoreModule,
-    SharedModule,
     NgbModule
   ],
   providers: [],

@@ -588,3 +588,8 @@ C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerB
 C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.WebApi\obj\Debug\net6.0\MyKnowledgeManager.WebApi.pdb
 C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.WebApi\obj\Debug\net6.0\MyKnowledgeManager.WebApi.genruntimeconfig.cache
 C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.WebApi\obj\Debug\net6.0\ref\MyKnowledgeManager.WebApi.dll
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.WebApi\obj\Debug\net6.0\staticwebassets\msbuild.MyKnowledgeManager.WebApi.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.WebApi\obj\Debug\net6.0\staticwebassets\msbuild.build.MyKnowledgeManager.WebApi.props
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.WebApi\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.MyKnowledgeManager.WebApi.props
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.WebApi\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.MyKnowledgeManager.WebApi.props
+C:\Users\amirs\source\repos\ashabaninejad\MyKnowledgeManager\MyKnowledgeManagerBackend\src\MyKnowledgeManager.WebApi\obj\Debug\net6.0\staticwebassets.pack.json
