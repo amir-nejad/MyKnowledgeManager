@@ -18,10 +18,10 @@ export class AuthenticationGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     console.log("Can Activate called.");
 
-    this._authService.isAuthenticated()
-      .then(isAuthenticated => {
-        this.isAuthenticated = isAuthenticated;
-      });
+    this._authService.loginChanged$
+    .subscribe(res => {
+      this.isAuthenticated = res;
+    })
 
 
     if (!this.isAuthenticated) {

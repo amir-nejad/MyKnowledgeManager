@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserManager, User, UserManagerSettings } from 'oidc-client';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Constants } from '../../configs/constants';
 
 @Injectable({
@@ -9,9 +9,9 @@ import { Constants } from '../../configs/constants';
 export class AuthService {
   private _userManager: UserManager;
   private _user: User | undefined;
-  private _loginChangedSubject = new Subject<boolean>();
+  private _loginChangedSubject = new BehaviorSubject<boolean>(false);
 
-  public loginChanged = this._loginChangedSubject.asObservable();
+  public loginChanged$ = this._loginChangedSubject.asObservable();
 
   private get idpSettings(): UserManagerSettings {
     return {
@@ -64,13 +64,12 @@ export class AuthService {
 
   public getAccessToken = (): Promise<string | null> => {
     return this._userManager.getUser()
-    .then(user => {
-      return !!user && !user.expired ? user.access_token : null;
+      .then(user => {
+         return !!user && !user.expired ? user.access_token : null;
     })
   }
 
   private checkUser = (user: User): boolean => {
-    console.log(user);
     return !!user && !user.expired;
   }
 }
