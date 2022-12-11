@@ -9,9 +9,9 @@ import { Constants } from '../../configs/constants';
 export class AuthService {
   private _userManager: UserManager;
   private _user: User | undefined;
-  private _loginChangedSubject = new BehaviorSubject<boolean>(false);
+  private _loginChangedSubject$ = new BehaviorSubject<boolean>(false);
 
-  public loginChanged$ = this._loginChangedSubject.asObservable();
+  public loginChanged$ = this._loginChangedSubject$.asObservable();
 
   private get idpSettings(): UserManagerSettings {
     return {
@@ -34,23 +34,23 @@ export class AuthService {
 
   public isAuthenticated = (): Promise<boolean> => {
     return this._userManager.getUser()
-    .then(user => {
-      if(this._user !== user){
-        this._loginChangedSubject.next(this.checkUser(user!));
-      }
+      .then(user => {
+        if (this._user !== user) {
+          this._loginChangedSubject$.next(this.checkUser(user!));
+        }
 
-      this._user = user!;
-      return this.checkUser(user!);
-    })
+        this._user = user!;
+        return this.checkUser(user!);
+      })
   }
 
   public finishLogin = (): Promise<User> => {
     return this._userManager.signinRedirectCallback()
-    .then(user => {
-      this._user = user;
-      this._loginChangedSubject.next(this.checkUser(user));
-      return user;
-    })
+      .then(user => {
+        this._user = user;
+        this._loginChangedSubject$.next(this.checkUser(user));
+        return user;
+      })
   }
 
   public logout = () => {
@@ -65,11 +65,20 @@ export class AuthService {
   public getAccessToken = (): Promise<string | null> => {
     return this._userManager.getUser()
       .then(user => {
-         return !!user && !user.expired ? user.access_token : null;
-    })
+        return !!user && !user.expired ? user.access_token : null;
+      })
+  }
+
+  public getUserId = (): Promise<string | null> => {
+    return this._userManager.getUser()
+      .then(user => {
+        return !!user && !user.expired ? user.profile.sub : null;
+      });
   }
 
   private checkUser = (user: User): boolean => {
+    console.log(user);
+    console.log(this._user);
     return !!user && !user.expired;
   }
 }

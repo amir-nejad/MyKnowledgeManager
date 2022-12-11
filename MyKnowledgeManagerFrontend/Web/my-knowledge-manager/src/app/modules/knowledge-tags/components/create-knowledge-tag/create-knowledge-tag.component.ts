@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { KnowledgeDTO, KnowledgeImportance, KnowledgeLevel } from '../../../../shared/index';
-import { AuthService } from '../../../../core/index';
+import { KnowledgeTagDTO } from '../../../../shared/index';
+import { } from "@ng-bootstrap/ng-bootstrap";
+import { KnowledgeTagsFacade } from '../../knowledge-tags.facade';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-create-knowledge-tag',
@@ -8,20 +10,26 @@ import { AuthService } from '../../../../core/index';
   styleUrls: ['./create-knowledge-tag.component.scss']
 })
 export class CreateKnowledgeTagComponent implements OnInit {
-  knowledgeTagDTO: KnowledgeDTO = {
+  knowledgeTagDTO: KnowledgeTagDTO = {
     id: "",
-    title: "",
-    description: '',
-    knowledgeImportance: KnowledgeImportance.NotImportant,
-    knowledgeLevel: KnowledgeLevel.Beginner,
-    knowledgeTags: [],
+    tagName: "",
+    createdDate: new Date(),
+    updatedDate: new Date(),
     isTrashItem: false,
-    userId: ''
+    userId: ""
   };
 
-  constructor(private _authService: AuthService) { }
+  constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade, private _authService: AuthService) {
+    this._authService.getUserId().then(
+      id => this.knowledgeTagDTO.userId = id!
+    )
+    console.log(this.knowledgeTagDTO.userId);
+  }
 
   ngOnInit(): void {
   }
 
+  createKnowledgeTag() {
+    this._knowledgeTagsFacade.addKnowledgeTag(this.knowledgeTagDTO);
+  }
 }

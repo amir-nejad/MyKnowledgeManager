@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent } from './core/menu/menu.component';
 import { CoreModule } from './core/core.module';
 import { KnowledgeTagsModule } from './modules/knowledge-tags/knowledge-tags.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { KnowledgeTagsModule } from './modules/knowledge-tags/knowledge-tags.mod
     BrowserModule,
     AppRoutingModule,
     KnowledgeTagsModule,
+    HttpClientModule,
     CoreModule,
     NgbModule
   ],

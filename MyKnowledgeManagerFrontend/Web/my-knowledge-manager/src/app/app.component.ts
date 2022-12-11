@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   public userAuthenticated = false;
 
   constructor(private _authService: AuthService) {
-    this._authService.loginChanged
+    this._authService.loginChanged$
     .subscribe(userAuthenticated => {
       this.userAuthenticated = userAuthenticated;
     })

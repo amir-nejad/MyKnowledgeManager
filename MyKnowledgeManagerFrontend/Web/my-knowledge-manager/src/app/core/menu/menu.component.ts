@@ -12,7 +12,7 @@ export class MenuComponent implements OnInit {
   constructor(private _authService: AuthService) { }
 
   ngOnInit(): void {
-    this._authService.loginChanged
+    this._authService.loginChanged$
       .subscribe(res => {
         this.isUserAuthenticated = res;
       })

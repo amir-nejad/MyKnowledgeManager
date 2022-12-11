@@ -2,7 +2,9 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, filter } from "rxjs";
 import { KnowledgeTagDTO } from '../../../shared/models/knowledge-tag-dto';
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class KnowledgeTagsState {
   private updating$ = new BehaviorSubject<boolean>(false);
   private knowledgeTagDTOs$ = new BehaviorSubject<KnowledgeTagDTO[]>([]);
@@ -15,7 +17,7 @@ export class KnowledgeTagsState {
     this.updating$.next(isUpdating);
   }
 
-  getKnowledgeTagDTOs$(){
+  getKnowledgeTagDTOs$() {
     return this.knowledgeTagDTOs$.asObservable();
   }
 
@@ -23,7 +25,7 @@ export class KnowledgeTagsState {
     this.knowledgeTagDTOs$.next(knowledgeTagDTOs);
   }
 
-  addKnowledgeTagDTO(knowledgeTagDTO: KnowledgeTagDTO){
+  addKnowledgeTagDTO(knowledgeTagDTO: KnowledgeTagDTO) {
     const knowledgeTagDTOs = this.knowledgeTagDTOs$.getValue();
     this.knowledgeTagDTOs$.next([...knowledgeTagDTOs, knowledgeTagDTO]);
   }
