@@ -3,6 +3,9 @@ import { KnowledgeTagDTO } from '../../../../shared/index';
 import { } from "@ng-bootstrap/ng-bootstrap";
 import { KnowledgeTagsFacade } from '../../knowledge-tags.facade';
 import { AuthService } from '../../../../core/services/auth.service';
+import { KnowledgeTag } from '../../../../shared/models/knowledge-tag';
+import { KnowledgeTagsApi } from '../../api/knowledge-tags.api';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-knowledge-tag',
@@ -10,7 +13,7 @@ import { AuthService } from '../../../../core/services/auth.service';
   styleUrls: ['./create-knowledge-tag.component.scss']
 })
 export class CreateKnowledgeTagComponent implements OnInit {
-  knowledgeTagDTO: KnowledgeTagDTO = {
+  knowledgeTag: KnowledgeTag = {
     id: "",
     tagName: "",
     createdDate: new Date(),
@@ -19,17 +22,25 @@ export class CreateKnowledgeTagComponent implements OnInit {
     userId: ""
   };
 
-  constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade, private _authService: AuthService) {
+  constructor(private _knowledgeTagApi: KnowledgeTagsApi, private _authService: AuthService) {
     this._authService.getUserId().then(
-      id => this.knowledgeTagDTO.userId = id!
+      id => this.knowledgeTag.userId = id!
     )
-    console.log(this.knowledgeTagDTO.userId);
+    console.log(this.knowledgeTag.userId);
   }
 
   ngOnInit(): void {
   }
 
-  createKnowledgeTag() {
-    this._knowledgeTagsFacade.addKnowledgeTag(this.knowledgeTagDTO);
+  async createKnowledgeTag() {
+    console.log("createKnowledgeTag called.")
+    // this._knowledgeTagsFacade.addKnowledgeTag(this.knowledgeTag);
+    // this._knowledgeTagApi.get();
+    let result = (await this._knowledgeTagApi.getKnowledgeTags$()).forEach(
+      x => {
+        console.log(x);
+      }
+    );
+    console.log(result);
   }
 }

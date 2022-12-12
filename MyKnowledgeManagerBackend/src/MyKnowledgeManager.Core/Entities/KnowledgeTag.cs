@@ -14,6 +14,14 @@ namespace MyKnowledgeManager.Core.Entities
             UserId = userId;
         }
 
+        public KnowledgeTag(string tagName, string userId, DateTime? createdDate = null, DateTime? updatedDate = null)
+        {
+            TagName = tagName;
+            UserId = userId;
+            CreatedDate = createdDate.HasValue ? createdDate.Value : CreatedDate;
+            UpdatedDate = updatedDate.HasValue ? updatedDate.Value : UpdatedDate;
+        }
+
         public override void ChangeTrashState(bool isTrashItem = false)
         {
             base.ChangeTrashState(isTrashItem);

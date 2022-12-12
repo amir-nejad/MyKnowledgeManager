@@ -40,7 +40,7 @@ builder.Services.AddAuthentication("Bearer")
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(ConfigConstants.RequireAdministratorRole, policy =>
+    options.AddPolicy(ConfigConstants.RequireApiScope, policy =>
     {
         policy.RequireAuthenticatedUser();
         policy.RequireClaim("scope", "webApi");
@@ -82,6 +82,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(options =>
+{
+    options.WithOrigins("http://localhost:4200");
+    options.AllowCredentials();
+    options.AllowAnyHeader();
+});
 
 app.UseRouting();
 

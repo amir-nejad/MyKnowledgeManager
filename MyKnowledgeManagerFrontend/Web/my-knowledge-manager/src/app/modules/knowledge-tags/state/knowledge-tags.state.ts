@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, filter } from "rxjs";
-import { KnowledgeTagDTO } from '../../../shared/models/knowledge-tag-dto';
+import { KnowledgeTagDTO } from "src/app/shared";
 
 @Injectable({
   providedIn: "root"

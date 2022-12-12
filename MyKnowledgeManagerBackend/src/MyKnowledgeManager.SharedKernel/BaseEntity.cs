@@ -11,7 +11,6 @@ namespace MyKnowledgeManager.SharedKernel
 
         public DateTime CreatedDate { get; protected set; } = DateTime.UtcNow;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime UpdatedDate { get; protected set; } = DateTime.UtcNow;
 
         public bool IsTrashItem { get; protected set; } = false;

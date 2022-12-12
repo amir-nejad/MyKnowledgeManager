@@ -2,20 +2,22 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyKnowledgeManager.Core.Interfaces;
+using MyKnowledgeManager.SharedKernel.Utilities;
 using MyKnowledgeManager.WebApi.ApiModels;
+using System.Security.Claims;
 
 namespace MyKnowledgeManager.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = ConfigConstants.RequireApiScope)]
     public class KnowledgeTagsController : ControllerBase
     {
         private readonly IKnowledgeTagService _knowledgeTagService;
         private readonly ITrashManager<KnowledgeTag> _trashManager;
         private readonly IMapper _mapper;
         private const string GeneralProblemMessage = "Something went wrong. Please try again.";
-        private readonly string _userId;
+        private string _userId;
 
         public KnowledgeTagsController(
             IKnowledgeTagService knowledgeTagService,
@@ -25,14 +27,14 @@ namespace MyKnowledgeManager.WebApi.Controllers
             _knowledgeTagService = knowledgeTagService;
             _trashManager = trashManager;
             _mapper = mapper;
-
-            _userId = User.FindFirst("sub").Value;
         }
 
         // GET: api/KnowledgeTags
         [HttpGet("{includeKnowledges?}")]
         public async Task<ActionResult<IEnumerable<KnowledgeTagDTO>>> GetKnowledgeTags(bool includeKnowledges = false)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             // Getting all tags from the database.
             var getKnowledgeTagsResult = await _knowledgeTagService.GetKnowledgeTagsAsync(_userId ,includeKnowledges);
 
@@ -52,6 +54,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpGet("getKnowledgeTagById/{id?}/{includeKnowledges?}")]
         public async Task<ActionResult<KnowledgeTagDTO>> GetKnowledgeTagById(string id, bool includeKnowledges = false)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (id is null) return BadRequest();
 
             KnowledgeTag knowledgeTag = await _knowledgeTagService.GetKnowledgeTagByIdAsync(id, includeKnowledges);
@@ -67,6 +71,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpGet("getKnowledgeTagByName/{name?}/{includeKnowledges?}")]
         public async Task<ActionResult<KnowledgeTagDTO>> GetKnowledgeTagByName(string name, bool includeKnowledges = false)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (name is null) return BadRequest();
 
             KnowledgeTag knowledgeTag = await _knowledgeTagService.GetKnowledgeTagByNameAsync(name, _userId, includeKnowledges); ;
@@ -80,6 +86,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpGet("getTrashKnowledgeTags")]
         public async Task<ActionResult<List<KnowledgeTagDTO>>> GetTrashKnowledgeTags()
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             var trashKnowledgeTags = await _trashManager.GetTrashItemsAsync(_userId);
 
             if (trashKnowledgeTags.Value is null || trashKnowledgeTags.Value.Count() is 0) return NoContent();
@@ -91,6 +99,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpPut("{id?}")]
         public async Task<ActionResult<KnowledgeTagDTO>> UpdateKnowledgeTag(string id, KnowledgeTagDTO knowledgeTagDTO)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (id is null || id != knowledgeTagDTO.Id) return BadRequest();
 
             KnowledgeTag knowledgeTag = _mapper.Map<KnowledgeTag>(knowledgeTagDTO);
@@ -103,10 +113,12 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return _mapper.Map<KnowledgeTagDTO>(knowledgeTag);
         }
 
-        // POST: api/KnowledgeTag
+        // POST: api/KnowledgeTags
         [HttpPost]
         public async Task<ActionResult<KnowledgeTagDTO>> PostKnowledgeTag(KnowledgeTagDTO knowledgeTagDTO)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (!ModelState.IsValid) return ValidationProblem();
 
             KnowledgeTag knowledgeTag = _mapper.Map<KnowledgeTag>(knowledgeTagDTO);
@@ -124,6 +136,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpPut("moveKnowledgeTagToTrash/{id}")]
         public async Task<ActionResult> MoveToTrashKnowledgeTag(string id)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (id is null) return BadRequest();
 
             // Moving input item to the trash
@@ -141,6 +155,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpPut("restoreKnowledgeTag/{id}")]
         public async Task<IActionResult> RestoreKnowledgeTag(string id)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (id is null) return BadRequest();
 
             // Moving out input item from the trash
@@ -154,9 +170,12 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return Ok();
         }
 
+        // DELETE: api/knowledgeTags/<GUID>
         [HttpDelete("{id?}")]
         public async Task<IActionResult> DeleteKnowledgeTag(string id)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (id is null) return BadRequest();
 
             var result = await _knowledgeTagService.RemoveKnowledgeTagAsync(id, _userId);

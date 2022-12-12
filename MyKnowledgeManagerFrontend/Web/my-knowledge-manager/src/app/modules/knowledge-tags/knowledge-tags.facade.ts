@@ -20,21 +20,21 @@ export class KnowledgeTagsFacade {
         return this._knowledgeTagsState.getKnowledgeTagDTOs$();
     }
 
-    loadKnowledgeTags() {
-        this._knowledgeTagsApi.getKnowledgeTags$()
-        .pipe(tap(tags => this._knowledgeTagsState.setKnowledgeTagDTOs(tags)));
-    }
+    // loadKnowledgeTags() {
+    //     this._knowledgeTagsApi.getKnowledgeTags$()
+    //     .pipe(tap(tags => this._knowledgeTagsState.setKnowledgeTagDTOs(tags)));
+    // }
 
-    addKnowledgeTag(knowledgeTagDTO: KnowledgeTagDTO) {
-        this._knowledgeTagsState.addKnowledgeTagDTO(knowledgeTagDTO);
-        this._knowledgeTagsApi.createKnowledgeTag$(knowledgeTagDTO)
-            .subscribe((addedTagWithId: KnowledgeTagDTO) => {
-                this._knowledgeTagsState.updateKnowledgeTagDTO(addedTagWithId);
+    // addKnowledgeTag(knowledgeTagDTO: KnowledgeTagDTO) {
+    //     this._knowledgeTagsState.addKnowledgeTagDTO(knowledgeTagDTO);
+    //     this._knowledgeTagsApi.createKnowledgeTag$(knowledgeTagDTO)
+    //         .subscribe((addedTagWithId: KnowledgeTagDTO) => {
+    //             this._knowledgeTagsState.updateKnowledgeTagDTO(addedTagWithId);
 
-            }),
-            (error: any) => {
-                this._knowledgeTagsState.removeKnowledgeTagDTO(knowledgeTagDTO);
-                console.log(error);
-            }
-    }
+    //         }),
+    //         (error: any) => {
+    //             this._knowledgeTagsState.removeKnowledgeTagDTO(knowledgeTagDTO);
+    //             console.log(error);
+    //         }
+    // }
 }

@@ -9,7 +9,7 @@ namespace MyKnowledgeManager.WebApi.MappingConfigurations
         {
             CreateMap<KnowledgeTag, KnowledgeTagDTO>();
             CreateMap<KnowledgeTagDTO, KnowledgeTag>()
-                .ConstructUsing(x => new KnowledgeTag(x.TagName, x.UserId));
+                .ConstructUsing(x => new KnowledgeTag(x.TagName, x.UserId, x.CreatedDate, x.UpdatedDate));
         }
     }
 }

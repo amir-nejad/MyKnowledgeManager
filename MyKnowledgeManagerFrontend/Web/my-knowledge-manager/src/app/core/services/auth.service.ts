@@ -65,7 +65,7 @@ export class AuthService {
   public getAccessToken = (): Promise<string | null> => {
     return this._userManager.getUser()
       .then(user => {
-        return !!user && !user.expired ? user.access_token : null;
+        return user != null && !user.expired ? user.access_token : null;
       })
   }
 
@@ -78,7 +78,6 @@ export class AuthService {
 
   private checkUser = (user: User): boolean => {
     console.log(user);
-    console.log(this._user);
     return !!user && !user.expired;
   }
 }
