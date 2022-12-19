@@ -103,6 +103,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
 
             if (id is null || id != knowledgeTagDTO.Id) return BadRequest();
 
+            if (string.IsNullOrEmpty(knowledgeTagDTO.TagName)) return ValidationProblem(detail: "Tag Name cannot be null.");
+
             KnowledgeTag knowledgeTag = _mapper.Map<KnowledgeTag>(knowledgeTagDTO);
 
             // Updating the KnowledgeTag
@@ -119,7 +121,11 @@ namespace MyKnowledgeManager.WebApi.Controllers
         {
             _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            if (!ModelState.IsValid) return ValidationProblem();
+            if (!ModelState.IsValid) return ValidationProblem(detail: "Please fill the form correctly.");
+
+            if (string.IsNullOrEmpty(knowledgeTagDTO.TagName)) return ValidationProblem(detail: "Tag Name cannot be null.");
+
+            if (string.IsNullOrEmpty(knowledgeTagDTO.Id)) return ValidationProblem(detail: "Id Cannot be null");
 
             KnowledgeTag knowledgeTag = _mapper.Map<KnowledgeTag>(knowledgeTagDTO);
 

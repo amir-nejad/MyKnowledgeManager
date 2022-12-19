@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MyKnowledgeManager.SharedKernel
+﻿namespace MyKnowledgeManager.SharedKernel
 {
     /// <summary>
     /// This class is used as a base class for all entities. Mutual properties between all entities are placed here.

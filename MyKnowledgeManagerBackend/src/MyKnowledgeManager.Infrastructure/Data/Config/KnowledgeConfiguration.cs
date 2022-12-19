@@ -9,6 +9,10 @@ namespace MyKnowledgeManager.Infrastructure.Data.Config
         public void Configure(EntityTypeBuilder<Knowledge> builder)
         {
             builder
+                .Property(x => x.Id)
+                .IsRequired();
+
+            builder
                 .HasKey(p => p.Id);
 
             builder
