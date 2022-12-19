@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, filter } from "rxjs";
-import { KnowledgeTagDTO } from "src/app/shared";
+import { KnowledgeTag } from "src/app/shared";
 
 @Injectable({
   providedIn: "root"
 })
 export class KnowledgeTagsState {
   private updating$ = new BehaviorSubject<boolean>(false);
-  private knowledgeTagDTOs$ = new BehaviorSubject<KnowledgeTagDTO[]>([]);
+  private knowledgeTags$ = new BehaviorSubject<KnowledgeTag[]>([]);
 
   isUpdating$() {
     return this.updating$.asObservable();
@@ -17,29 +17,29 @@ export class KnowledgeTagsState {
     this.updating$.next(isUpdating);
   }
 
-  getKnowledgeTagDTOs$() {
-    return this.knowledgeTagDTOs$.asObservable();
+  getKnowledgeTags$() {
+    return this.knowledgeTags$.asObservable();
   }
 
-  setKnowledgeTagDTOs(knowledgeTagDTOs: KnowledgeTagDTO[]) {
-    this.knowledgeTagDTOs$.next(knowledgeTagDTOs);
+  setKnowledgeTags(knowledgeTags: KnowledgeTag[]) {
+    this.knowledgeTags$.next(knowledgeTags);
   }
 
-  addKnowledgeTagDTO(knowledgeTagDTO: KnowledgeTagDTO) {
-    const knowledgeTagDTOs = this.knowledgeTagDTOs$.getValue();
-    this.knowledgeTagDTOs$.next([...knowledgeTagDTOs, knowledgeTagDTO]);
+  addKnowledgeTag(knowledgeTag: KnowledgeTag) {
+    const knowledgeTags = this.knowledgeTags$.getValue();
+    this.knowledgeTags$.next([...knowledgeTags, knowledgeTag]);
   }
 
-  updateKnowledgeTagDTO(knowledgeTagDTO: KnowledgeTagDTO) {
-    const knowledgeTagDTOs = this.knowledgeTagDTOs$.getValue();
-    const indexOfUpdated = knowledgeTagDTOs.findIndex(tag => tag.id === knowledgeTagDTO.id);
+  updateKnowledgeTag(knowledgeTag: KnowledgeTag) {
+    const knowledgeTags = this.knowledgeTags$.getValue();
+    const indexOfUpdated = knowledgeTags.findIndex(tag => tag.id === knowledgeTag.id);
 
-    knowledgeTagDTOs[indexOfUpdated] = knowledgeTagDTO;
-    this.knowledgeTagDTOs$.next([...knowledgeTagDTOs]);
+    knowledgeTags[indexOfUpdated] = knowledgeTag;
+    this.knowledgeTags$.next([...knowledgeTags]);
   }
 
-  removeKnowledgeTagDTO(knowledgeTagDTO: KnowledgeTagDTO) {
-    const knowledgeTagDTOs = this.knowledgeTagDTOs$.getValue();
-    this.knowledgeTagDTOs$.next(knowledgeTagDTOs.filter(tag => tag.id !== knowledgeTagDTO.id));
+  removeKnowledgeTag(knowledgeTag: KnowledgeTag) {
+    const knowledgeTags = this.knowledgeTags$.getValue();
+    this.knowledgeTags$.next(knowledgeTags.filter(tag => tag.id !== knowledgeTag.id));
   }
 }

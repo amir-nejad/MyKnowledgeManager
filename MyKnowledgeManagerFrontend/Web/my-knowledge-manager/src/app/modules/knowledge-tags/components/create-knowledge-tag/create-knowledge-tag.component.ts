@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { KnowledgeTagDTO } from '../../../../shared/index';
 import { } from "@ng-bootstrap/ng-bootstrap";
 import { KnowledgeTagsFacade } from '../../knowledge-tags.facade';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -15,7 +14,7 @@ import { map } from 'rxjs/operators';
 export class CreateKnowledgeTagComponent implements OnInit {
   knowledgeTag: KnowledgeTag;
 
-  constructor(private _knowledgeTagApi: KnowledgeTagsApi, private _authService: AuthService) {
+  constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade, private _authService: AuthService) {
     this.knowledgeTag = {
       id: crypto.randomUUID(),
       tagName: "",
@@ -34,9 +33,13 @@ export class CreateKnowledgeTagComponent implements OnInit {
     ).catch(err => {
       console.log(err);
     })
+
+    this._knowledgeTagsFacade.loadKnowledgeTags();
   }
 
   async createKnowledgeTag() {
-    
+    this._knowledgeTagsFacade.addKnowledgeTag(this.knowledgeTag).then(result => {
+      console.log(result);
+    });
   }
 }

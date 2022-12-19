@@ -1,7 +1,7 @@
 import { HttpClient, HttpHandler, HttpHeaders } from "@angular/common/http";
 import { AuthService } from '../../../core/services/auth.service';
 import { Observable } from 'rxjs';
-import { KnowledgeTag, KnowledgeTagDTO } from '../../../shared';
+import { KnowledgeTag } from '../../../shared';
 import { Injectable } from "@angular/core";
 import { Constants } from "src/app/configs/constants";
 
@@ -40,9 +40,9 @@ export class KnowledgeTagsApi {
   }
 
 
-  async createKnowledgeTag$(knowledgeTagDTO: KnowledgeTag): Promise<Observable<KnowledgeTag>> {
+  async createKnowledgeTag$(knowledgeTag: KnowledgeTag): Promise<Observable<KnowledgeTag>> {
     this.setHeaders();
-    return this._http.post<KnowledgeTag>(this.endpoint, knowledgeTagDTO, { headers: this.headers });
+    return this._http.post<KnowledgeTag>(this.endpoint, knowledgeTag, { headers: this.headers });
   }
 
   private setHeaders(contentType: string = "content/JSON") {

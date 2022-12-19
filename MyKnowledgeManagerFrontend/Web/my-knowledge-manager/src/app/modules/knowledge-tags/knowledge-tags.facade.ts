@@ -2,39 +2,44 @@ import { Injectable } from '@angular/core';
 import { KnowledgeTagsApi } from './api/knowledge-tags.api';
 import { KnowledgeTagsState } from './state/knowledge-tags.state';
 import { Observable, tap } from 'rxjs';
-import { KnowledgeTagDTO } from 'src/app/shared';
+import { KnowledgeTag } from 'src/app/shared';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class KnowledgeTagsFacade {
-    constructor(private _knowledgeTagsApi: KnowledgeTagsApi, private _knowledgeTagsState: KnowledgeTagsState) {
+  constructor(private _knowledgeTagsApi: KnowledgeTagsApi, private _knowledgeTagsState: KnowledgeTagsState) {
 
-    }
+  }
 
-    isUpdating$(): Observable<boolean> {
-        return this._knowledgeTagsState.isUpdating$();
-    }
+  isUpdating$(): Observable<boolean> {
+    return this._knowledgeTagsState.isUpdating$();
+  }
 
-    getKnowledgeTags$(): Observable<KnowledgeTagDTO[]> {
-        return this._knowledgeTagsState.getKnowledgeTagDTOs$();
-    }
+  getKnowledgeTags$(): Observable<KnowledgeTag[]> {
+    return this._knowledgeTagsState.getKnowledgeTags$();
+  }
 
-    // loadKnowledgeTags() {
-    //     this._knowledgeTagsApi.getKnowledgeTags$()
-    //     .pipe(tap(tags => this._knowledgeTagsState.setKnowledgeTagDTOs(tags)));
-    // }
+  async loadKnowledgeTags() {
+    let result = await this._knowledgeTagsApi.getKnowledgeTags$();
+    result.pipe(tap(tags => this._knowledgeTagsState.setKnowledgeTags(tags)))
+  }
 
-    // addKnowledgeTag(knowledgeTagDTO: KnowledgeTagDTO) {
-    //     this._knowledgeTagsState.addKnowledgeTagDTO(knowledgeTagDTO);
-    //     this._knowledgeTagsApi.createKnowledgeTag$(knowledgeTagDTO)
-    //         .subscribe((addedTagWithId: KnowledgeTagDTO) => {
-    //             this._knowledgeTagsState.updateKnowledgeTagDTO(addedTagWithId);
+  async addKnowledgeTag(knowledgeTag: KnowledgeTag): Promise<KnowledgeTag> {
+    this._knowledgeTagsState.addKnowledgeTag(knowledgeTag);
+    let result = await this._knowledgeTagsApi.createKnowledgeTag$(knowledgeTag);
 
-    //         }),
-    //         (error: any) => {
-    //             this._knowledgeTagsState.removeKnowledgeTagDTO(knowledgeTagDTO);
-    //             console.log(error);
-    //         }
-    // }
+    result.subscribe((addedTagWithId: KnowledgeTag) => {
+      this._knowledgeTagsState.updateKnowledgeTag(addedTagWithId);
+      console.log(addedTagWithId);
+      knowledgeTag = addedTagWithId;
+    }),
+      (error: any) => {
+        this._knowledgeTagsState.removeKnowledgeTag(knowledgeTag);
+        console.log(error);
+        knowledgeTag.id = "";
+      }
+
+      return knowledgeTag;
+  }
 }
