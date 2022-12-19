@@ -13,34 +13,30 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./create-knowledge-tag.component.scss']
 })
 export class CreateKnowledgeTagComponent implements OnInit {
-  knowledgeTag: KnowledgeTag = {
-    id: "",
-    tagName: "",
-    createdDate: new Date(),
-    updatedDate: new Date(),
-    isTrashItem: false,
-    userId: ""
-  };
+  knowledgeTag: KnowledgeTag;
 
   constructor(private _knowledgeTagApi: KnowledgeTagsApi, private _authService: AuthService) {
-    this._authService.getUserId().then(
-      id => this.knowledgeTag.userId = id!
-    )
-    console.log(this.knowledgeTag.userId);
+    this.knowledgeTag = {
+      id: crypto.randomUUID(),
+      tagName: "",
+      createdDate: new Date(),
+      updatedDate: new Date(),
+      isTrashItem: false,
+      userId: ""
+    };
   }
 
   ngOnInit(): void {
+    this._authService.getUserId().then(
+      id => {
+        this.knowledgeTag.userId = id;
+      }
+    ).catch(err => {
+      console.log(err);
+    })
   }
 
   async createKnowledgeTag() {
-    console.log("createKnowledgeTag called.")
-    // this._knowledgeTagsFacade.addKnowledgeTag(this.knowledgeTag);
-    // this._knowledgeTagApi.get();
-    let result = (await this._knowledgeTagApi.getKnowledgeTags$()).forEach(
-      x => {
-        console.log(x);
-      }
-    );
-    console.log(result);
+    
   }
 }

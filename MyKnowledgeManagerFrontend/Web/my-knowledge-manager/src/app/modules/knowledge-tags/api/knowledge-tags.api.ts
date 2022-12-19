@@ -13,11 +13,13 @@ export class KnowledgeTagsApi {
   accessToken: string = "";
 
   constructor(private _http: HttpClient, private _authService: AuthService) {
-
+    this._authService.getAccessToken().then(token => {
+      this.accessToken = token!;
+    });
   }
 
   knowledgeTag: KnowledgeTag = {
-    id: "",
+    id: null,
     tagName: "",
     createdDate: new Date(),
     updatedDate: new Date(),
@@ -27,44 +29,28 @@ export class KnowledgeTagsApi {
 
   knowledgeTags: KnowledgeTag[] = [];
 
-  authorizationHeader: HttpHeaders = new HttpHeaders();
+  headers: HttpHeaders = new HttpHeaders();
   readonly endpoint = `${Constants.apiRoot}/knowledgeTags`
 
   async getKnowledgeTags$(): Promise<Observable<KnowledgeTag[]>> {
-    let token = await this._authService.getAccessToken();
-    console.log(token);
-    this.accessToken = token!;
-    
-    let result = this._http.get<KnowledgeTag[]>(this.endpoint, { headers: this.authorizationHeader })
-    .pipe(data => {
-      console.log(data);
-      return data;
-    });
 
-    return result;
+    this.setHeaders();
+
+    return this._http.get<KnowledgeTag[]>(this.endpoint, { headers: this.headers });
   }
 
 
-  async get() {
-    let token = await this._authService.getAccessToken();
-    console.log(token);
-    this.accessToken = token!;
-    
-    console.log(this.accessToken);
-    this.authorizationHeader = new HttpHeaders().set('Authorization', `Bearer ${this.accessToken}`);
-    console.log(this.authorizationHeader);
-    let result = this._http.get(this.endpoint, { headers: this.authorizationHeader })
-    .pipe(data => {
-      console.log(data);
-      data.forEach(x => {
-        console.log(x);
-      })
-      return data;
-    });
+  async createKnowledgeTag$(knowledgeTagDTO: KnowledgeTag): Promise<Observable<KnowledgeTag>> {
+    this.setHeaders();
+    return this._http.post<KnowledgeTag>(this.endpoint, knowledgeTagDTO, { headers: this.headers });
   }
 
-  // createKnowledgeTag$(knowledgeTagDTO: KnowledgeTag): Observable<KnowledgeTag> {
-  //   return this._http.post<KnowledgeTagDTO>(this.endpoint, knowledgeTagDTO, { headers: this.authorizationHeader});
-  // }
-
+  private setHeaders(contentType: string = "content/JSON") {
+    this.headers = new HttpHeaders(
+      {
+        "Authorization": `Bearer ${this.accessToken}`,
+        "ContentType": contentType
+      }
+    )
+  }
 }

@@ -1,8 +1,8 @@
 export interface KnowledgeTag {
-  id: string,
+  id: string | null,
   tagName: string,
   createdDate?: Date,
   updatedDate?: Date,
   isTrashItem: boolean,
-  userId: string
+  userId: string | null
 }
