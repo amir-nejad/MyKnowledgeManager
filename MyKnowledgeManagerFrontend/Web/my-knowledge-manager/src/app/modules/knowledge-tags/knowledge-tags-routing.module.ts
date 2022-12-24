@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateKnowledgeTagComponent } from './components/create-knowledge-tag/create-knowledge-tag.component';
+import { TagsComponent } from './pages/tags/tags.component';
 
 const routes: Routes = [
-  { path: "create", component: CreateKnowledgeTagComponent }
+  { path: "manage-tags", component: TagsComponent }
 ];
 
 @NgModule({
