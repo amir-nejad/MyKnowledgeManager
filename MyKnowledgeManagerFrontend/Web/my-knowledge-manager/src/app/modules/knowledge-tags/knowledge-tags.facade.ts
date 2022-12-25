@@ -21,8 +21,12 @@ export class KnowledgeTagsFacade {
   }
 
   async loadKnowledgeTags() {
+    this._knowledgeTagsState.setUpdating(true);
     let result = await this._knowledgeTagsApi.getKnowledgeTags$();
-    result.pipe(tap(tags => this._knowledgeTagsState.setKnowledgeTags(tags)))
+    result.subscribe(tags => {
+      this._knowledgeTagsState.setKnowledgeTags(tags);
+      this._knowledgeTagsState.setUpdating(false);
+    });
   }
 
   async addKnowledgeTag(knowledgeTag: KnowledgeTag): Promise<KnowledgeTag> {

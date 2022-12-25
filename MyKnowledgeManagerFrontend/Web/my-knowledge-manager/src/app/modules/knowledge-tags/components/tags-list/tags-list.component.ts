@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { KnowledgeTagsFacade } from '../../knowledge-tags.facade';
+import { Observable } from 'rxjs';
+import { KnowledgeTag } from 'src/app/shared';
 
 @Component({
   selector: 'app-tags-list',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TagsListComponent implements OnInit {
 
-  constructor() { }
+  isUpdating: boolean = false;
+  knowledgeTags: KnowledgeTag[] = [];
 
-  ngOnInit(): void {
+  constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade) {
+   }
+
+  async ngOnInit(): Promise<void> {
+    this._knowledgeTagsFacade.isUpdating$().subscribe(isUpdating => {
+      this.isUpdating = isUpdating;
+    })
+
+    this._knowledgeTagsFacade.getKnowledgeTags$().subscribe(tags => {
+      this.knowledgeTags = tags;
+    })
+
+    await this._knowledgeTagsFacade.loadKnowledgeTags();
   }
 
 }

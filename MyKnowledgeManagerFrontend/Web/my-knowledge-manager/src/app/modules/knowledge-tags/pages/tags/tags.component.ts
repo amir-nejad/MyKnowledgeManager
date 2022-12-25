@@ -21,7 +21,37 @@ export class TagsComponent implements OnInit {
 
   constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade,
     private _authService: AuthService, private router: Router, private modalService: NgbModal) {
-    this.knowledgeTag = {
+    this.knowledgeTag = this.initializeKnowledgeTag();
+
+    this.knowledgeTags$ = _knowledgeTagsFacade.getKnowledgeTags$();
+    this.isUpdating$ = _knowledgeTagsFacade.isUpdating$();
+  }
+
+  openCreateModal(content: any) {
+    this.knowledgeTag = this.initializeKnowledgeTag();
+    this.knowledgeTag.id = crypto.randomUUID();
+    this.setUserId();
+    console.log(content);
+    this.modalService.open(content);
+  }
+
+  openUpdateModal(content: any, id: string) {
+    this.knowledgeTag = this.initializeKnowledgeTag();
+    this.updateMode = true;
+    this.knowledgeTag.id = id;
+    this.setUserId();
+    console.log(this.knowledgeTag.id);
+    console.log(this.knowledgeTag.userId);
+    this.modalService.open(content);
+  }
+
+  ngOnInit(): void {
+    this.setUserId();
+    this._knowledgeTagsFacade.loadKnowledgeTags();
+  }
+
+  private initializeKnowledgeTag(): KnowledgeTag {
+    return {
       id: "",
       tagName: "",
       createdDate: new Date(),
@@ -29,28 +59,9 @@ export class TagsComponent implements OnInit {
       isTrashItem: false,
       userId: ""
     };
-
-    this.knowledgeTags$ = _knowledgeTagsFacade.getKnowledgeTags$();
-    this.isUpdating$ = _knowledgeTagsFacade.isUpdating$();
   }
 
-  openCreateModal(content: any) {
-    this.knowledgeTag.id = crypto.randomUUID();
-    console.log(content);
-    this.modalService.open(content);
-  }
-
-  openUpdateModal(content: any, id: string) {
-    this.updateMode = true;
-    this.knowledgeTag.id = id;
-    this.modalService.open(content).result.then(
-      (result => {
-        console.log(result);
-      }),
-    );
-  }
-
-  ngOnInit(): void {
+  private setUserId() {
     this._authService.getUserId().then(
       id => {
         this.knowledgeTag.userId = id;
@@ -58,7 +69,5 @@ export class TagsComponent implements OnInit {
     ).catch(err => {
       console.log(err);
     })
-
-    this._knowledgeTagsFacade.loadKnowledgeTags();
   }
 }
