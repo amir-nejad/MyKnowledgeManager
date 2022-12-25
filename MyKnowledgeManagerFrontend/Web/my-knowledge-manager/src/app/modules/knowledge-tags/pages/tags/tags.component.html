@@ -1,18 +1,29 @@
-<div class="container">
+<div class="container p-3">
+  <div class="row my-2">
+    <div class="col-lg-8 m-auto">
+      <button type="button" class="btn btn-primary" (click)="openCreateModal(content)">Create Tag</button>
+    </div>
+  </div>
   <div class="row">
     <div class="col-lg-8 m-auto">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Create Knowledge Category</h3>
+          <h3 class="card-title">Manage Knowledge Tags</h3>
         </div>
         <div class="card-body">
-
-        </div>
-        <div class="card-footer">
-
+          <app-tags-list></app-tags-list>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create Knowledge Tag</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <app-create-update [knowledgeTag]="knowledgeTag"></app-create-update>
+  </div>
+</ng-template>

@@ -26,11 +26,11 @@ export class KnowledgeTagsFacade {
   }
 
   async addKnowledgeTag(knowledgeTag: KnowledgeTag): Promise<KnowledgeTag> {
-    this._knowledgeTagsState.addKnowledgeTag(knowledgeTag);
+    this._knowledgeTagsState.setUpdating(true);
     let result = await this._knowledgeTagsApi.createKnowledgeTag$(knowledgeTag);
 
     result.subscribe((addedTagWithId: KnowledgeTag) => {
-      this._knowledgeTagsState.updateKnowledgeTag(addedTagWithId);
+      this._knowledgeTagsState.addKnowledgeTag(addedTagWithId);
       console.log(addedTagWithId);
       knowledgeTag = addedTagWithId;
     }),
@@ -39,6 +39,8 @@ export class KnowledgeTagsFacade {
         console.log(error);
         knowledgeTag.id = "";
       }
+
+      this._knowledgeTagsState.setUpdating(false);
 
       return knowledgeTag;
   }

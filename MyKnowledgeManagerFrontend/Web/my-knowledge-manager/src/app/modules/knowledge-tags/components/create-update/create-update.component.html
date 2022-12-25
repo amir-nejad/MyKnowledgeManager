@@ -3,21 +3,23 @@
     <div class="col-lg-12 form-group">
       <label for="knowledgeTagTitle" class="form-label">Title</label>
       <input
-         type="text"
-         id="knowledgeTagTitle"
-         class="form-control"
-         [(ngModel)]="knowledgeTag.tagName"
-         />
+        type="text"
+        id="knowledgeTagTitle"
+        class="form-control"
+        [(ngModel)]="knowledgeTag.tagName"
+      />
     </div>
   </div>
-  <div class="row">
-    <div class="col-lg-12 form-group">
-      <button type="button" (click)="createKnowledgeTag()">Save</button>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <span class="spinner-border"></span>
-      </div>
+  <div class="row my-2">
+    <div class="col-lg-12 text-center form-group">
+      <button
+        class="btn btn-sm btn-primary"
+        type="button"
+        (click)="createKnowledgeTag()"
+      >
+        Save
+        <span class="spinner-border" *ngIf="isUpdating"></span>
+      </button>
     </div>
   </div>
 </div>

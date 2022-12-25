@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { KnowledgeTagsFacade } from '../../knowledge-tags.facade';
 import { AuthService } from 'src/app/core';
 import { Router } from '@angular/router';
 import { KnowledgeTag } from 'src/app/shared';
 import { Observable } from 'rxjs';
 import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap"
+import { CreateUpdateComponent } from '../../components/create-update/create-update.component';
 
 @Component({
   selector: 'app-tags',
@@ -16,11 +17,12 @@ export class TagsComponent implements OnInit {
   knowledgeTag: KnowledgeTag;
   knowledgeTags$: Observable<KnowledgeTag[]>;
   isUpdating$: Observable<boolean>;
+  updateMode: boolean = false;
 
   constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade,
-              private _authService: AuthService, private router: Router, private modalService: NgbModal) {
+    private _authService: AuthService, private router: Router, private modalService: NgbModal) {
     this.knowledgeTag = {
-      id: crypto.randomUUID(),
+      id: "",
       tagName: "",
       createdDate: new Date(),
       updatedDate: new Date(),
@@ -32,8 +34,20 @@ export class TagsComponent implements OnInit {
     this.isUpdating$ = _knowledgeTagsFacade.isUpdating$();
   }
 
-  openModal(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  openCreateModal(content: any) {
+    this.knowledgeTag.id = crypto.randomUUID();
+    console.log(content);
+    this.modalService.open(content);
+  }
+
+  openUpdateModal(content: any, id: string) {
+    this.updateMode = true;
+    this.knowledgeTag.id = id;
+    this.modalService.open(content).result.then(
+      (result => {
+        console.log(result);
+      }),
+    );
   }
 
   ngOnInit(): void {
@@ -47,6 +61,4 @@ export class TagsComponent implements OnInit {
 
     this._knowledgeTagsFacade.loadKnowledgeTags();
   }
-
-
 }
