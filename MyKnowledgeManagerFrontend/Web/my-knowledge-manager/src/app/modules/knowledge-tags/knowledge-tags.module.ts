@@ -5,13 +5,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KnowledgeTagsRoutingModule } from './knowledge-tags-routing.module';
 import { TagsComponent } from './pages/tags/tags.component';
 import { CreateUpdateComponent } from './components/create-update/create-update.component';
+import { TagsListComponent } from './components/tags-list/tags-list.component';
 
 
 
 @NgModule({
   declarations: [
     TagsComponent,
-    CreateUpdateComponent
+    CreateUpdateComponent,
+    TagsListComponent
   ],
   imports: [
     CommonModule,

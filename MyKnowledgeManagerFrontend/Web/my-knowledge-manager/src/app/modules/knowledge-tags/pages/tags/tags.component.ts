@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/core';
 import { Router } from '@angular/router';
 import { KnowledgeTag } from 'src/app/shared';
 import { Observable } from 'rxjs';
+import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap"
 
 @Component({
   selector: 'app-tags',
@@ -17,7 +18,7 @@ export class TagsComponent implements OnInit {
   isUpdating$: Observable<boolean>;
 
   constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade,
-              private _authService: AuthService, private router: Router) {
+              private _authService: AuthService, private router: Router, private modalService: NgbModal) {
     this.knowledgeTag = {
       id: crypto.randomUUID(),
       tagName: "",
@@ -29,6 +30,10 @@ export class TagsComponent implements OnInit {
 
     this.knowledgeTags$ = _knowledgeTagsFacade.getKnowledgeTags$();
     this.isUpdating$ = _knowledgeTagsFacade.isUpdating$();
+  }
+
+  openModal(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   ngOnInit(): void {
@@ -43,9 +48,5 @@ export class TagsComponent implements OnInit {
     this._knowledgeTagsFacade.loadKnowledgeTags();
   }
 
-  async createKnowledgeTag() {
-    await this._knowledgeTagsFacade.addKnowledgeTag(this.knowledgeTag);
 
-    this.router.navigate(['/']);
-  }
 }
