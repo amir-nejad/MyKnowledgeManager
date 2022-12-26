@@ -36,13 +36,17 @@ export class KnowledgeTagsFacade {
       id: "",
       tagName: "",
       isTrashItem: false,
-      userId: ""
+      userId: "",
+      createdDate: new Date(),
+      updatedDate: new Date()
     };
 
     let result = await this._knowledgeTagsApi.getKnowledgeTag$(id);
 
     return result.pipe(map(tag => {
+      console.log(tag);
       knowledgeTag = tag;
+      console.log(knowledgeTag.createdDate);
       return knowledgeTag;
     }))
   }
@@ -56,7 +60,7 @@ export class KnowledgeTagsFacade {
       knowledgeTag = addedTagWithId;
     }),
       (error: any) => {
-        this._knowledgeTagsState.removeKnowledgeTag(knowledgeTag);
+        this._knowledgeTagsState.removeKnowledgeTag(knowledgeTag.id!);
         console.log(error);
         knowledgeTag.id = "";
       }
@@ -81,5 +85,18 @@ export class KnowledgeTagsFacade {
       this._knowledgeTagsState.setUpdating(false);
 
       return knowledgeTag;
+  }
+
+  async moveToTrashKnowledgeTag(id: string) {
+    this._knowledgeTagsState.setUpdating(true);
+    let result = await this._knowledgeTagsApi.moveToTrashKnowledgeTag$(id);
+
+    result.subscribe(result => {
+      if(result == null) {
+        this._knowledgeTagsState.removeKnowledgeTag(id);
+      }
+    })
+
+    this._knowledgeTagsState.setUpdating(false);
   }
 }

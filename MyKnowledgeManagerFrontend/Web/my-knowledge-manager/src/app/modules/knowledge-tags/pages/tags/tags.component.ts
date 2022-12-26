@@ -49,6 +49,18 @@ export class TagsComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  async openDeleteModal(trash: any) {
+    let updateItemIdInput: HTMLInputElement = document.getElementById("updateItemId") as HTMLInputElement;
+
+    let result = await this._knowledgeTagsFacade.getKnowledgeTag$(updateItemIdInput.value);
+
+    result.subscribe(tag => {
+      this.knowledgeTag = tag;
+    })
+
+    this.modalService.open(trash);
+  }
+
   ngOnInit(): void {
     this.setUserId();
     this._knowledgeTagsFacade.loadKnowledgeTags();

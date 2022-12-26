@@ -11,8 +11,11 @@
           <h3 class="card-title">Manage Knowledge Tags</h3>
         </div>
         <div class="card-body">
-          <input type="hidden" id="updateItemId">
-          <app-tags-list (editButtonClicked)="openUpdateModal(content)"></app-tags-list>
+          <input type="hidden" id="updateItemId" />
+          <app-tags-list
+            (editButtonClicked)="openUpdateModal(content)"
+            (deleteButtonClicked)="openDeleteModal(trash)">
+          </app-tags-list>
         </div>
       </div>
     </div>
@@ -21,10 +24,21 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Create Knowledge Tag</h4>
+    <h4 class="modal-title" id="modal-basic-title" *ngIf="!updateMode">Create Knowledge Tag</h4>
+    <h4 class="modal-title" id="modal-basic-title" *ngIf="updateMode">Update Knowledge Tag</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
     <app-create-update [knowledgeTag]="knowledgeTag" [updateMode]="updateMode"></app-create-update>
+  </div>
+</ng-template>
+
+<ng-template #trash let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete Knowledge Tag</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <app-delete-trash [trashMode]="true" [knowledgeTag]="knowledgeTag"></app-delete-trash>
   </div>
 </ng-template>

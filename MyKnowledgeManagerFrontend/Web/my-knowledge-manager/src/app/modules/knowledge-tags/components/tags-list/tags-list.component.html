@@ -9,8 +9,10 @@
       </th>
     </tr>
   </thead>
-  <tbody *ngIf="isUpdating">
-    <tr>
+  <tbody>
+  </tbody>
+  <tbody>
+    <tr *ngIf="isUpdating">
       <td colspan="2">
         <div class="text-center">
           <span class="spinner spinner-border"></span>
@@ -20,20 +22,16 @@
         </div>
       </td>
     </tr>
-  </tbody>
-  <tbody *ngIf="!isUpdating && knowledgeTags">
     <tr *ngFor="let tag of knowledgeTags">
       <td>
         {{ tag.tagName }}
       </td>
       <td>
         <button class="btn btn-sm btn-info mx-1" (click)="editClicked(tag.id!)">Edit</button>
-        <button class="btn btn-sm btn-danger">Delete</button>
+        <button class="btn btn-sm btn-danger" (click)="deleteClicked(tag.id!)">Delete</button>
       </td>
     </tr>
-  </tbody>
-  <tbody *ngIf="!isUpdating && !knowledgeTags">
-    <tr>
+    <tr *ngIf="!isUpdating && !knowledgeTags">
       <td colspan="2">
         You have not created any tags yet.
       </td>

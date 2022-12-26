@@ -1,0 +1,36 @@
+<div class="container">
+  <dl class="row">
+    <dt class="col-md-4">
+      Tag Name
+    </dt>
+    <dd class="col-mg-8">
+      {{ knowledgeTag.tagName }}
+    </dd>
+    <dt class="col-md-4">
+      Created Date
+    </dt>
+    <dd class="col-mg-8">
+      <span *ngIf="knowledgeTag.createdDate">
+        {{knowledgeTag.createdDate}}
+      </span>
+    </dd>
+    <dt class="col-md-4">
+      Updated Date
+    </dt>
+    <dd class="col-mg-8">
+      <span *ngIf="knowledgeTag.updatedDate">
+        {{knowledgeTag.updatedDate}}
+      </span>
+    </dd>
+  </dl>
+  <div class="row">
+    <div class="col-12 text-center">
+      <button class="btn btn-sm btn-danger w-50" type="button" (click)="moveToTrash()" *ngIf="trashMode">
+        Move to Trash
+      </button>
+      <button type="button" *ngIf="!trashMode">
+        Delete For Ever
+      </button>
+    </div>
+  </div>
+</div>

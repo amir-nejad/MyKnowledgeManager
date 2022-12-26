@@ -38,8 +38,8 @@ export class KnowledgeTagsState {
     this.knowledgeTags$.next([...knowledgeTags]);
   }
 
-  removeKnowledgeTag(knowledgeTag: KnowledgeTag) {
+  removeKnowledgeTag(id: string) {
     const knowledgeTags = this.knowledgeTags$.getValue();
-    this.knowledgeTags$.next(knowledgeTags.filter(tag => tag.id !== knowledgeTag.id));
+    this.knowledgeTags$.next(knowledgeTags.filter(tag => tag.id !== id));
   }
 }

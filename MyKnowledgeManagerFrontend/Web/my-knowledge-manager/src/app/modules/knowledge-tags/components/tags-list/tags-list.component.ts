@@ -13,6 +13,7 @@ export class TagsListComponent implements OnInit {
   isUpdating: boolean = false;
   knowledgeTags: KnowledgeTag[] = [];
   @Output() editButtonClicked = new EventEmitter<void>();
+  @Output() deleteButtonClicked = new EventEmitter<void>();
 
   constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade) {
    }
@@ -20,11 +21,11 @@ export class TagsListComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this._knowledgeTagsFacade.isUpdating$().subscribe(isUpdating => {
       this.isUpdating = isUpdating;
-    })
+    });
 
     this._knowledgeTagsFacade.getKnowledgeTags$().subscribe(tags => {
       this.knowledgeTags = tags;
-    })
+    });
 
     await this._knowledgeTagsFacade.loadKnowledgeTags();
   }
@@ -33,5 +34,12 @@ export class TagsListComponent implements OnInit {
     let updateItemIdInput: HTMLInputElement = document.getElementById("updateItemId") as HTMLInputElement;
     updateItemIdInput.value = id;
     this.editButtonClicked.emit();
+  }
+
+  deleteClicked(id: string) {
+    console.log(id);
+    let updateItemIdInput: HTMLInputElement = document.getElementById("updateItemId") as HTMLInputElement;
+    updateItemIdInput.value = id;
+    this.deleteButtonClicked.emit();
   }
 }
