@@ -1,3 +1,6 @@
+/**
+ * This class stored some important constants.
+ */
 export class Constants {
   public static apiRoot = "https://localhost:7220/api";
   public static clientRoot = "http://localhost:4200";

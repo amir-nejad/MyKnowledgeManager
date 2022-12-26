@@ -1,5 +1,8 @@
 import { KnowledgeImportance, KnowledgeLevel } from "..";
 
+/**
+ * This interface is used for mapping the api response of Knowledge and using as a model for angular app.
+ */
 export interface Knowledge {
   id: string,
   title: string,

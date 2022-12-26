@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap"
 import { CreateUpdateComponent } from '../../components/create-update/create-update.component';
 
+
 @Component({
   selector: 'app-tags',
   templateUrl: './tags.component.html',
@@ -27,6 +28,7 @@ export class TagsComponent implements OnInit {
     this.isUpdating$ = _knowledgeTagsFacade.isUpdating$();
   }
 
+  // Opening a modal for create a new KnowledgeTag
   openCreateModal(content: any) {
     this.knowledgeTag = this.initializeKnowledgeTag();
     this.knowledgeTag.id = crypto.randomUUID();
@@ -35,6 +37,7 @@ export class TagsComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  // Opening a modal for update a KnowledgeTag
   async openUpdateModal(content: any) {
     this.updateMode = true;
 
@@ -49,6 +52,7 @@ export class TagsComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  // Opening a modal for moving to trash a KnowledgeTag
   async openDeleteModal(trash: any) {
     let updateItemIdInput: HTMLInputElement = document.getElementById("updateItemId") as HTMLInputElement;
 
@@ -66,6 +70,7 @@ export class TagsComponent implements OnInit {
     this._knowledgeTagsFacade.loadKnowledgeTags();
   }
 
+  // Initializing an empty object of KnowledgeTag
   private initializeKnowledgeTag(): KnowledgeTag {
     return {
       id: "",

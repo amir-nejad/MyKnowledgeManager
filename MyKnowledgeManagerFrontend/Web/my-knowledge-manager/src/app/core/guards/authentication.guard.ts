@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { AuthService } from '..';
 
+// This guard is used for checking if the user is authenticated and can access to a specific URL or not.
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +17,6 @@ export class AuthenticationGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log("Can Activate called.");
 
     this._authService.loginChanged$
     .subscribe(res => {

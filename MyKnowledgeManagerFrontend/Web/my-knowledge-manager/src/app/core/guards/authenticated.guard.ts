@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { AuthService } from '..';
 
+// This guard is used, to prevent user from accessing anonymous pages if authenticated.
 @Injectable({
   providedIn: 'root'
 })
