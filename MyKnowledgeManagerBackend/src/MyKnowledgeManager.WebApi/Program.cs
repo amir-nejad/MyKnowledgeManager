@@ -88,6 +88,7 @@ app.UseCors(options =>
     options.WithOrigins("http://localhost:4200");
     options.AllowCredentials();
     options.AllowAnyHeader();
+    options.WithMethods("PUT", "GET", "POST", "DELETE");
 });
 
 app.UseRouting();
