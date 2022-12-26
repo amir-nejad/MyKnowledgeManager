@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { KnowledgeTagsFacade } from '../../knowledge-tags.facade';
 import { Observable } from 'rxjs';
 import { KnowledgeTag } from 'src/app/shared';
@@ -12,6 +12,7 @@ export class TagsListComponent implements OnInit {
 
   isUpdating: boolean = false;
   knowledgeTags: KnowledgeTag[] = [];
+  @Output() editButtonClicked = new EventEmitter<void>();
 
   constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade) {
    }
@@ -28,4 +29,9 @@ export class TagsListComponent implements OnInit {
     await this._knowledgeTagsFacade.loadKnowledgeTags();
   }
 
+  editClicked(id: string) {
+    let updateItemIdInput: HTMLInputElement = document.getElementById("updateItemId") as HTMLInputElement;
+    updateItemIdInput.value = id;
+    this.editButtonClicked.emit();
+  }
 }

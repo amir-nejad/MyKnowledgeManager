@@ -35,13 +35,17 @@ export class TagsComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  openUpdateModal(content: any, id: string) {
-    this.knowledgeTag = this.initializeKnowledgeTag();
+  async openUpdateModal(content: any) {
     this.updateMode = true;
-    this.knowledgeTag.id = id;
-    this.setUserId();
-    console.log(this.knowledgeTag.id);
-    console.log(this.knowledgeTag.userId);
+
+    let updateItemIdInput: HTMLInputElement = document.getElementById("updateItemId") as HTMLInputElement;
+
+    let result = await this._knowledgeTagsFacade.getKnowledgeTag$(updateItemIdInput.value);
+
+    result.subscribe(tag => {
+      this.knowledgeTag = tag;
+    })
+
     this.modalService.open(content);
   }
 

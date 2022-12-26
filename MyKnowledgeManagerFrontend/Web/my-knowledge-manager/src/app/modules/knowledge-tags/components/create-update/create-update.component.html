@@ -16,9 +16,19 @@
         class="btn btn-sm btn-primary"
         type="button"
         (click)="createKnowledgeTag()"
+        *ngIf="!updateMode"
       >
         Save
-        <span class="spinner-border" *ngIf="isUpdating"></span>
+        <span class="spinner-border spinner-border-sm" *ngIf="isUpdating"></span>
+      </button>
+      <button
+        class="btn btn-sm btn-primary"
+        type="button"
+        (click)="updateKnowledgeTag()"
+        *ngIf="updateMode"
+      >
+        Save
+        <span class="spinner-border spinner-border-sm" *ngIf="isUpdating"></span>
       </button>
     </div>
   </div>

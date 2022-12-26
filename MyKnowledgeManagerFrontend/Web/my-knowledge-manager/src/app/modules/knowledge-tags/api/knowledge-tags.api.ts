@@ -39,12 +39,21 @@ export class KnowledgeTagsApi {
     return this._http.get<KnowledgeTag[]>(this.endpoint, { headers: this.headers });
   }
 
+  async getKnowledgeTag$(id: string) {
+    this.setHeaders();
+    return this._http.get<KnowledgeTag>(`${this.endpoint}/getKnowledgeTagById/${id}`, { headers: this.headers });
+  }
+
 
   async createKnowledgeTag$(knowledgeTag: KnowledgeTag): Promise<Observable<KnowledgeTag>> {
     this.setHeaders();
     return this._http.post<KnowledgeTag>(this.endpoint, knowledgeTag, { headers: this.headers });
   }
 
+  async updateKnowledgeTag$(knowledgeTag: KnowledgeTag): Promise<Observable<KnowledgeTag>> {
+    this.setHeaders();
+    return this._http.put<KnowledgeTag>(`${this.endpoint}/${knowledgeTag.id}`, knowledgeTag, { headers: this.headers });
+  }
   private setHeaders(contentType: string = "content/JSON") {
     this.headers = new HttpHeaders(
       {

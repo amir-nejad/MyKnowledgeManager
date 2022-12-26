@@ -38,5 +38,12 @@ export class CreateUpdateComponent implements OnInit {
       this._activeModals.dismissAll();
     }
   }
-  
+
+  async updateKnowledgeTag() {
+    console.log("Update Called.");
+    Promise.all([await this._knowledgeTagsFacade.updateKnowledgeTag(this.knowledgeTag)]);
+    if (this._activeModals.hasOpenModals()) {
+      this._activeModals.dismissAll();
+    }
+  }
 }
