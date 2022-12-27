@@ -36,7 +36,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             // Getting all tags from the database.
-            var getKnowledgeTagsResult = await _knowledgeTagService.GetKnowledgeTagsAsync(_userId ,includeKnowledges);
+            var getKnowledgeTagsResult = await _knowledgeTagService.GetKnowledgeTagsAsync(_userId, includeKnowledges);
 
             // Checking if the operation was successful or not.
             if (!getKnowledgeTagsResult.IsSuccess) return Problem(GeneralProblemMessage);
@@ -185,6 +185,19 @@ namespace MyKnowledgeManager.WebApi.Controllers
             if (id is null) return BadRequest();
 
             var result = await _knowledgeTagService.RemoveKnowledgeTagAsync(id, _userId);
+
+            if (!result.IsSuccess) return Problem(GeneralProblemMessage);
+
+            return Ok();
+        }
+
+        // DELETE: api/deleteTrashItems
+        [HttpDelete("deleteTrashItems")]
+        public async Task<IActionResult> DeleteTrashItems()
+        {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var result = await _trashManager.DeleteTrashItemsAsync(_userId);
 
             if (!result.IsSuccess) return Problem(GeneralProblemMessage);
 
