@@ -37,6 +37,8 @@ export class KnowledgeTagsApi {
   // Base URL
   readonly endpoint = `${Constants.apiRoot}/knowledgeTags`
 
+  // General CRUD API Functions //
+
   /**
    * This function can get all KnowledgeTag objects as an Observable from the API.
    */
@@ -54,7 +56,6 @@ export class KnowledgeTagsApi {
     this.setHeaders();
     return this._http.get<KnowledgeTag>(`${this.endpoint}/getKnowledgeTagById/${id}`, { headers: this.headers });
   }
-
 
   /**
    * This function can create a KnowledgeTag in the database using the API's POST method.
@@ -77,6 +78,18 @@ export class KnowledgeTagsApi {
   }
 
   /**
+   * This function can delete permanently a specific KnowledgeTag.
+   * @param id The Id of the target KnowledgeTag for deletion.
+   * @returns
+   */
+  async deleteKnowledgeTag$(id: string): Promise<Observable<any>> {
+    this.setHeaders();
+    return this._http.delete(`${this.endpoint}/${id}`, { headers: this.headers });
+  }
+
+  // Trash Related API Functions //
+
+  /**
    * This function can move a KnowledgeTag to the Trash by using API's PUT method.
    * @param id The Id of the target KnowledgeTag
    * @returns
@@ -85,6 +98,34 @@ export class KnowledgeTagsApi {
     this.setHeaders();
     console.log(id);
     return this._http.put(`${this.endpoint}/moveKnowledgeTagToTrash/${id}`, null, { headers: this.headers });
+  }
+
+  /**
+   * This function can get a list of KnowledgeTag trash items.
+   * @returns A list of KnowledgeTag objects that moved to the Trash
+   */
+  async getTrashKnowledgeTags$(): Promise<Observable<KnowledgeTag[]>> {
+    this.setHeaders();
+    return this._http.get<KnowledgeTag[]>(`${this.endpoint}/getTrashKnowledgeTags`, { headers: this.headers });
+  }
+
+  /**
+   * This function can restore a KnowledgeTag from the trash.
+   * @param id The Id of the target KnowledgeTag for restore.
+   * @returns
+   */
+  async restoreKnowledgeTag$(id: string): Promise<Observable<any>> {
+    this.setHeaders();
+    return this._http.put(`${this.endpoint}/restoreKnowledgeTag/${id}`, { headers: this.headers });
+  }
+
+  /**
+   * This function can delete all permanently KnowledgeTag trash items.
+   * @returns
+   */
+  async deleteKnowledgeTagTrashItems$(): Promise<Observable<any>> {
+    this.setHeaders();
+    return this._http.delete(`${this.endpoint}/deleteTrashItems`, { headers: this.headers });
   }
 
   // Set HTTP Headers
