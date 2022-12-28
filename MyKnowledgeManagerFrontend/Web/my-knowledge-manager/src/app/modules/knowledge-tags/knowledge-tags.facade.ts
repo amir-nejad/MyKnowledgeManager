@@ -4,6 +4,7 @@ import { KnowledgeTagsState } from './state/knowledge-tags.state';
 import { Observable, map, take, tap } from 'rxjs';
 import { KnowledgeTag } from 'src/app/shared';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,10 +21,9 @@ export class KnowledgeTagsFacade {
     return this._knowledgeTagsState.getKnowledgeTags$();
   }
 
-
-
   async loadKnowledgeTags() {
     this._knowledgeTagsState.setUpdating(true);
+
     let result = await this._knowledgeTagsApi.getKnowledgeTags$();
     result.subscribe(tags => {
       this._knowledgeTagsState.setKnowledgeTags(tags);

@@ -7,6 +7,7 @@ import { TagsComponent } from './pages/tags/tags.component';
 import { CreateUpdateComponent } from './components/create-update/create-update.component';
 import { TagsListComponent } from './components/tags-list/tags-list.component';
 import { DeleteTrashComponent } from './components/delete-trash/delete-trash.component';
+import { TrashComponent } from './pages/trash/trash.component';
 
 
 
@@ -15,7 +16,8 @@ import { DeleteTrashComponent } from './components/delete-trash/delete-trash.com
     TagsComponent,
     CreateUpdateComponent,
     TagsListComponent,
-    DeleteTrashComponent
+    DeleteTrashComponent,
+    TrashComponent
   ],
   imports: [
     CommonModule,
