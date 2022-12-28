@@ -3,7 +3,6 @@ import { KnowledgeTagsApi } from './api/knowledge-tags.api';
 import { Observable, map, take, tap } from 'rxjs';
 import { KnowledgeTag } from 'src/app/shared';
 import { KnowledgeTagsTrashState } from './state/knowledge-tags-trash.state';
-import { async } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +77,7 @@ export class KnowledgeTagsTrashFacade {
     this._knowledgeTagsTrashState.setUpdating(false);
   }
 
-  async EmptyTrash(id: string) {
+  async emptyTrash() {
     this._knowledgeTagsTrashState.setUpdating(true);
     let result = await this._knowledgeTagsApi.deleteKnowledgeTagTrashItems$();
 

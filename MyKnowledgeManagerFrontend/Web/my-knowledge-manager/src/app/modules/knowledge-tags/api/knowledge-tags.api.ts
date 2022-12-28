@@ -96,7 +96,6 @@ export class KnowledgeTagsApi {
    */
   async moveToTrashKnowledgeTag$(id: string): Promise<Observable<any>> {
     this.setHeaders();
-    console.log(id);
     return this._http.put(`${this.endpoint}/moveKnowledgeTagToTrash/${id}`, null, { headers: this.headers });
   }
 
@@ -116,7 +115,7 @@ export class KnowledgeTagsApi {
    */
   async restoreKnowledgeTag$(id: string): Promise<Observable<any>> {
     this.setHeaders();
-    return this._http.put(`${this.endpoint}/restoreKnowledgeTag/${id}`, { headers: this.headers });
+    return this._http.put(`${this.endpoint}/restoreKnowledgeTag/${id}`, null, { headers: this.headers });
   }
 
   /**

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { KnowledgeTag } from '../../../../shared/models/knowledge-tag';
 import { KnowledgeTagsFacade } from '../../knowledge-tags.facade';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { KnowledgeTagsTrashFacade } from '../../knowledge-tags-trash.facade';
 
 @Component({
   selector: 'app-delete-trash',
@@ -19,7 +20,9 @@ export class DeleteTrashComponent implements OnInit {
     userId: ""
   };
 
-  constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade, private _activeModals: NgbModal) {
+  constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade,
+    private _knowledgeTagsTrashFacade: KnowledgeTagsTrashFacade,
+    private _activeModals: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -27,6 +30,14 @@ export class DeleteTrashComponent implements OnInit {
 
   async moveToTrash() {
     await this._knowledgeTagsFacade.moveToTrashKnowledgeTag(this.knowledgeTag.id!);
+
+    if(this._activeModals.hasOpenModals()) {
+      this._activeModals.dismissAll();
+    }
+  }
+
+  async deleteItem() {
+    await this._knowledgeTagsTrashFacade.deleteKnowledgeTag(this.knowledgeTag.id!);
 
     if(this._activeModals.hasOpenModals()) {
       this._activeModals.dismissAll();

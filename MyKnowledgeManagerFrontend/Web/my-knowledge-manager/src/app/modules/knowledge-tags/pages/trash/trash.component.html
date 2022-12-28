@@ -13,6 +13,7 @@
         <div class="card-body">
           <input type="hidden" id="itemId" />
           <app-tags-list
+            [trashMode]="true"
             (restoreButtonClicked)="openRestoreModal(restoreModal)"
             (deleteButtonClicked)="openDeleteModal(deleteModal)">
           </app-tags-list>
@@ -24,21 +25,35 @@
 
 <ng-template #emptyTrashModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Empty Trash</h4>
+    <h4 class="modal-title" id="modal-basic-title">
+      Empty Trash Warning!
+    </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-
+    <p>
+      Are you sure want to delete all trash items? <strong>This action can't be undone!</strong>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-light" aria-label="Close" (click)="modal.dismiss('Cancel click')">No, Cancel</button>
+    <button type="button" class="btn btn-sm btn-danger" aria-label="Empty Trash" (click)="emptyTrash()">Yes, Empty Trash</button>
   </div>
 </ng-template>
 
 <ng-template #restoreModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Restore Knowledge Tag</h4>
+    <h4 class="modal-title" id="modal-basic-title">
+      Restore Item
+    </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-
+    Do you confirm that you want to restore this item?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-light" aria-label="Close" (click)="modal.dismiss('Cancel click')">No, Cancel</button>
+    <button type="button" class="btn btn-sm btn-primary" aria-label="Empty Trash" (click)="restoreItem()">Yes, Restore</button>
   </div>
 </ng-template>
 
@@ -48,5 +63,9 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
+    <app-delete-trash
+      [knowledgeTag]="knowledgeTag">
+
+    </app-delete-trash>
   </div>
 </ng-template>

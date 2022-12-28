@@ -28,8 +28,8 @@
       <button class="btn btn-sm btn-danger w-50" type="button" (click)="moveToTrash()" *ngIf="trashMode">
         Move to Trash
       </button>
-      <button type="button" *ngIf="!trashMode">
-        Delete For Ever
+      <button class="btn btn-sm btn-danger w-50" type="button" (click)="deleteItem()" *ngIf="!trashMode">
+        Delete Permanently
       </button>
     </div>
   </div>
