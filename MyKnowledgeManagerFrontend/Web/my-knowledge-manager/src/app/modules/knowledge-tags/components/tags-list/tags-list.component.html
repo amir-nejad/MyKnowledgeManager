@@ -1,4 +1,6 @@
-<table class="table table-bordered table-light text-center table-striped table-hover table-responsive-sm">
+<table
+  class="table table-bordered table-light text-center table-striped table-hover table-responsive-sm"
+>
   <thead>
     <tr>
       <th>
@@ -9,8 +11,7 @@
       </th>
     </tr>
   </thead>
-  <tbody>
-  </tbody>
+  <tbody></tbody>
   <tbody>
     <tr *ngIf="isUpdating">
       <td colspan="2">
@@ -26,14 +27,37 @@
       <td>
         {{ tag.tagName }}
       </td>
-      <td>
-        <button class="btn btn-sm btn-info mx-1" (click)="editClicked(tag.id!)">Edit</button>
-        <button class="btn btn-sm btn-danger" (click)="deleteClicked(tag.id!)">Delete</button>
+      <td *ngIf="!trashMode">
+        <button class="btn btn-sm btn-info mx-1" (click)="editClicked(tag.id!)">
+          Edit
+        </button>
+        <button
+          class="btn btn-sm btn-danger"
+          (click)="moveToTrashClicked(tag.id!)"
+        >
+          Move to Trash
+        </button>
+      </td>
+      <td *ngIf="trashMode">
+        <button
+          class="btn btn-sm btn-info mx-1"
+          (click)="restoreClicked(tag.id!)"
+        >
+          Restore
+        </button>
+        <button class="btn btn-sm btn-danger" (click)="deleteClicked(tag.id!)">
+          Delete
+        </button>
       </td>
     </tr>
     <tr *ngIf="!isUpdating && !knowledgeTags">
       <td colspan="2">
-        You have not created any tags yet.
+        <p *ngIf="!trashMode">
+          You have not created any tags yet.
+        </p>
+        <p *ngIf="trashMode">
+          Your trash is empty.
+        </p>
       </td>
     </tr>
   </tbody>

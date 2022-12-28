@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, resolveForwardRef } from '@angular/core';
+import { KnowledgeTag } from '../../../../shared/models/knowledge-tag';
+import { KnowledgeTagsTrashFacade } from '../../knowledge-tags-trash.facade';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/core';
 
 @Component({
   selector: 'app-trash',
@@ -7,9 +11,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrashComponent implements OnInit {
 
-  constructor() { }
+  isUpdating: boolean = false;
+
+  constructor(private _knowledgeTagsTrashFacade: KnowledgeTagsTrashFacade,
+    private _authService: AuthService, private _modalService: NgbModal) { }
 
   ngOnInit(): void {
+    this._knowledgeTagsTrashFacade.loadTrashKnowledgeTags();
   }
 
+  openEmptyTrashModal(emptyTrashModal: any) {
+    this._modalService.open(emptyTrashModal);
+  }
+
+  openDeleteModal(deleteModal: any) {
+    this._modalService.open(deleteModal);
+  }
+
+  openRestoreModal(restoreModal: any) {
+    this._modalService.open(restoreModal);
+  }
 }

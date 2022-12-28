@@ -11,10 +11,10 @@
           <h3 class="card-title">Manage Knowledge Tags</h3>
         </div>
         <div class="card-body">
-          <input type="hidden" id="updateItemId" />
+          <input type="hidden" id="itemId" />
           <app-tags-list
             (editButtonClicked)="openUpdateModal(content)"
-            (deleteButtonClicked)="openDeleteModal(trash)">
+            (moveToTrashButtonClicked)="openDeleteModal(trash)">
           </app-tags-list>
         </div>
       </div>

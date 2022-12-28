@@ -16,16 +16,11 @@ import { CreateUpdateComponent } from '../../components/create-update/create-upd
 export class TagsComponent implements OnInit {
 
   knowledgeTag: KnowledgeTag;
-  knowledgeTags$: Observable<KnowledgeTag[]>;
-  isUpdating$: Observable<boolean>;
   updateMode: boolean = false;
 
   constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade,
-    private _authService: AuthService, private router: Router, private modalService: NgbModal) {
+    private _authService: AuthService, private modalService: NgbModal) {
     this.knowledgeTag = this.initializeKnowledgeTag();
-
-    this.knowledgeTags$ = _knowledgeTagsFacade.getKnowledgeTags$();
-    this.isUpdating$ = _knowledgeTagsFacade.isUpdating$();
   }
 
   // Opening a modal for create a new KnowledgeTag
@@ -41,9 +36,9 @@ export class TagsComponent implements OnInit {
   async openUpdateModal(content: any) {
     this.updateMode = true;
 
-    let updateItemIdInput: HTMLInputElement = document.getElementById("updateItemId") as HTMLInputElement;
+    let itemIdInput: HTMLInputElement = document.getElementById("itemId") as HTMLInputElement;
 
-    let result = await this._knowledgeTagsFacade.getKnowledgeTag$(updateItemIdInput.value);
+    let result = await this._knowledgeTagsFacade.getKnowledgeTag$(itemIdInput.value);
 
     result.subscribe(tag => {
       this.knowledgeTag = tag;
@@ -54,9 +49,9 @@ export class TagsComponent implements OnInit {
 
   // Opening a modal for moving to trash a KnowledgeTag
   async openDeleteModal(trash: any) {
-    let updateItemIdInput: HTMLInputElement = document.getElementById("updateItemId") as HTMLInputElement;
+    let itemIdInput: HTMLInputElement = document.getElementById("itemId") as HTMLInputElement;
 
-    let result = await this._knowledgeTagsFacade.getKnowledgeTag$(updateItemIdInput.value);
+    let result = await this._knowledgeTagsFacade.getKnowledgeTag$(itemIdInput.value);
 
     result.subscribe(tag => {
       this.knowledgeTag = tag;
