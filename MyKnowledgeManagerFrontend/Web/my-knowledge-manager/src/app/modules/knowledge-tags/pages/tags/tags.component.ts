@@ -6,6 +6,7 @@ import { KnowledgeTag } from 'src/app/shared';
 import { Observable } from 'rxjs';
 import { ModalDismissReasons, NgbModal } from "@ng-bootstrap/ng-bootstrap"
 import { CreateUpdateComponent } from '../../components/create-update/create-update.component';
+import { KnowledgeTagsTrashFacade } from '../../knowledge-tags-trash.facade';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class TagsComponent implements OnInit {
 
   knowledgeTag: KnowledgeTag;
   updateMode: boolean = false;
+  trashItemsCount: number = 0;
 
   constructor(private _knowledgeTagsFacade: KnowledgeTagsFacade,
     private _authService: AuthService, private modalService: NgbModal) {
@@ -60,9 +62,8 @@ export class TagsComponent implements OnInit {
     this.modalService.open(trash);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.setUserId();
-    this._knowledgeTagsFacade.loadKnowledgeTags();
   }
 
   // Initializing an empty object of KnowledgeTag
