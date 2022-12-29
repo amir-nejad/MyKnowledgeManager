@@ -8,10 +8,12 @@ import { MenuComponent } from './core/menu/menu.component';
 import { CoreModule } from './core/core.module';
 import { KnowledgeTagsModule } from './modules/knowledge-tags/knowledge-tags.module';
 import { HttpClientModule } from '@angular/common/http';
+import { KnowledgeComponent } from './modules/knowledges/pages/knowledge/knowledge.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    KnowledgeComponent,
   ],
   imports: [
     BrowserModule,

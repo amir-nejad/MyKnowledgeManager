@@ -9,7 +9,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/knowledge-tags/knowledge-tags.module').then((p) => p.KnowledgeTagsModule),
     canActivate: [AuthenticationGuard]
-  }
+  },
+  {
+    path: 'knowledge',
+    loadChildren: () =>
+      import('./modules/knowledge/knowledge.module').then((p) => p.KnowledgeModule),
+    canActivate: [AuthenticationGuard]
+  },
 ];
 
 @NgModule({
