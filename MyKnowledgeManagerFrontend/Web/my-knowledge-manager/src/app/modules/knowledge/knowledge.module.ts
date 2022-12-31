@@ -6,6 +6,7 @@ import { DeleteTrashComponent } from './components/delete-trash/delete-trash.com
 import { CreateUpdateComponent } from './components/create-update/create-update.component';
 import { KnowledgeListComponent } from './components/knowledge-list/knowledge-list.component';
 import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
   ],
   imports: [
     CommonModule,
-    KnowledgeRoutingModule
+    KnowledgeRoutingModule,
+    ReactiveFormsModule,
   ]
 })
 export class KnowledgeModule { }

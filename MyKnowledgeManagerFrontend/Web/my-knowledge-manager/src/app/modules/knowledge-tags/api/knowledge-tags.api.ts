@@ -22,16 +22,6 @@ export class KnowledgeTagsApi {
     });
   }
 
-  knowledgeTag: KnowledgeTag = {
-    id: null,
-    tagName: "",
-    createdDate: new Date(),
-    updatedDate: new Date(),
-    isTrashItem: false,
-    userId: ""
-  }
-
-  knowledgeTags: KnowledgeTag[] = [];
   headers: HttpHeaders = new HttpHeaders();
 
   // Base URL
