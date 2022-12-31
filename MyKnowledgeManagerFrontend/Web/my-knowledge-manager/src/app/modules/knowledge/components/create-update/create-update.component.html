@@ -1,1 +1,59 @@
-<p>create-update works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 form-floating">
+      <input
+        type="text"
+        id="knowledgeTitle"
+        class="form-control"
+        [(ngModel)]="knowledge.title"
+      />
+      <label for="knowledgeTitle">Title</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 form-floating">
+      <textarea [(ngModel)]="knowledge.description" class="form-control" id="knowledgeDescription" cols="30" rows="10">
+
+      </textarea>
+      <label for="knowledgeDescription">Description</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 form-floating">
+      <select class="form-select" id="knowledgeImportance" [(ngModel)]="knowledge.knowledgeImportance"></select>
+      <label for="knowledgeImportance">Importance</label>
+    </div>
+    <div class="col-lg-6 form-floating">
+      <select class="form-select" id="knowledgeLevel" [(ngModel)]="knowledge.knowledgeLevel"></select>
+      <label for="knowledgeLevel">Level</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 form-floating">
+      <input type="text" id="knowledgeTags" [(ngModel)]="knowledge.knowledgeTags">
+      <label for="knowledgeTags">knowledgeTags</label>
+    </div>
+  </div>
+  <div class="row my-2">
+    <div class="col-lg-12 text-center">
+      <button
+        class="btn btn-sm btn-primary"
+        type="button"
+        (click)="createKnowledge()"
+        *ngIf="!updateMode"
+      >
+        Save
+        <span class="spinner-border spinner-border-sm" *ngIf="isUpdating"></span>
+      </button>
+      <button
+        class="btn btn-sm btn-primary"
+        type="button"
+        (click)="updateKnowledge()"
+        *ngIf="updateMode"
+      >
+        Save
+        <span class="spinner-border spinner-border-sm" *ngIf="isUpdating"></span>
+      </button>
+    </div>
+  </div>
+</div>
