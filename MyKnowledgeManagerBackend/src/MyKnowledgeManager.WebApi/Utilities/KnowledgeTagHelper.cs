@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace MyKnowledgeManager.WebApi.Utilities
 {
-    public static class KnowledgesTagHelper
+    public static class KnowledgeTagHelper
     {
         /// <summary>
         /// This function is used for checking a tag string and if have white space, removing it.

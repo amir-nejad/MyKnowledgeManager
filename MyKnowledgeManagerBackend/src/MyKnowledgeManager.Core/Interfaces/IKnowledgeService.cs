@@ -33,7 +33,7 @@ namespace MyKnowledgeManager.Core.Interfaces
         /// Null when any errors occurred.
         /// <see cref="List{Knowledge}"/> when operation succeeded.
         /// </returns>
-        Task<Result<List<Knowledge>>> GetKnowledgesAsync(bool includeTags = false, string userId = null);
+        Task<Result<List<Knowledge>>> GetKnowledgeListAsync(bool includeTags = false, string userId = null);
 
         /// <summary>
         /// This function is used for creating a <see cref="Knowledge"/> object.

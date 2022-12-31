@@ -19,7 +19,7 @@ namespace MyKnowledgeManager.Infrastructure.Data
             _mediator = mediator;
         }
 
-        public DbSet<Knowledge> Knowledges => Set<Knowledge>();
+        public DbSet<Knowledge> Knowledge => Set<Knowledge>();
 
         public DbSet<KnowledgeTag> KnowledgeTags => Set<KnowledgeTag>();
 

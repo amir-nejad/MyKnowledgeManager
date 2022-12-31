@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyKnowledgeManager.Core.Interfaces;
 using MyKnowledgeManager.SharedKernel.Utilities;
 using MyKnowledgeManager.WebApi.ApiModels;
+using MyKnowledgeManager.WebApi.Utilities;
 using System.Security.Claims;
 
 namespace MyKnowledgeManager.WebApi.Controllers
@@ -90,9 +91,15 @@ namespace MyKnowledgeManager.WebApi.Controllers
 
             var trashKnowledgeTags = await _trashManager.GetTrashItemsAsync(_userId);
 
+            // Checking if the operation was successful or not.
+            if (!trashKnowledgeTags.IsSuccess) return Problem(GeneralProblemMessage);
+
             if (trashKnowledgeTags.Value is null || trashKnowledgeTags.Value.Count() is 0) return NoContent();
 
-            return _mapper.Map<List<KnowledgeTagDTO>>(trashKnowledgeTags);
+            // Converting the list of KnowledgeTag objects to the list of KnowledgeTagDTO objects.
+            List<KnowledgeTagDTO> knowledgeTagDTOs = _mapper.Map<List<KnowledgeTagDTO>>(trashKnowledgeTags.Value.ToList());
+
+            return knowledgeTagDTOs;
         }
 
         // PUT: api/knowledgeTags
@@ -106,6 +113,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
             if (string.IsNullOrEmpty(knowledgeTagDTO.TagName)) return ValidationProblem(detail: "Tag Name cannot be null.");
 
             KnowledgeTag knowledgeTag = _mapper.Map<KnowledgeTag>(knowledgeTagDTO);
+
+            knowledgeTag.UpdateTagName(KnowledgeTagHelper.FinalizeTagString(knowledgeTag.TagName));
 
             // Updating the KnowledgeTag
             knowledgeTag = await _knowledgeTagService.UpdateKnowledgeTagAsync(knowledgeTag);
@@ -128,6 +137,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
             if (string.IsNullOrEmpty(knowledgeTagDTO.Id)) return ValidationProblem(detail: "Id Cannot be null");
 
             KnowledgeTag knowledgeTag = _mapper.Map<KnowledgeTag>(knowledgeTagDTO);
+
+            knowledgeTag.UpdateTagName(KnowledgeTagHelper.FinalizeTagString(knowledgeTag.TagName));
 
             knowledgeTag = await _knowledgeTagService.AddKnowledgeTagAsync(knowledgeTag);
 

@@ -61,7 +61,7 @@ namespace MyKnowledgeManager.Core.Services
             return knowledge;
         }
 
-        public async Task<Result<List<Knowledge>>> GetKnowledgesAsync(bool includeTags = false, string userId = null)
+        public async Task<Result<List<Knowledge>>> GetKnowledgeListAsync(bool includeTags = false, string userId = null)
         {
             if (includeTags)
             {

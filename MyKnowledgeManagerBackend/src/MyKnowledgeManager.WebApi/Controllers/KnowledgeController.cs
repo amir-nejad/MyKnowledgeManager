@@ -14,7 +14,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class KnowledgesController : ControllerBase
+    public class KnowledgeController : ControllerBase
     {
         private readonly IKnowledgeService _knowledgeService;
         private readonly IKnowledgeTagService _knowledgeTagService;
@@ -24,7 +24,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         private const string GeneralProblemMessage = "Something went wrong. Please try again.";
         private readonly string _userId;
 
-        public KnowledgesController(
+        public KnowledgeController(
             IKnowledgeService knowledgeService,
             IKnowledgeTagService knowledgeTagService,
             IKnowledgeTagRelationService knowledgeTagRelationService,
@@ -40,16 +40,16 @@ namespace MyKnowledgeManager.WebApi.Controllers
             _userId = User.FindFirst("sub").Value;
         }
 
-        // GET: api/Knowledges
+        // GET: api/Knowledge
         [HttpGet("{includeTags?}")]
-        public async Task<ActionResult<List<KnowledgeDTO>>> GetKnowledges(bool includeTags = false)
+        public async Task<ActionResult<List<KnowledgeDTO>>> GetKnowledgeList(bool includeTags = false)
         {
-            List<Knowledge> knowledges = await _knowledgeService.GetKnowledgesAsync(includeTags, _userId);
+            List<Knowledge> knowledge = await _knowledgeService.GetKnowledgeListAsync(includeTags, _userId);
             
-            return _mapper.Map<List<KnowledgeDTO>>(knowledges);
+            return _mapper.Map<List<KnowledgeDTO>>(knowledge);
         }
 
-        // GET: api/Knowledges/<GUID>
+        // GET: api/Knowledge/<GUID>
         [HttpGet("{id}/{includeTags?}")]
         public async Task<ActionResult<KnowledgeDTO>> GetKnowledge(string id, bool includeTags = false)
         {
@@ -64,18 +64,18 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return _mapper.Map<KnowledgeDTO>(knowledge);
         }
 
-        // GET: api/Knowledges/getTrashKnowledges
-        [HttpGet("getTrashKnowledges")]
-        public async Task<ActionResult<List<KnowledgeDTO>>> GetTrashKnowledges()
+        // GET: api/Knowledge/getTrashKnowledge
+        [HttpGet("getTrashKnowledge")]
+        public async Task<ActionResult<List<KnowledgeDTO>>> GetTrashKnowledge()
         {
-            var trashKnowledges = await _trashManager.GetTrashItemsAsync(_userId);
+            var trashKnowledge = await _trashManager.GetTrashItemsAsync(_userId);
 
-            if (trashKnowledges.Value is null || trashKnowledges.Value.Count() is 0) return NoContent();
+            if (trashKnowledge.Value is null || trashKnowledge.Value.Count() is 0) return NoContent();
 
-            return _mapper.Map<List<KnowledgeDTO>>(trashKnowledges);
+            return _mapper.Map<List<KnowledgeDTO>>(trashKnowledge);
         }
 
-        // POST: api/Knowledges
+        // POST: api/Knowledge
         [HttpPost]
         [HttpPut]
         public async Task<ActionResult<KnowledgeDTO>> PostKnowledge(KnowledgeDTO knowledgeDTO)
@@ -147,7 +147,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return knowledgeDTO;
         }
 
-        // PUT: api/Knowledges/moveKnowledgeToTrash/<GUID>
+        // PUT: api/Knowledge/moveKnowledgeToTrash/<GUID>
         [HttpPut("moveKnowledgeToTrash/{id}")]
         public async Task<ActionResult> MoveToTrashKnowledge(string id)
         {
@@ -164,7 +164,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return Ok();
         }
 
-        // PUT: api/Knowledges/restoreKnowledge/<GUID>
+        // PUT: api/Knowledge/restoreKnowledge/<GUID>
         [HttpPut("restoreKnowledge/{id}")]
         public async Task<IActionResult> RestoreKnowledge(string id)
         {
@@ -181,7 +181,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return Ok();
         }
 
-        // DELETE: api/Knowledges/<GUID>
+        // DELETE: api/Knowledge/<GUID>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKnowledge(string id)
         {
@@ -214,7 +214,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             // Iterate over all tags input items
             for (int i = 0; i < tags.Count(); i++)
             {
-                var finalizedValue = KnowledgesTagHelper.FinalizeTagString(tags[i]);
+                var finalizedValue = KnowledgeTagHelper.FinalizeTagString(tags[i]);
                 // TagName is unique, So, if we can get the tag from the database if exists.
                 KnowledgeTag knowledgeTag = await _knowledgeTagService.GetKnowledgeTagByNameAsync(finalizedValue, _userId);
 

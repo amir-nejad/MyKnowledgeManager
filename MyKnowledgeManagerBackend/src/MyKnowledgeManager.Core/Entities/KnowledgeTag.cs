@@ -22,6 +22,11 @@ namespace MyKnowledgeManager.Core.Entities
             UpdatedDate = updatedDate.HasValue ? updatedDate.Value : UpdatedDate;
         }
 
+        public void UpdateTagName(string tagName)
+        {
+            TagName = tagName;
+        }
+
         public override void ChangeTrashState(bool isTrashItem = false)
         {
             base.ChangeTrashState(isTrashItem);
