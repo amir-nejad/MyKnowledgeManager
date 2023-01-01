@@ -76,9 +76,9 @@ namespace MyKnowledgeManager.WebApi.Controllers
         }
 
         // POST: api/Knowledge
-        [HttpPost]
-        [HttpPut]
-        public async Task<ActionResult<KnowledgeDTO>> PostKnowledge(KnowledgeDTO knowledgeDTO)
+        [HttpPost("knoweldge")]
+        [HttpPut("knowledge")]
+        public async Task<ActionResult<KnowledgeDTO>> CreateKnowledge(KnowledgeDTO knowledgeDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -96,9 +96,12 @@ namespace MyKnowledgeManager.WebApi.Controllers
             if (knowledge.UserId is null) knowledge.UpdateUserId(_userId);
 
             #region Create or Update Tags
-            var updatedTagsResult = await UpdateDatabaseTagsAsync(knowledgeDTO.KnowledgeTags);
+            if (knowledgeDTO.KnowledgeTags is not null)
+            {
+                var updatedTagsResult = await UpdateDatabaseTagsAsync(knowledgeDTO.KnowledgeTags);
 
-            if (!updatedTagsResult.Item1) return Problem(GeneralProblemMessage);
+                if (!updatedTagsResult.Item1) return Problem(GeneralProblemMessage);
+            }
             #endregion
 
             #region Create or Update Knowledge
