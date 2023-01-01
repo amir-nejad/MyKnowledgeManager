@@ -7,6 +7,7 @@ import { CreateUpdateComponent } from './components/create-update/create-update.
 import { KnowledgeListComponent } from './components/knowledge-list/knowledge-list.component';
 import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     CommonModule,
     KnowledgeRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class KnowledgeModule { }

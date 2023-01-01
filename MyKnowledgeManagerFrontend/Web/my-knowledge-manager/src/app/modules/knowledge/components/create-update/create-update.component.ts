@@ -27,17 +27,42 @@ export class CreateUpdateComponent implements OnInit {
 
   isUpdating: boolean | undefined;
 
+  knowledgeImportanceArray: string[] = [
+    KnowledgeImportance.Neutral.toString(),
+    KnowledgeImportance.Important.toString(),
+    KnowledgeImportance.NotImportant.toString(),
+    KnowledgeImportance.VeryImportant.toString()
+  ]
 
-  constructor(private _knowledgeFacade: KnowledgeFacade, private _activeModals: NgbModal) { }
+  knowledgeLevelArray: string[] = [
+    KnowledgeLevel.Beginner.toString(),
+    KnowledgeLevel.Intermediate.toString(),
+    KnowledgeLevel.Advanced.toString(),
+    KnowledgeLevel.Expert.toString()
+  ]
 
-  ngOnInit(): void {
+
+  constructor(private _knowledgeFacade: KnowledgeFacade, private _activeModals: NgbModal) {
+   }
+
+   ngOnInit(): void {
+    this._knowledgeFacade.isUpdating$().subscribe(isUpdating => {
+      this.isUpdating = isUpdating;
+    })
   }
 
-  createKnowledge() {
-
+  async createKnowledge() {
+    Promise.all([await this._knowledgeFacade.addKnowledge(this.knowledge)]);
+    if (this._activeModals.hasOpenModals()) {
+      this._activeModals.dismissAll();
+    }
   }
 
-  updateKnowledge() {
-
+  async updateKnowledge() {
+    console.log("Update Called.");
+    Promise.all([await this._knowledgeFacade.updateKnowledge(this.knowledge)]);
+    if (this._activeModals.hasOpenModals()) {
+      this._activeModals.dismissAll();
+    }
   }
 }

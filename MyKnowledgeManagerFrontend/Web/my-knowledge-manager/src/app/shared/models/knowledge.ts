@@ -13,5 +13,5 @@ export interface Knowledge {
   createdDate?: Date,
   updatedDate?: Date,
   isTrashItem: boolean,
-  userId: string
+  userId: string | null
 }
