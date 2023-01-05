@@ -95,10 +95,12 @@ namespace MyKnowledgeManager.WebApi.Controllers
 
             if (knowledge.UserId is null) knowledge.UpdateUserId(_userId);
 
+            (bool, List<KnowledgeTag>) updatedTagsResult = (false, null);
+
             #region Create or Update Tags
             if (knowledgeDTO.KnowledgeTags is not null)
             {
-                var updatedTagsResult = await UpdateDatabaseTagsAsync(knowledgeDTO.KnowledgeTags);
+                updatedTagsResult = await UpdateDatabaseTagsAsync(knowledgeDTO.KnowledgeTags);
 
                 if (!updatedTagsResult.Item1) return Problem(GeneralProblemMessage);
             }
