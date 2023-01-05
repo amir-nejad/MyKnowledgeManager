@@ -26,7 +26,7 @@ export class KnowledgeComponent implements OnInit {
     this.knowledge.id = crypto.randomUUID();
     this.setUserId();
     console.log(content);
-    this.modalService.open(content);
+    this.modalService.open(content, { size: 'lg' });
   }
 
   // Opening a modal for update a Knowledge
@@ -41,7 +41,7 @@ export class KnowledgeComponent implements OnInit {
       this.knowledge = tag;
     })
 
-    this.modalService.open(content);
+    this.modalService.open(content, { size: 'lg' });
   }
 
   // Opening a modal for moving to trash a Knowledge
