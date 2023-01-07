@@ -3,6 +3,7 @@ import { Knowledge } from '../../../../shared/models/knowledge';
 import { KnowledgeImportance, KnowledgeLevel } from 'src/app/shared';
 import { KnowledgeFacade } from '../../knowledge.facade';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-update',
@@ -41,8 +42,8 @@ export class CreateUpdateComponent implements OnInit {
     KnowledgeLevel.Expert.toString()
   ]
 
-
-  constructor(private _knowledgeFacade: KnowledgeFacade, private _activeModals: NgbModal) {
+  constructor(private _knowledgeFacade: KnowledgeFacade,
+              private _activeModals: NgbModal) {
    }
 
    ngOnInit(): void {
@@ -52,6 +53,7 @@ export class CreateUpdateComponent implements OnInit {
   }
 
   async createKnowledge() {
+    console.log(this.knowledge);
     Promise.all([await this._knowledgeFacade.addKnowledge(this.knowledge)]);
     if (this._activeModals.hasOpenModals()) {
       this._activeModals.dismissAll();

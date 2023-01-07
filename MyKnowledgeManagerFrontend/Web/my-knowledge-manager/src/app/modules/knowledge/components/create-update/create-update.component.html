@@ -4,10 +4,12 @@
       <input
         type="text"
         id="knowledgeTitle"
+        placeholder="Enter the title"
         class="form-control"
         [(ngModel)]="knowledge.title"
-        required
+        [ngClass]="title.invalid && title.touched ? 'is-invalid' : ''"
         #title="ngModel"
+        required
       />
       <label for="knowledgeTitle">Title</label>
       <span *ngIf="title.invalid && title.touched" class="text-danger">
@@ -21,17 +23,24 @@
         [(ngModel)]="knowledge.description"
         class="form-control"
         id="knowledgeDescription"
+        placeholder="Enter the description"
+        [ngClass]="description.invalid && description.touched ? 'is-invalid' : ''"
         cols="30"
-        rows="10"
+        rows="30"
+        minlength="30"
         required
         #description="ngModel"
       ></textarea>
       <label for="knowledgeDescription">Description</label>
       <span
-        *ngIf="description.invalid && description.touched"
+        *ngIf="description.value == '' && description.touched"
         class="text-danger"
       >
         {{ 'Description' | requiredValidationMessage }}
+      </span>
+      <span *ngIf="description.value && description.value.length < 30 && description.touched"
+            class="text-danger">
+            The minimum length for the Description field is 30.
       </span>
     </div>
   </div>
@@ -40,6 +49,7 @@
       <select
         class="form-select"
         id="knowledgeImportance"
+        [ngClass]="importance.invalid && importance.touched ? 'is-invalid' : ''"
         [(ngModel)]="knowledge.knowledgeImportance"
         required
         #importance="ngModel"
@@ -65,6 +75,7 @@
         class="form-select"
         id="knowledgeLevel"
         [(ngModel)]="knowledge.knowledgeLevel"
+        [ngClass]="level.invalid && level.touched ? 'is-invalid' : ''"
         required
         #level="ngModel"
       >
@@ -87,6 +98,7 @@
       <input
         type="text"
         class="form-control"
+        placeholder="Enter the Tags"
         id="knowledgeTags"
         [(ngModel)]="knowledge.knowledgeTags"
       />
@@ -96,7 +108,7 @@
   <div class="row my-2">
     <div class="col-lg-12 text-center">
       <button
-        class="btn btn-sm btn-primary"
+        class="btn btn-sm btn-primary w-50"
         [ngClass]="(!title.valid || !description.valid || !importance.valid || !level.valid) ? 'disabled' : ''"
         type="button"
         (click)="createKnowledge()"
@@ -109,7 +121,7 @@
         ></span>
       </button>
       <button
-        class="btn btn-sm btn-primary"
+        class="btn btn-sm btn-primary w-50"
         type="button"
         [ngClass]="(!title.valid || !description.valid || !importance.valid || !level.valid) ? 'disabled' : ''"
         (click)="updateKnowledge()"
@@ -124,3 +136,4 @@
     </div>
   </div>
 </div>
+

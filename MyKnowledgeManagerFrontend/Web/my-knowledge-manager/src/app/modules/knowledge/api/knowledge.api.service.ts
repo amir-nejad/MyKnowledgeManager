@@ -54,7 +54,7 @@ export class KnowledgeApi {
    */
   async createKnowledge$(knowledge: Knowledge): Promise<Observable<Knowledge>> {
     this.setHeaders();
-    return this._http.post<Knowledge>(this.endpoint, knowledge, { headers: this.headers });
+    return this._http.post<Knowledge>(`${this.endpoint}`, knowledge, { headers: this.headers });
   }
 
   /**
@@ -64,7 +64,7 @@ export class KnowledgeApi {
    */
   async updateKnowledge$(knowledge: Knowledge): Promise<Observable<Knowledge>> {
     this.setHeaders();
-    return this._http.put<Knowledge>(`${this.endpoint}/${knowledge.id}`, knowledge, { headers: this.headers });
+    return this._http.put<Knowledge>(`${this.endpoint}/updateKnowledge`, knowledge, { headers: this.headers });
   }
 
   /**
