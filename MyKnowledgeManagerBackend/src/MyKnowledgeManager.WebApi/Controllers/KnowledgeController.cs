@@ -3,8 +3,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyKnowledgeManager.Core.Interfaces;
+using MyKnowledgeManager.SharedKernel.Utilities;
 using MyKnowledgeManager.WebApi.ApiModels;
 using MyKnowledgeManager.WebApi.Utilities;
+using System.Security.Claims;
 
 namespace MyKnowledgeManager.WebApi.Controllers
 {
@@ -13,7 +15,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = ConfigConstants.RequireApiScope)]
     public class KnowledgeController : ControllerBase
     {
         private readonly IKnowledgeService _knowledgeService;
@@ -22,7 +24,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         private readonly IMapper _mapper;
         private readonly ITrashManager<Knowledge> _trashManager;
         private const string GeneralProblemMessage = "Something went wrong. Please try again.";
-        private readonly string _userId;
+        private string _userId;
 
         public KnowledgeController(
             IKnowledgeService knowledgeService,
@@ -36,16 +38,16 @@ namespace MyKnowledgeManager.WebApi.Controllers
             _knowledgeTagRelationService = knowledgeTagRelationService;
             _mapper = mapper;
             _trashManager = trashManager;
-
-            _userId = User.FindFirst("sub").Value;
         }
 
         // GET: api/Knowledge
         [HttpGet("{includeTags?}")]
         public async Task<ActionResult<List<KnowledgeDTO>>> GetKnowledgeList(bool includeTags = false)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             List<Knowledge> knowledge = await _knowledgeService.GetKnowledgeListAsync(includeTags, _userId);
-            
+
             return _mapper.Map<List<KnowledgeDTO>>(knowledge);
         }
 
@@ -54,6 +56,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         public async Task<ActionResult<KnowledgeDTO>> GetKnowledge(string id, bool includeTags = false)
         {
             if (id is null) return BadRequest();
+
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             Knowledge knowledge = await _knowledgeService.GetKnowledgeByIdAsync(id, includeTags);
 
@@ -68,6 +72,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpGet("getTrashKnowledge")]
         public async Task<ActionResult<List<KnowledgeDTO>>> GetTrashKnowledge()
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             var trashKnowledge = await _trashManager.GetTrashItemsAsync(_userId);
 
             if (trashKnowledge.Value is null || trashKnowledge.Value.Count() is 0) return NoContent();
@@ -75,15 +81,18 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return _mapper.Map<List<KnowledgeDTO>>(trashKnowledge);
         }
 
-        // POST: api/Knowledge
-        [HttpPost("knoweldge")]
-        [HttpPut("knowledge")]
-        public async Task<ActionResult<KnowledgeDTO>> CreateKnowledge(KnowledgeDTO knowledgeDTO)
+        // POST: api/Knowledge/createKnowledge
+        [HttpPost]
+        // PUT: api/Knowledge/updateKnowledge
+        [HttpPut("updateKnowledge")]
+        public async Task<ActionResult<KnowledgeDTO>> CreateUpdateKnowledge(KnowledgeDTO knowledgeDTO)
         {
             if (!ModelState.IsValid)
             {
                 return ValidationProblem();
             }
+
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             // Converting KnowledgeDTO object to Knowledge object.
             Knowledge knowledge = _mapper.Map<Knowledge>(knowledgeDTO);
@@ -98,7 +107,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
             (bool, List<KnowledgeTag>) updatedTagsResult = (false, null);
 
             #region Create or Update Tags
-            if (knowledgeDTO.KnowledgeTags is not null)
+            if (knowledgeDTO.KnowledgeTags is not null && knowledgeDTO.KnowledgeTags.Count() != 0)
             {
                 updatedTagsResult = await UpdateDatabaseTagsAsync(knowledgeDTO.KnowledgeTags);
 
@@ -129,23 +138,25 @@ namespace MyKnowledgeManager.WebApi.Controllers
             knowledge = result.Value;
             #endregion
 
-
-            #region Create or Update Relations
-            // Adding knowledge relations
-            bool addRelationsResult = await AddKnowledgeTagRelationsAsync(
-                updatedTagsResult.Item2
-                .Select(x => x.Id)
-                .ToList(),
-                knowledge.Id);
-
-            // Checking if operation was successful.
-            if (!addRelationsResult)
+            if (knowledgeDTO.KnowledgeTags is not null && knowledgeDTO.KnowledgeTags.Count() != 0)
             {
-                await DeleteKnowledge(knowledge.Id);
+                #region Create or Update Relations
+                // Adding knowledge relations
+                bool addRelationsResult = await AddKnowledgeTagRelationsAsync(
+                    updatedTagsResult.Item2
+                    .Select(x => x.Id)
+                    .ToList(),
+                    knowledge.Id);
 
-                Response.StatusCode = StatusCodes.Status500InternalServerError;
+                // Checking if operation was successful.
+                if (!addRelationsResult)
+                {
+                    await DeleteKnowledge(knowledge.Id);
+
+                    Response.StatusCode = StatusCodes.Status500InternalServerError;
+                }
+                #endregion
             }
-            #endregion
 
             knowledgeDTO = _mapper.Map<KnowledgeDTO>(knowledge);
 
@@ -156,6 +167,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpPut("moveKnowledgeToTrash/{id}")]
         public async Task<ActionResult> MoveToTrashKnowledge(string id)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (id is null) return BadRequest();
 
             // Moving input item to the trash
@@ -173,6 +186,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpPut("restoreKnowledge/{id}")]
         public async Task<IActionResult> RestoreKnowledge(string id)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (id is null) return BadRequest();
 
             // Moving out input item from the trash
@@ -190,6 +205,8 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKnowledge(string id)
         {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             if (id is null) return BadRequest();
 
             // Removing the knowledge from the database.
