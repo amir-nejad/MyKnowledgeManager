@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { KnowledgeTagsFacade } from '../../knowledge-tags.facade';
-import { Observable } from 'rxjs';
 import { KnowledgeTag } from 'src/app/shared';
 import { KnowledgeTagsTrashFacade } from '../../knowledge-tags-trash.facade';
 

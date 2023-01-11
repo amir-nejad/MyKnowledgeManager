@@ -42,9 +42,9 @@ export class KnowledgeApi {
   /**
    * This function can get one Knowledge as an Observable based on provided Id from the API.
    */
-  async getKnowledge$(id: string): Promise<Observable<Knowledge>> {
+  async getKnowledge$(id: string, includeTags: boolean = false): Promise<Observable<Knowledge>> {
     this.setHeaders();
-    return this._http.get<Knowledge>(`${this.endpoint}/getKnowledgeById/${id}`, { headers: this.headers });
+    return this._http.get<Knowledge>(`${this.endpoint}/${id}/${includeTags}`, { headers: this.headers });
   }
 
   /**

@@ -22,6 +22,7 @@ export class KnowledgeComponent implements OnInit {
 
   // Opening a modal for create a new Knowledge
   openCreateModal(content: any) {
+    this.updateMode = false;
     this.knowledge = this.initializeKnowledge();
     this.knowledge.id = crypto.randomUUID();
     this.setUserId();
@@ -37,8 +38,8 @@ export class KnowledgeComponent implements OnInit {
 
     let result = await this._knowledgeFacade.getKnowledge$(itemIdInput.value);
 
-    result.subscribe(tag => {
-      this.knowledge = tag;
+    result.subscribe(knowledge => {
+      this.knowledge = knowledge;
     })
 
     this.modalService.open(content, { size: 'lg' });
@@ -50,8 +51,8 @@ export class KnowledgeComponent implements OnInit {
 
     let result = await this._knowledgeFacade.getKnowledge$(itemIdInput.value);
 
-    result.subscribe(tag => {
-      this.knowledge = tag;
+    result.subscribe(knowledge => {
+      this.knowledge = knowledge;
     })
 
     this.modalService.open(trash);

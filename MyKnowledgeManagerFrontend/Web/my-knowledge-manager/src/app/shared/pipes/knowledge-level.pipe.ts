@@ -6,7 +6,7 @@ import { KnowledgeLevel } from '../enums/knowledge-level';
 })
 export class KnowledgeLevelPipe implements PipeTransform {
 
-  transform(value: string, displayMode = false): string | KnowledgeLevel {
+  transform(value: string, displayMode = false): string | number {
     if (!value) return value;
 
     if (displayMode) {

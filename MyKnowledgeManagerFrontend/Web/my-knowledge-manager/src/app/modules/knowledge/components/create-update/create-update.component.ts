@@ -31,7 +31,6 @@ export class CreateUpdateComponent implements OnInit {
   knowledgeImportanceArray: string[] = [
     KnowledgeImportance.Neutral.toString(),
     KnowledgeImportance.Important.toString(),
-    KnowledgeImportance.NotImportant.toString(),
     KnowledgeImportance.VeryImportant.toString()
   ]
 
@@ -53,7 +52,8 @@ export class CreateUpdateComponent implements OnInit {
   }
 
   async createKnowledge() {
-    console.log(this.knowledge);
+    this.knowledge.knowledgeImportance = Number.parseInt(this.knowledge.knowledgeImportance.toString());
+    this.knowledge.knowledgeLevel = Number.parseInt(this.knowledge.knowledgeLevel.toString());
     Promise.all([await this._knowledgeFacade.addKnowledge(this.knowledge)]);
     if (this._activeModals.hasOpenModals()) {
       this._activeModals.dismissAll();
@@ -61,7 +61,8 @@ export class CreateUpdateComponent implements OnInit {
   }
 
   async updateKnowledge() {
-    console.log("Update Called.");
+    this.knowledge.knowledgeImportance = Number.parseInt(this.knowledge.knowledgeImportance.toString());
+    this.knowledge.knowledgeLevel = Number.parseInt(this.knowledge.knowledgeLevel.toString());
     Promise.all([await this._knowledgeFacade.updateKnowledge(this.knowledge)]);
     if (this._activeModals.hasOpenModals()) {
       this._activeModals.dismissAll();

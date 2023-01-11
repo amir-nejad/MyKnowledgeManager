@@ -1,1 +1,103 @@
-<p>knowledge-list works!</p>
+<table
+  class="table table-bordered table-light text-center table-hover table-responsive-sm"
+>
+  <thead>
+    <tr>
+      <th>
+        Title
+      </th>
+      <th>
+        Level
+      </th>
+      <th>
+        Importance
+      </th>
+      <th>
+        Actions
+      </th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+  <tbody>
+    <tr *ngIf="isUpdating">
+      <td colspan="4">
+        <div class="text-center">
+          <span class="spinner spinner-border"></span>
+          <p>
+            Loading...
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr *ngFor="let knowledge of knowledgeList">
+      <td>
+        {{ knowledge.title }}
+      </td>
+      <td>
+        <span class="badge text-bg-info">
+          {{ knowledge.knowledgeLevel.toString() | knowledgeLevel: true }}
+        </span>
+      </td>
+      <td>
+        <ng-container [ngSwitch]="knowledge.knowledgeImportance">
+          <span *ngSwitchCase="0" class="badge bg-secondary">
+            {{
+              knowledge.knowledgeImportance.toString()
+                | knowledgeImportance: true
+            }}
+          </span>
+          <span *ngSwitchCase="1" class="badge bg-warning">
+            {{
+              knowledge.knowledgeImportance.toString()
+                | knowledgeImportance: true
+            }}
+          </span>
+          <span *ngSwitchCase="2" class="badge bg-danger">
+            {{
+              knowledge.knowledgeImportance.toString()
+                | knowledgeImportance: true
+            }}
+          </span>
+        </ng-container>
+      </td>
+      <td *ngIf="!trashMode">
+        <button
+          class="btn btn-sm btn-info mx-1"
+          (click)="editClicked(knowledge.id!)"
+        >
+          Edit
+        </button>
+        <button
+          class="btn btn-sm btn-danger"
+          (click)="moveToTrashClicked(knowledge.id!)"
+        >
+          Move to Trash
+        </button>
+      </td>
+      <td *ngIf="trashMode">
+        <button
+          class="btn btn-sm btn-info mx-1"
+          (click)="restoreClicked(knowledge.id!)"
+        >
+          Restore
+        </button>
+        <button
+          class="btn btn-sm btn-danger"
+          (click)="deleteClicked(knowledge.id!)"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="!isUpdating && !knowledgeList">
+      <td colspan="2">
+        <p *ngIf="!trashMode">
+          You have not created any knowledge yet.
+        </p>
+        <p *ngIf="trashMode">
+          Your trash is empty.
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
