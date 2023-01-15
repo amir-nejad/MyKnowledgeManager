@@ -1,7 +1,7 @@
-import { HttpClient, HttpHandler, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
-import { Observable, catchError, finalize } from 'rxjs';
-import { Knowledge, KnowledgeImportance, KnowledgeLevel } from '../../../shared';
+import { Observable } from 'rxjs';
+import { Knowledge } from '../../../shared';
 import { Injectable } from "@angular/core";
 import { Constants } from "src/app/configs/constants";
 

@@ -1,1 +1,36 @@
-<p>delete-trash works!</p>
+<div class="container">
+  <dl class="row">
+    <dt class="col-md-4">
+      Tag Name
+    </dt>
+    <dd class="col-mg-8">
+      {{ knowledge.title }}
+    </dd>
+    <dt class="col-md-4">
+      Created Date
+    </dt>
+    <dd class="col-mg-8">
+      <span *ngIf="knowledge.createdDate">
+        {{knowledge.createdDate}}
+      </span>
+    </dd>
+    <dt class="col-md-4">
+      Updated Date
+    </dt>
+    <dd class="col-mg-8">
+      <span *ngIf="knowledge.updatedDate">
+        {{knowledge.updatedDate}}
+      </span>
+    </dd>
+  </dl>
+  <div class="row">
+    <div class="col-12 text-center">
+      <button class="btn btn-sm btn-danger w-50" type="button" (click)="moveToTrash()" *ngIf="trashMode">
+        Move to Trash
+      </button>
+      <button class="btn btn-sm btn-danger w-50" type="button" (click)="deleteItem()" *ngIf="!trashMode">
+        Delete Permanently
+      </button>
+    </div>
+  </div>
+</div>
