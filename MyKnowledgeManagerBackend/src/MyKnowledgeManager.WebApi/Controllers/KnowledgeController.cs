@@ -78,7 +78,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
 
             if (trashKnowledge.Value is null || trashKnowledge.Value.Count() is 0) return NoContent();
 
-            return _mapper.Map<List<KnowledgeDTO>>(trashKnowledge);
+            return _mapper.Map<List<KnowledgeDTO>>(trashKnowledge.Value);
         }
 
         // POST: api/Knowledge/createKnowledge
