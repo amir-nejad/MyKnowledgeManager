@@ -8,6 +8,7 @@ import { KnowledgeListComponent } from './components/knowledge-list/knowledge-li
 import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
+import { TrashComponent } from './pages/trash/trash.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { SharedModule } from '../../shared/shared.module';
     DeleteTrashComponent,
     CreateUpdateComponent,
     KnowledgeListComponent,
-    KnowledgeComponent
+    KnowledgeComponent,
+    TrashComponent
   ],
   imports: [
     CommonModule,

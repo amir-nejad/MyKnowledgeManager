@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { KnowledgeFacade } from '../../knowledge.facade';
 import { Knowledge } from '../../../../shared/models/knowledge';
+import { KnowledgeTrashFacade } from '../../knowledge.trash.facade';
 
 @Component({
   selector: 'app-knowledge-list',
@@ -17,12 +18,20 @@ export class KnowledgeListComponent implements OnInit {
   @Output() deleteButtonClicked = new EventEmitter<void>();
   @Output() restoreButtonClicked = new EventEmitter<void>();
 
-  constructor(private _knowledgeFacade: KnowledgeFacade) {
+  constructor(private _knowledgeFacade: KnowledgeFacade, private _knowledgeTrashFacade: KnowledgeTrashFacade) {
   }
 
   async ngOnInit(): Promise<void> {
     if (this.trashMode) {
+      this._knowledgeTrashFacade.isUpdating$().subscribe(isUpdating => {
+        this.isUpdating = isUpdating;
+      });
 
+      this._knowledgeTrashFacade.getTrashKnowledgeList$().subscribe(knowledgeList => {
+        this.knowledgeList = knowledgeList;
+      });
+
+      await this._knowledgeTrashFacade.loadTrashKnowledgeList();
     } else {
       this._knowledgeFacade.isUpdating$().subscribe(isUpdating => {
         this.isUpdating = isUpdating;
