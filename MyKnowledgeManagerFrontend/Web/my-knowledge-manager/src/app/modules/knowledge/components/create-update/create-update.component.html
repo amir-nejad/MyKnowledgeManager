@@ -94,15 +94,16 @@
     </div>
   </div>
   <div class="row my-2">
-    <div class="col-lg-12 form-floating">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Enter the Tags"
-        id="knowledgeTags"
-        [(ngModel)]="knowledge.knowledgeTags"
-      />
+    <div class="col-lg-12">
       <label for="knowledgeTags">Tags</label>
+      <tagify
+        [(ngModel)]="tags"
+        name="tags"
+        inputClass="form-control"
+        [settings]="tagifySettings"
+        aria-autocomplete="both"
+        id="knowledgeTags">
+      </tagify>
     </div>
   </div>
   <div class="row my-2">

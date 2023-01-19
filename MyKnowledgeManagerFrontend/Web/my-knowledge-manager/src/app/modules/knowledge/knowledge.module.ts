@@ -9,6 +9,7 @@ import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { TrashComponent } from './pages/trash/trash.component';
+import { TagifyModule } from 'ngx-tagify'
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { TrashComponent } from './pages/trash/trash.component';
     KnowledgeRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    TagifyModule.forRoot(),
     SharedModule
   ]
 })

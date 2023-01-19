@@ -3,7 +3,10 @@ import { Knowledge } from '../../../../shared/models/knowledge';
 import { KnowledgeImportance, KnowledgeLevel } from 'src/app/shared';
 import { KnowledgeFacade } from '../../knowledge.facade';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import * as tagify from 'ngx-tagify';
+import { KnowledgeTagsFacade } from '../../../knowledge-tags/knowledge-tags.facade';
+import { BehaviorSubject, map, mergeMap, of } from 'rxjs';
+import { KnowledgeTag } from '../../../../shared/models/knowledge-tag';
 
 @Component({
   selector: 'app-create-update',
@@ -41,19 +44,36 @@ export class CreateUpdateComponent implements OnInit {
     KnowledgeLevel.Expert.toString()
   ]
 
-  constructor(private _knowledgeFacade: KnowledgeFacade,
-              private _activeModals: NgbModal) {
-   }
+  tags: tagify.TagData[] = [];
 
-   ngOnInit(): void {
-    this._knowledgeFacade.isUpdating$().subscribe(isUpdating => {
-      this.isUpdating = isUpdating;
-    })
+  tagifySettings: tagify.TagifySettings = {
+    placeholder: "Start typing...",
+    duplicates: false,
+    readonly: false,
   }
 
+  whitelist$ = new BehaviorSubject<string[]>([]);
+
+  constructor(private _knowledgeFacade: KnowledgeFacade,
+    private _activeModals: NgbModal) {
+  }
+
+  ngOnInit(): void {
+    this._knowledgeFacade.isUpdating$().subscribe(isUpdating => {
+      this.isUpdating = isUpdating;
+    });
+  }
+
+
+
   async createKnowledge() {
+    // Assigning KnowledgeImportance and KnowledgeLevel for the API request.
     this.knowledge.knowledgeImportance = Number.parseInt(this.knowledge.knowledgeImportance.toString());
     this.knowledge.knowledgeLevel = Number.parseInt(this.knowledge.knowledgeLevel.toString());
+
+    // Assigning user entered tags
+    this.knowledge.knowledgeTags = this.tags.map(item => item.value);
+
     Promise.all([await this._knowledgeFacade.addKnowledge(this.knowledge)]);
     if (this._activeModals.hasOpenModals()) {
       this._activeModals.dismissAll();
@@ -61,8 +81,13 @@ export class CreateUpdateComponent implements OnInit {
   }
 
   async updateKnowledge() {
+    // Assigning KnowledgeImportance and KnowledgeLevel for the API request.
     this.knowledge.knowledgeImportance = Number.parseInt(this.knowledge.knowledgeImportance.toString());
     this.knowledge.knowledgeLevel = Number.parseInt(this.knowledge.knowledgeLevel.toString());
+
+    // Assigning user entered tags
+    this.knowledge.knowledgeTags = this.tags.map(item => item.value);
+
     Promise.all([await this._knowledgeFacade.updateKnowledge(this.knowledge)]);
     if (this._activeModals.hasOpenModals()) {
       this._activeModals.dismissAll();

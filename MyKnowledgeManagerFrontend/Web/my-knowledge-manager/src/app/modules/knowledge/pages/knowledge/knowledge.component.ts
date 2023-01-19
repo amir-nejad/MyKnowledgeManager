@@ -3,6 +3,8 @@ import { Knowledge, KnowledgeImportance, KnowledgeLevel } from 'src/app/shared';
 import { KnowledgeFacade } from '../../knowledge.facade';
 import { AuthService } from 'src/app/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as tagify from 'ngx-tagify';
+import { KnowledgeTagsFacade } from '../../../knowledge-tags/knowledge-tags.facade';
 
 @Component({
   selector: 'app-knowledge',
@@ -16,6 +18,7 @@ export class KnowledgeComponent implements OnInit {
   trashItemsCount: number = 0;
 
   constructor(private _knowledgeFacade: KnowledgeFacade,
+    private _tagifyService: tagify.TagifyService,
     private _authService: AuthService, private modalService: NgbModal) {
     this.knowledge = this.initializeKnowledge();
   }
@@ -26,7 +29,6 @@ export class KnowledgeComponent implements OnInit {
     this.knowledge = this.initializeKnowledge();
     this.knowledge.id = crypto.randomUUID();
     this.setUserId();
-    console.log(content);
     this.modalService.open(content, { size: 'lg' });
   }
 
@@ -36,10 +38,11 @@ export class KnowledgeComponent implements OnInit {
 
     let itemIdInput: HTMLInputElement = document.getElementById("itemId") as HTMLInputElement;
 
-    let result = await this._knowledgeFacade.getKnowledge$(itemIdInput.value);
+    let result = await this._knowledgeFacade.getKnowledge$(itemIdInput.value, true);
 
     result.subscribe(knowledge => {
       this.knowledge = knowledge;
+      this._tagifyService.get("tags").addTags(this.knowledge.knowledgeTags);
     })
 
     this.modalService.open(content, { size: 'lg' });

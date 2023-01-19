@@ -31,7 +31,7 @@ export class KnowledgeFacade {
     });
   }
 
-  async getKnowledge$(id: string): Promise<Observable<Knowledge>> {
+  async getKnowledge$(id: string, includeTags: boolean = false): Promise<Observable<Knowledge>> {
     let knowledge: Knowledge = {
       id: "",
       title: "",
@@ -45,7 +45,7 @@ export class KnowledgeFacade {
       updatedDate: new Date()
     };
 
-    let result = await this._knowledgeApi.getKnowledge$(id);
+    let result = await this._knowledgeApi.getKnowledge$(id, includeTags);
 
     return result.pipe(map(tag => {
       console.log(tag);
