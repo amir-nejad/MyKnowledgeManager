@@ -84,9 +84,14 @@ export class KnowledgeTrashFacade {
     let result = await this._knowledgeApi.deleteKnowledgeTrashItems$();
 
     result.subscribe(async result => {
+      console.log(result);
       if (result == null) {
         await this.loadTrashKnowledgeList();
       }
+    }, (error: any) => {
+      console.log(error);
     })
+
+    this._knowledgeTrashState.setUpdating(false);
   }
 }

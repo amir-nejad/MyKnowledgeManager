@@ -32,7 +32,7 @@ export class KnowledgeState {
 
   updateKnowledge(knowledge: Knowledge) {
     const knowledgeList = this.knowledge$.getValue();
-    const indexOfUpdated = knowledgeList.findIndex(knowledge => knowledge.id === knowledge.id);
+    const indexOfUpdated = knowledgeList.findIndex(k => k.id === knowledge.id);
 
     knowledgeList[indexOfUpdated] = knowledge;
     this.knowledge$.next([...knowledgeList]);
@@ -40,6 +40,6 @@ export class KnowledgeState {
 
   removeKnowledge(id: string) {
     const knowledge = this.knowledge$.getValue();
-    this.knowledge$.next(knowledge.filter(tag => tag.id !== id));
+    this.knowledge$.next(knowledge.filter(k => k.id !== id));
   }
 }

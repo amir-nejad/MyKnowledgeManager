@@ -32,7 +32,7 @@ export class KnowledgeTrashState {
 
   updateTrashKnowledge(knowledge: Knowledge) {
     const knowledgeTrashItems = this.knowledgeTrashItems$.getValue();
-    const indexOfUpdated = knowledgeTrashItems.findIndex(tag => tag.id === knowledge.id);
+    const indexOfUpdated = knowledgeTrashItems.findIndex(k => k.id === knowledge.id);
 
     knowledgeTrashItems[indexOfUpdated] = knowledge;
     this.knowledgeTrashItems$.next([...knowledgeTrashItems]);
@@ -40,6 +40,6 @@ export class KnowledgeTrashState {
 
   removeTrashKnowledge(id: string) {
     const knowledgeTrashItems = this.knowledgeTrashItems$.getValue();
-    this.knowledgeTrashItems$.next(knowledgeTrashItems.filter(tag => tag.id !== id));
+    this.knowledgeTrashItems$.next(knowledgeTrashItems.filter(k => k.id !== id));
   }
 }

@@ -78,9 +78,9 @@ export class KnowledgeFacade {
     this._knowledgeState.setUpdating(true);
     let result = await this._knowledgeApi.updateKnowledge$(knowledge);
 
-    result.subscribe((updatedTagWithId: Knowledge) => {
-      this._knowledgeState.updateKnowledge(updatedTagWithId);
-      knowledge = updatedTagWithId;
+    result.subscribe((updatedKnowledgeWithId: Knowledge) => {
+      this._knowledgeState.updateKnowledge(updatedKnowledgeWithId);
+      knowledge = updatedKnowledgeWithId;
     }),
       (error: any) => {
         console.log(error);
