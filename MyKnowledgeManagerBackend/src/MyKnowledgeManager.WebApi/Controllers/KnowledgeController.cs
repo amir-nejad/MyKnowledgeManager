@@ -217,6 +217,19 @@ namespace MyKnowledgeManager.WebApi.Controllers
             return Ok();
         }
 
+        [HttpDelete("deleteTrashItems")]
+        public async Task<IActionResult> EmptyTrashKnowledge()
+        {
+            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            // Removing all trash knowledge items.
+            var result = await _trashManager.DeleteTrashItemsAsync(_userId);
+
+            if (!result.IsSuccess) return Problem();
+
+            return Ok();
+        }
+
         /// <summary>
         /// This function updates database tags by detecting previous and new tags.
         /// </summary>
