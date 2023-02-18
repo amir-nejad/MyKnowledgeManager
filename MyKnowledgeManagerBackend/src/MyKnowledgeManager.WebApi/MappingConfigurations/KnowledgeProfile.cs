@@ -8,7 +8,10 @@ namespace MyKnowledgeManager.WebApi.MappingConfigurations
         public KnowledgeProfile()
         {
             CreateMap<Knowledge, KnowledgeDTO>()
-                .ForMember(dest => dest.KnowledgeTags, opt => opt.MapFrom(src => src.KnowledgeTagRelations.Select(x => x.KnowledgeTag.TagName).ToArray()));
+                .ForMember(
+                dest => dest.KnowledgeTags,
+                opt => opt.MapFrom(
+                    src => src.KnowledgeTagRelations != null && !src.KnowledgeTagRelations.Any(x => x.KnowledgeTag == null) ? src.KnowledgeTagRelations.Select(x => x.KnowledgeTag.TagName).ToArray() : null));
 
             CreateMap<KnowledgeDTO, Knowledge>()
                 .ConstructUsing(x => new Knowledge(x.Title, x.Description, x.KnowledgeLevel, x.KnowledgeImportance, x.UserId));

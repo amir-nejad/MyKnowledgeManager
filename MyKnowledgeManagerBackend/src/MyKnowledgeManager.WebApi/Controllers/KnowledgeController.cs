@@ -43,7 +43,7 @@ namespace MyKnowledgeManager.WebApi.Controllers
         // GET: api/Knowledge
         [HttpGet("{includeTags?}")]
         public async Task<ActionResult<List<KnowledgeDTO>>> GetKnowledgeList(bool includeTags = false)
-       {
+        {
             _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             List<Knowledge> knowledge = await _knowledgeService.GetKnowledgeListAsync(includeTags, _userId);
@@ -158,7 +158,25 @@ namespace MyKnowledgeManager.WebApi.Controllers
                 #endregion
             }
 
+            // Storing sent knowledgeTags from input
+            var knoweldgeTags = knowledgeDTO.KnowledgeTags;
+
             knowledgeDTO = _mapper.Map<KnowledgeDTO>(knowledge);
+
+            // We know that when we may have any KnowledgeTag in the input object and are created required relations
+            // till now. We also know that we need each KnowledgeTagRelation object in the created Knowledge
+            // has the included KnowledgeTag object for mapping operation, and in the creation process, we can't have that.
+            // So, we need to check the knowledgeTags variable first, and if we have any KnowledgeTag inside that, 
+            // and also we do have not any KnowledgeTag in the mapped knowledgeDTO (because of the mapping process),
+            // We have to use the stored list as KnowledgeDTO's list.
+            if (knoweldgeTags is not null &&
+                knoweldgeTags.Count() is not 0)
+            {
+                if (knowledgeDTO.KnowledgeTags is null || knowledgeDTO.KnowledgeTags.Count() is 0)
+                {
+                    knowledgeDTO.KnowledgeTags = knoweldgeTags;
+                }
+            }
 
             return knowledgeDTO;
         }
