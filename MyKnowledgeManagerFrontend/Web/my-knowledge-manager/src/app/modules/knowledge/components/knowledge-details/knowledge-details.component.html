@@ -1,0 +1,52 @@
+<dl class="row" *ngIf="knowledge">
+  <dt class="col-lg-4">
+    Title:
+  </dt>
+  <dd class="col-lg-8">
+    {{ knowledge.title }}
+  </dd>
+  <dt class="col-lg-4">
+    Description:
+  </dt>
+  <dd class="col-lg-8" [innerHTML]="knowledge.description"></dd>
+  <dt class="col-lg-4">
+    Importance:
+  </dt>
+  <dd class="col-lg-8">
+    {{ knowledge.knowledgeImportance.toString() | knowledgeImportance: true }}
+  </dd>
+  <dt class="col-lg-4">
+    Level:
+  </dt>
+  <dd class="col-lg-8">
+    {{ knowledge.knowledgeLevel.toString() | knowledgeLevel: true }}
+  </dd>
+  <dt class="col-lg-4">
+    Created Date:
+  </dt>
+  <dd class="col-lg-8">
+    {{ knowledge.createdDate | date: 'dd-MM-yyyy HH:mm' }}
+  </dd>
+  <dt class="col-lg-4">
+    Updated Date:
+  </dt>
+  <dd class="col-lg-8">
+    {{ knowledge.updatedDate | date: 'dd-MM-yyyy HH:mm' }}
+  </dd>
+  <dt class="col-lg-4">
+    Tags:
+  </dt>
+  <dd class="col-lg-8">
+    <div *ngIf="knowledge.knowledgeTags && knowledge.knowledgeTags.length > 0">
+      <span
+        class="badge bg-secondary mx-1"
+        *ngFor="let tag of knowledge.knowledgeTags"
+      >
+        {{ tag }}
+      </span>
+    </div>
+  </dd>
+</dl>
+<p *ngIf="!knowledge">
+  Nothing is there.
+</p>

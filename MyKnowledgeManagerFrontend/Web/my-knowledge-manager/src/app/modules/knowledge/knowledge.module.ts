@@ -9,7 +9,9 @@ import { KnowledgeComponent } from './pages/knowledge/knowledge.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { TrashComponent } from './pages/trash/trash.component';
-import { TagifyModule } from 'ngx-tagify'
+import { TagifyModule } from 'ngx-tagify';
+import { ViewKnowledgeComponent } from './pages/view-knowledge/view-knowledge.component';
+import { KnowledgeDetailsComponent } from './components/knowledge-details/knowledge-details.component'
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { TagifyModule } from 'ngx-tagify'
     CreateUpdateComponent,
     KnowledgeListComponent,
     KnowledgeComponent,
-    TrashComponent
+    TrashComponent,
+    ViewKnowledgeComponent,
+    KnowledgeDetailsComponent
   ],
   imports: [
     CommonModule,

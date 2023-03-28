@@ -61,6 +61,9 @@
         </ng-container>
       </td>
       <td *ngIf="!trashMode">
+        <button [routerLink]="['/view-knowledge', knowledge.id]" class="btn btn-sm btn-secondary">
+          View
+        </button>
         <button
           class="btn btn-sm btn-info mx-1"
           (click)="editClicked(knowledge.id!)"

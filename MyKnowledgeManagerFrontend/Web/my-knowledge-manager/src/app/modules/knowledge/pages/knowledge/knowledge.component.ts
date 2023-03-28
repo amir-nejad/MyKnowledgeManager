@@ -4,7 +4,6 @@ import { KnowledgeFacade } from '../../knowledge.facade';
 import { AuthService } from 'src/app/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as tagify from 'ngx-tagify';
-import { KnowledgeTagsFacade } from '../../../knowledge-tags/knowledge-tags.facade';
 
 @Component({
   selector: 'app-knowledge',
