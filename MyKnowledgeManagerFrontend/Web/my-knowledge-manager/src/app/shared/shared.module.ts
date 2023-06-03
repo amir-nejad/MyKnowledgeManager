@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { KnowledgeImportancePipe } from './pipes/knowledge-importance.pipe';
 import { KnowledgeLevelPipe } from './pipes/knowledge-level.pipe';
 import { RequiredValidationMessagePipe } from './pipes/required-validation-message.pipe';
+import { ErrorComponent } from './pages/error/error.component';
 
 
 
@@ -11,7 +12,8 @@ import { RequiredValidationMessagePipe } from './pipes/required-validation-messa
 
     KnowledgeImportancePipe,
     KnowledgeLevelPipe,
-    RequiredValidationMessagePipe
+    RequiredValidationMessagePipe,
+    ErrorComponent
   ],
   imports: [
     CommonModule

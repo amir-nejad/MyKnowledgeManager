@@ -44,11 +44,13 @@ namespace MyKnowledgeManager.WebApi.Controllers
         [HttpGet("{includeTags?}")]
         public async Task<ActionResult<List<KnowledgeDTO>>> GetKnowledgeList(bool includeTags = false)
         {
-            _userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //_userId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            List<Knowledge> knowledge = await _knowledgeService.GetKnowledgeListAsync(includeTags, _userId);
+            //List<Knowledge> knowledge = await _knowledgeService.GetKnowledgeListAsync(includeTags, _userId);
 
-            return _mapper.Map<List<KnowledgeDTO>>(knowledge);
+            //return _mapper.Map<List<KnowledgeDTO>>(knowledge);
+
+            return NotFound();
         }
 
         // GET: api/Knowledge/<GUID>
