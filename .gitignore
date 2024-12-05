@@ -371,10 +371,10 @@ MigrationBackup/
 /MyKnowledgeManagerBackend/src/MyKnowledgeManager.SharedKernel/bin/**/*
 /MyKnowledgeManagerBackend/src/MyKnowledgeManager.WebApi/obj/**/*
 /MyKnowledgeManagerBackend/src/MyKnowledgeManager.WebApi/bin/**/*
-/MyKnowledgeManagerBackend/src/MyKnowledgeManager.UnitTest/obj/**/*
-/MyKnowledgeManagerBackend/src/MyKnowledgeManager.UnitTest/bin/**/*
-/MyKnowledgeManagerBackend/src/MyKnowledgeManager.IntegrationTest/obj/**/*
-/MyKnowledgeManagerBackend/src/MyKnowledgeManager.IntegrationTest/bin/**/*
+/MyKnowledgeManagerBackend/tests/MyKnowledgeManager.UnitTest/obj/**/*
+/MyKnowledgeManagerBackend/tests/MyKnowledgeManager.UnitTest/bin/**/*
+/MyKnowledgeManagerBackend/tests/MyKnowledgeManager.IntegrationTest/obj/**/*
+/MyKnowledgeManagerBackend/tests/MyKnowledgeManager.IntegrationTest/bin/**/*
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
