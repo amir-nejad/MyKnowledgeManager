@@ -6,36 +6,33 @@ using MyKnowledgeManager.Core.Interfaces;
 using MyKnowledgeManager.Infrastructure.Data;
 using MyKnowledgeManager.SharedKernel.Interfaces;
 using System.Reflection;
+using MediatR.Extensions.Autofac.DependencyInjection;
 using Module = Autofac.Module;
+using MediatR.Extensions.Autofac.DependencyInjection.Builder;
 
 namespace MyKnowledgeManager.Infrastructure
 {
     public class DefaultInfrastructureModule : Module
     {
-        private readonly bool _isDevelopment = false;
-        private readonly List<Assembly> _assemblies = new List<Assembly>();
-
+        private readonly bool _isDevelopment;
+        private readonly Assembly[] _assemblies;
 
         public DefaultInfrastructureModule(bool isDevelopment, Assembly? callingAssembly = null)
         {
             _isDevelopment = isDevelopment;
-            var coreAssembly = Assembly.GetAssembly(typeof(Knowledge));
-            var infrastructureAssembly = Assembly.GetAssembly(typeof(StartupSetup));
 
-            if (coreAssembly is not null)
+            var assemblies = new List<Assembly>
+        {
+            typeof(Knowledge).Assembly,        // Core assembly
+            typeof(StartupSetup).Assembly      // Infrastructure assembly
+        };
+
+            if (callingAssembly != null)
             {
-                _assemblies.Add(coreAssembly);
+                assemblies.Add(callingAssembly);
             }
 
-            if (infrastructureAssembly is not null)
-            {
-                _assemblies.Add(infrastructureAssembly);
-            }
-
-            if (callingAssembly is not null)
-            {
-                _assemblies.Add(callingAssembly);
-            }
+            _assemblies = assemblies.ToArray();
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -54,39 +51,24 @@ namespace MyKnowledgeManager.Infrastructure
 
         private void RegisterCommonDependencies(ContainerBuilder builder)
         {
+            // Register generic repository implementations
             builder.RegisterGeneric(typeof(EfRepository<>))
                 .As(typeof(IRepository<>))
                 .As(typeof(IReadRepository<>))
                 .InstancePerLifetimeScope();
 
-            builder
-                .RegisterType<Mediator>()
-                .As<IMediator>()
-                .InstancePerLifetimeScope();
+            // Configure MediatR
+            var mediatrConfig = MediatRConfigurationBuilder
+                .Create(_assemblies)
+                .WithAllOpenGenericHandlerTypesRegistered()
+                .Build();
 
-            builder.Register<ServiceFactory>(context =>
-            {
-                var c = context.Resolve<IComponentContext>();
-                return t => c.Resolve(t);
-            });
+            // Register MediatR with Autofac
+            builder.RegisterMediatR(mediatrConfig);
 
-            var mediatrOpenTypes = new[]
-{
-                typeof(IRequestHandler<,>),
-                typeof(IRequestExceptionHandler<,,>),
-                typeof(IRequestExceptionAction<,>),
-                typeof(INotificationHandler<>),
-            };
-
-            foreach (var mediatrOpenType in mediatrOpenTypes)
-            {
-                builder
-                .RegisterAssemblyTypes(_assemblies.ToArray())
-                .AsClosedTypesOf(mediatrOpenType)
-                .AsImplementedInterfaces();
-            }
-
-            builder.RegisterType<EmailSender>().As<IEmailSender>()
+            // Register additional services
+            builder.RegisterType<EmailSender>()
+                .As<IEmailSender>()
                 .InstancePerLifetimeScope();
         }
 
