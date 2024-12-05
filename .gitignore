@@ -361,6 +361,21 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.Core/obj/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.Core/bin/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.IdentityServer/obj/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.IdentityServer/bin/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.Infrastructure/obj/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.Infrastructure/bin/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.SharedKernel/obj/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.SharedKernel/bin/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.WebApi/obj/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.WebApi/bin/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.UnitTest/obj/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.UnitTest/bin/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.IntegrationTest/obj/**/*
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.IntegrationTest/bin/**/*
+
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /.vs/slnx.sqlite
@@ -556,8 +571,6 @@ FodyWeavers.xsd
 /MyKnowledgeManagerBackend/tests/MyKnowledgeManager.UnitTest/obj/project.assets.json
 /MyKnowledgeManagerBackend/tests/MyKnowledgeManager.UnitTest/obj/project.nuget.cache
 /MyKnowledgeManagerBackend/src/MyKnowledgeManager.IdentityServer/obj/MyKnowledgeManager.IdentityServer.csproj.nuget.g.targets
-/MyKnowledgeManagerBackend/src/MyKnowledgeManager.Core/obj/**/*
-/MyKnowledgeManagerBackend/src/MyKnowledgeManager.Core/bin/**/*
 /MyKnowledgeManagerBackend/src/MyKnowledgeManager.Core/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
 /MyKnowledgeManagerBackend/src/MyKnowledgeManager.Core/obj/Debug/net6.0/MyKnowledgeManager.Core.csproj.BuildWithSkipAnalyzers
 /MyKnowledgeManagerBackend/src/MyKnowledgeManager.Core/obj/Debug/net6.0/MyKnowledgeManager.Core.csproj.CopyComplete
