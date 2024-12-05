@@ -555,3 +555,4 @@ FodyWeavers.xsd
 /MyKnowledgeManagerBackend/tests/MyKnowledgeManager.UnitTest/obj/MyKnowledgeManager.UnitTest.csproj.nuget.g.props
 /MyKnowledgeManagerBackend/tests/MyKnowledgeManager.UnitTest/obj/project.assets.json
 /MyKnowledgeManagerBackend/tests/MyKnowledgeManager.UnitTest/obj/project.nuget.cache
+/MyKnowledgeManagerBackend/src/MyKnowledgeManager.IdentityServer/obj/MyKnowledgeManager.IdentityServer.csproj.nuget.g.targets
